@@ -23,6 +23,7 @@ import path from 'node:path';
 const SOURCES = 'public/assets/images/Homme';
 const IMAGES = 'public/assets/images';
 const LUMIERE_FEMME = Number(process.env.LUMIERE_FEMME || 0.58);
+const LUMIERE_ENFANT = Number(process.env.LUMIERE_ENFANT || 0.97);
 
 // voile sombre degrade : depuis la gauche (titre de la banniere ordinateur)
 // ou depuis le bas (texte en bas du hero mobile)
@@ -87,9 +88,23 @@ async function composer({
   lumiere = 1, saturation = 1, gradient = null,
   bordsPropres = false,   // nettoyer les bandes de bord (sujet qui touche le bord)
   retrait = 0,            // bande prise a n px du bord (bord de photo plus sombre)
+  fond = 'bord',          // 'bord' : bande de bord etiree ; 'flou' : voir plus bas
 }) {
   // 'DSC_1793.jpg' : dossier Homme ; 'Femme/Femme_1.jpeg' : relatif a images/
   const photo = fs.readFileSync(source.includes('/') ? path.join(IMAGES, source) : path.join(SOURCES, source));
+
+  // Decor charge (jardin, grille, ville) : etirer le bord y ferait des
+  // trainees. Le cadre est alors rempli par la meme photo, agrandie et tres
+  // floutee ; la photo nette, entiere, est posee au centre par-dessus.
+  if (fond === 'flou') {
+    const reglage = (img) => img.modulate({ brightness: lumiere, saturation });
+    const arriere = await reglage(sharp(photo).resize(largeur, hauteur, { fit: 'cover' }).blur(28)).toBuffer();
+    const net = await reglage(sharp(photo).resize({ width: largeur, height: hauteur, fit: 'inside' })).toBuffer();
+    const { width: ln, height: hn } = await sharp(net).metadata();
+    const calquesFlou = [{ input: arriere, left: 0, top: 0 }, { input: net, left: Math.round((largeur - ln) / 2), top: Math.round((hauteur - hn) / 2) }];
+    return ecrire(await sharp({ create: { width: largeur, height: hauteur, channels: 3, background: '#808080' } })
+      .composite(calquesFlou).jpeg({ quality: 84, mozjpeg: true }).toBuffer(), sortie, largeur, hauteur);
+  }
 
   // 1. la photo entiere, a la hauteur voulue
   const hs = Math.round(hauteur * echelle);
@@ -134,6 +149,10 @@ async function composer({
     .composite(calques)
     .jpeg({ quality: 84, mozjpeg: true })
     .toBuffer();
+  return ecrire(image, sortie, largeur, hauteur);
+}
+
+async function ecrire(image, sortie, largeur, hauteur) {
   fs.mkdirSync(path.dirname(path.join(IMAGES, sortie)), { recursive: true });
   fs.writeFileSync(path.join(IMAGES, sortie), image);
 
@@ -161,6 +180,11 @@ await composer({
 await composer({
   source: 'Femme/Femme_1.jpeg', sortie: 'banniere/femme.jpg', largeur: 385, hauteur: 330,
   lumiere: LUMIERE_FEMME, saturation: 0.62, bordsPropres: true, retrait: 2,
+});
+// tuile Enfant : Enfant_3 (collection Tortue), photo de jardin -> fond flou
+await composer({
+  source: 'Enfant/Enfant_3.jpeg', sortie: 'banniere/enfant.jpg', largeur: 385, hauteur: 330,
+  lumiere: LUMIERE_ENFANT, saturation: 0.45, fond: 'flou',
 });
 
 // hero mobile (portrait, plein ecran) : meme photo et meme ton, personnage
@@ -202,3 +226,9 @@ await composer({ source: 'DSC_1808.jpg', sortie: 'apropos/histoire.jpg', largeur
 await composer({ source: 'DSC_1795.jpg', sortie: 'collections/antsatsaka.jpg', largeur: 480, hauteur: 480 });
 await composer({ source: 'DSC_1807.jpg', sortie: 'collections/aye-aye-madagascar.jpg', largeur: 480, hauteur: 480 });
 await composer({ source: 'Femme/Femme_1.jpeg', sortie: 'collections/tarondro.jpg', largeur: 480, hauteur: 480, bordsPropres: true, retrait: 2 });
+await composer({ source: 'Homme/Homme_1.jpeg', sortie: 'collections/lemurs-of-madagascar.jpg', largeur: 480, hauteur: 480, bordsPropres: true, retrait: 2 });
+// photos en exterieur (decor charge) : fond flou
+await composer({ source: 'Enfant/Enfant_3.jpeg', sortie: 'collections/tortue.jpg', largeur: 480, hauteur: 480, fond: 'flou' });
+await composer({ source: 'Enfant/Enfant_1.jpeg', sortie: 'collections/lakana.jpg', largeur: 480, hauteur: 480, fond: 'flou' });
+await composer({ source: 'Enfant/Enfant_4.jpeg', sortie: 'collections/madagascar-roots-djembe.jpg', largeur: 480, hauteur: 480, fond: 'flou' });
+await composer({ source: 'Femme/Femme_4.jpeg', sortie: 'collections/dauphins.jpg', largeur: 480, hauteur: 480, fond: 'flou' });

@@ -28,7 +28,7 @@ export const CATEGORIES = [
     slug: 'enfant',
     nom: 'Enfant',
     accroche: 'La culture malagasy dès le plus jeune âge.',
-    image: chemin('/assets/images/kid-01.jpg'),
+    image: chemin('/assets/images/Enfant/Enfant_3.jpeg'),
   },
   {
     slug: 'accessoires',
@@ -130,7 +130,22 @@ export const PRODUITS = [
     details: ['Maille douce', 'Coupe oversize'],
   },
 
-  // --- Enfant : exemples a remplacer ---------------------------------------
+  // --- Enfant : le premier modele photographie, puis des exemples -----------
+  {
+    slug: 'tee-shirt-tortue-moutarde',
+    nom: 'Tee-shirt Tortue',
+    couleur: 'Moutarde',
+    categorie: 'enfant',
+    note: 5,
+    image: chemin('/assets/images/Enfant/Enfant_3.jpeg'),
+    galerie: [chemin('/assets/images/Enfant/Enfant_3.jpeg')],
+    description:
+      'Tee-shirt enfant en coton 100 %, moutarde. La tortue de mer est imprimée '
+      + 'dans le dos avec « Tortue Madagascar » ; étiquette Aye-Aye sur la manche.',
+    details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye sur la manche'],
+  },
+
+  // exemples a remplacer
   {
     slug: 'ensemble-marin',
     nom: 'Ensemble marin',
@@ -249,21 +264,25 @@ export const COLLECTIONS = [
   {
     slug: 'lemurs-of-madagascar',
     nom: 'Lemurs of Madagascar',
+    image: chemin('/assets/images/collections/lemurs-of-madagascar.jpg'),
     texte: "Un hommage aux lémuriens, trésors vivants que l'on ne trouve nulle part ailleurs.",
   },
   {
     slug: 'madagascar-roots-djembe',
     nom: 'Madagascar Roots Djembe',
+    image: chemin('/assets/images/collections/madagascar-roots-djembe.jpg'),
     texte: 'Le rythme de nos racines. La musique et le tambour comme lien entre les générations.',
   },
   {
     slug: 'dauphins',
     nom: 'Dauphins',
+    image: chemin('/assets/images/collections/dauphins.jpg'),
     texte: 'La beauté de nos océans et la liberté des eaux qui entourent la Grande Île.',
   },
   {
     slug: 'tortue',
     nom: 'Tortue',
+    image: chemin('/assets/images/collections/tortue.jpg'),
     texte: 'La sagesse et la patience. Un symbole de la richesse marine malagasy à protéger.',
   },
   {
@@ -276,6 +295,7 @@ export const COLLECTIONS = [
   {
     slug: 'lakana',
     nom: 'Lakana',
+    image: chemin('/assets/images/collections/lakana.jpg'),
     texte: "La pirogue traditionnelle, symbole du savoir-faire des pêcheurs et du lien entre l'homme et la mer.",
   },
 ];
@@ -321,29 +341,44 @@ export function vignettes(categorieSlug) {
   return produits.flatMap((p) => p.galerie.map((image) => ({ produit: p, image })));
 }
 
-// Photos de la marque en taille reduite (scripts/photos-reduites.mjs) :
-// <dossier>/reduites/160|480|720/, pour les largeurs inferieures a celle de
-// l'original. Les autres images (exemples du template) n'ont qu'une taille et
-// sont renvoyees telles quelles.
-const PHOTOS_MARQUE = {
-  '/assets/images/Homme/': [899, 1600],
-  '/assets/images/Femme/': [720, 1280],
+// Photos de la marque (dossiers Homme, Femme, Enfant) et dimensions de leurs
+// originaux. Les DSC_xxxx.jpg font toutes 899x1600 ; les autres sont listees
+// ici. AJOUTER une ligne pour toute nouvelle photo utilisee dans le site.
+const DIMENSIONS_PHOTOS = {
+  'Femme_1.jpeg': [720, 1280],
+  'Femme_2.jpeg': [851, 1280],
+  'Femme_3.jpeg': [851, 1280],
+  'Femme_4.jpeg': [851, 1280],
+  'Femme_5.jpeg': [1064, 1600],
+  'Femme_6.jpeg': [1064, 1600],
+  'Enfant_1.jpeg': [960, 1280],
+  'Enfant_2.jpeg': [960, 1280],
+  'Enfant_3.jpeg': [1049, 1280],
+  'Enfant_4.jpeg': [960, 1280],
+  'Homme_1.jpeg': [720, 1280],
 };
 
-function dossierMarque(source) {
-  return Object.keys(PHOTOS_MARQUE).find((dossier) => source.includes(dossier));
+function photoMarque(source) {
+  const morceaux = source.match(/(\/assets\/images\/(?:Homme|Femme|Enfant)\/)([^/]+)$/);
+  if (!morceaux) return null;
+  const [, dossier, nom] = morceaux;
+  const dimensions = /^DSC_\d+\.jpg$/.test(nom) ? [899, 1600] : DIMENSIONS_PHOTOS[nom];
+  return dimensions ? { dossier, nom, dimensions } : null;
 }
 
+// Versions reduites (scripts/photos-reduites.mjs) : <dossier>/reduites/
+// 160|480|720/, pour les largeurs inferieures a celle de l'original. Les
+// autres images (exemples du template) n'ont qu'une taille.
 export function photoReduite(source, largeur) {
-  const dossier = dossierMarque(source);
-  if (!dossier || largeur >= PHOTOS_MARQUE[dossier][0]) return source;
-  return source.replace(dossier, dossier + 'reduites/' + largeur + '/');
+  const photo = photoMarque(source);
+  if (!photo || largeur >= photo.dimensions[0]) return source;
+  return source.replace(photo.dossier + photo.nom, photo.dossier + 'reduites/' + largeur + '/' + photo.nom);
 }
 
 // Dimensions reelles d'une image du catalogue, pour ses attributs width et
 // height : le navigateur reserve ainsi la bonne hauteur avant l'arrivee de la
-// photo, et la page ne saute pas. Photos de la marque : 899x1600 ; images du
-// template : 370x390, sauf les quelques exceptions ci-dessous.
+// photo, et la page ne saute pas. Photos de la marque : voir plus haut ;
+// images du template : 370x390, sauf les quelques exceptions ci-dessous.
 const DIMENSIONS_TEMPLATE = {
   'single-product-01.jpg': [770, 400],
   'single-product-02.jpg': [770, 400],
@@ -352,16 +387,16 @@ const DIMENSIONS_TEMPLATE = {
 };
 
 export function dimensionsImage(source) {
-  const dossier = dossierMarque(source);
-  if (dossier) return PHOTOS_MARQUE[dossier];
+  const photo = photoMarque(source);
+  if (photo) return photo.dimensions;
   return DIMENSIONS_TEMPLATE[source.split('/').pop()] || [370, 390];
 }
 
 // srcset d'une photo de la marque (undefined pour les autres images)
 export function srcsetPhoto(source) {
-  const dossier = dossierMarque(source);
-  if (!dossier) return undefined;
-  const original = PHOTOS_MARQUE[dossier][0];
+  const photo = photoMarque(source);
+  if (!photo) return undefined;
+  const original = photo.dimensions[0];
   return [480, 720]
     .filter((largeur) => largeur < original)
     .map((largeur) => photoReduite(source, largeur) + ' ' + largeur + 'w')
