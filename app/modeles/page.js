@@ -1,7 +1,7 @@
 import { chemin } from '@/app/lib/chemin';
 import Header from '../components/Header';
 import SilhouetteModele from '../components/SilhouetteModele';
-import { CATEGORIES, MODELES } from '../data/catalogue';
+import { CATEGORIES, MODELES, imageCarte } from '../data/catalogue';
 
 export const metadata = {
   title: 'Nos modèles — Aye-Aye Madagascar',
@@ -36,7 +36,17 @@ export default function PageModeles() {
               <div className="col-lg-4 col-md-6" key={modele.slug}>
                 <article className="aye-carte aye-modele" id={modele.slug}>
                   <div className="aye-carte-visuel">
-                    <SilhouetteModele slug={modele.slug} titre={modele.nom} />
+                    {/* photo si la marque en a une (pas encore pour le
+                        debardeur), sinon la silhouette de la coupe */}
+                    {modele.image ? (
+                      <img
+                        {...imageCarte(modele.image)}
+                        sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 350px"
+                        alt={modele.nom + ' Aye-Aye Madagascar'}
+                      />
+                    ) : (
+                      <SilhouetteModele slug={modele.slug} titre={modele.nom} />
+                    )}
                   </div>
                   <h4>{modele.nom}</h4>
                   <p>{modele.texte}</p>

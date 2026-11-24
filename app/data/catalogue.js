@@ -228,18 +228,21 @@ export const PRODUITS = [
 //
 // Un MODELE est une coupe, proposee pour hommes, femmes et enfants.
 // Une COLLECTION est un dessin au dos, disponible sur tous les modeles.
-// `image` (facultatif) : photo de la collection ; sans photo, la carte
-// affiche son numero. Ajouter une photo = renseigner ce champ.
+// `image` (facultatif) : photo originale (dossiers Homme / Femme / Enfant),
+// affichee via imageCarte() dans le cadre 3:4 des cartes. Sans photo, la carte
+// d'une collection affiche son numero, celle d'un modele sa silhouette.
 
 export const MODELES = [
   {
     slug: 'tee-shirt',
     nom: 'Tee-shirt',
+    image: chemin('/assets/images/Femme/Femme_2.jpeg'),
     texte: 'Le classique indispensable. Coton doux et respirant, idéal au quotidien.',
   },
   {
     slug: 'manches-longues',
     nom: 'Manches longues',
+    image: chemin('/assets/images/Homme/DSC_1808.jpg'),
     texte: "Pour les soirées fraîches et les hauts plateaux. Confort et style toute l'année.",
   },
   {
@@ -255,13 +258,13 @@ export const COLLECTIONS = [
     nom: 'Antsatsaka',
     texte: 'Un hommage au nord de la Grande Île, terre de cacao, de vanille et de traditions. '
       + 'Une collection pour ceux qui portent leurs racines avec fierté.',
-    image: chemin('/assets/images/collections/antsatsaka.jpg'),
+    image: chemin('/assets/images/Homme/DSC_1795.jpg'),
   },
   {
     slug: 'aye-aye-madagascar',
     nom: 'Aye Aye Madagascar',
     texte: "Notre collection emblème. L'aye-aye, animal unique au monde, est le symbole de notre marque.",
-    image: chemin('/assets/images/collections/aye-aye-madagascar.jpg'),
+    image: chemin('/assets/images/Homme/DSC_1807.jpg'),
   },
   {
     slug: 'madagascar',
@@ -271,38 +274,38 @@ export const COLLECTIONS = [
   {
     slug: 'lemurs-of-madagascar',
     nom: 'Lemurs of Madagascar',
-    image: chemin('/assets/images/collections/lemurs-of-madagascar.jpg'),
+    image: chemin('/assets/images/Homme/Homme_1.jpeg'),
     texte: "Un hommage aux lémuriens, trésors vivants que l'on ne trouve nulle part ailleurs.",
   },
   {
     slug: 'madagascar-roots-djembe',
     nom: 'Madagascar Roots Djembe',
-    image: chemin('/assets/images/collections/madagascar-roots-djembe.jpg'),
+    image: chemin('/assets/images/Enfant/Enfant_4.jpeg'),
     texte: 'Le rythme de nos racines. La musique et le tambour comme lien entre les générations.',
   },
   {
     slug: 'dauphins',
     nom: 'Dauphins',
-    image: chemin('/assets/images/collections/dauphins.jpg'),
+    image: chemin('/assets/images/Femme/Femme_4.jpeg'),
     texte: 'La beauté de nos océans et la liberté des eaux qui entourent la Grande Île.',
   },
   {
     slug: 'tortue',
     nom: 'Tortue',
-    image: chemin('/assets/images/collections/tortue.jpg'),
+    image: chemin('/assets/images/Enfant/Enfant_3.jpeg'),
     texte: 'La sagesse et la patience. Un symbole de la richesse marine malagasy à protéger.',
   },
   {
     slug: 'tarondro',
     nom: 'Tarondro',
-    image: chemin('/assets/images/collections/tarondro.jpg'),
+    image: chemin('/assets/images/Femme/Femme_1.jpeg'),
     texte: 'Le caméléon de Madagascar, maître des couleurs et symbole de patience. '
       + 'Un animal respecté et parfois sacré dans nos traditions.',
   },
   {
     slug: 'lakana',
     nom: 'Lakana',
-    image: chemin('/assets/images/collections/lakana.jpg'),
+    image: chemin('/assets/images/Enfant/Enfant_1.jpeg'),
     texte: "La pirogue traditionnelle, symbole du savoir-faire des pêcheurs et du lien entre l'homme et la mer.",
   },
 ];
@@ -409,6 +412,29 @@ export function srcsetPhoto(source) {
     .map((largeur) => photoReduite(source, largeur) + ' ' + largeur + 'w')
     .concat(source + ' ' + original + 'w')
     .join(', ');
+}
+
+// Image d'une carte (produit, collection, modele), toujours dans un cadre 3:4.
+// Photos de studio : version 3:4 dont le fond uni est prolonge
+// (scripts/photos-cadrees.mjs, cartes/480|720/). Autres photos : la photo
+// entiere, reduite, centree sur le fond clair de la carte (object-fit:
+// contain dans aye-aye.css). Jamais de flou ni de rognage.
+const CARTES_STUDIO = /^(DSC_\d+\.jpg|Femme_1\.jpeg|Homme_1\.jpeg)$/;
+
+export function imageCarte(source) {
+  const nom = source.split('/').pop();
+  if (CARTES_STUDIO.test(nom)) {
+    const dossier = source.slice(0, source.indexOf('/assets/images/')) + '/assets/images/cartes/';
+    const fichier = nom.replace(/\.jpe?g$/i, '.jpg');
+    return {
+      src: dossier + '480/' + fichier,
+      srcSet: dossier + '480/' + fichier + ' 480w, ' + dossier + '720/' + fichier + ' 720w',
+      width: 480,
+      height: 640,
+    };
+  }
+  const [width, height] = dimensionsImage(source);
+  return { src: photoReduite(source, 480), srcSet: srcsetPhoto(source), width, height };
 }
 
 // Recherche dans le catalogue : nom, couleur, description et categorie, sans

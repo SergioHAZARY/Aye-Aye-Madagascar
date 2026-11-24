@@ -1,6 +1,6 @@
 import { chemin } from '@/app/lib/chemin';
 import Header from '../components/Header';
-import { COLLECTIONS } from '../data/catalogue';
+import { COLLECTIONS, imageCarte } from '../data/catalogue';
 
 export const metadata = {
   title: 'Nos collections — Aye-Aye Madagascar',
@@ -39,10 +39,9 @@ export default function PageCollections() {
                   <div className="aye-carte-visuel">
                     {collection.image ? (
                       <img
-                        src={collection.image}
+                        {...imageCarte(collection.image)}
+                        sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 350px"
                         alt={'Collection ' + collection.nom + ', dessin au dos'}
-                        width={480}
-                        height={480}
                         {...(index > 2 ? { loading: 'lazy', decoding: 'async' } : {})}
                       />
                     ) : (
