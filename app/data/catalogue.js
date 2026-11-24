@@ -22,7 +22,7 @@ export const CATEGORIES = [
     slug: 'femme',
     nom: 'Femme',
     accroche: 'Des pièces qui portent la fierté malagasy.',
-    image: chemin('/assets/images/women-01.jpg'),
+    image: chemin('/assets/images/Femme/Femme_1.jpeg'),
   },
   {
     slug: 'enfant',
@@ -80,7 +80,22 @@ export const PRODUITS = [
     details: ['Coton 100 %', 'Impression dos et manche', 'Coupe droite', 'Lavage à 30 °C'],
   },
 
-  // --- Femme : exemples a remplacer ----------------------------------------
+  // --- Femme : le premier modele photographie, puis des exemples ------------
+  {
+    slug: 'tee-shirt-tarondro-beige',
+    nom: 'Tee-shirt Tarondro',
+    couleur: 'Beige',
+    categorie: 'femme',
+    note: 5,
+    image: chemin('/assets/images/Femme/Femme_1.jpeg'),
+    galerie: [chemin('/assets/images/Femme/Femme_1.jpeg')],
+    description:
+      'Tee-shirt en coton 100 %, beige. Tarondro, le caméléon de Madagascar, '
+      + 'est imprimé dans le dos avec « Madagascar » ; étiquette Aye-Aye au col.',
+    details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye au col'],
+  },
+
+  // exemples a remplacer
   {
     slug: 'blazer-kaki',
     nom: 'Blazer kaki',
@@ -254,6 +269,7 @@ export const COLLECTIONS = [
   {
     slug: 'tarondro',
     nom: 'Tarondro',
+    image: chemin('/assets/images/collections/tarondro.jpg'),
     texte: 'Le caméléon de Madagascar, maître des couleurs et symbole de patience. '
       + 'Un animal respecté et parfois sacré dans nos traditions.',
   },
@@ -306,14 +322,22 @@ export function vignettes(categorieSlug) {
 }
 
 // Photos de la marque en taille reduite (scripts/photos-reduites.mjs) :
-// Homme/reduites/160|480|720/. Les autres images (exemples du template)
-// n'ont qu'une taille et sont renvoyees telles quelles.
-const DOSSIER_PHOTOS = '/assets/images/Homme/';
+// <dossier>/reduites/160|480|720/, pour les largeurs inferieures a celle de
+// l'original. Les autres images (exemples du template) n'ont qu'une taille et
+// sont renvoyees telles quelles.
+const PHOTOS_MARQUE = {
+  '/assets/images/Homme/': [899, 1600],
+  '/assets/images/Femme/': [720, 1280],
+};
+
+function dossierMarque(source) {
+  return Object.keys(PHOTOS_MARQUE).find((dossier) => source.includes(dossier));
+}
 
 export function photoReduite(source, largeur) {
-  return source.includes(DOSSIER_PHOTOS)
-    ? source.replace(DOSSIER_PHOTOS, DOSSIER_PHOTOS + 'reduites/' + largeur + '/')
-    : source;
+  const dossier = dossierMarque(source);
+  if (!dossier || largeur >= PHOTOS_MARQUE[dossier][0]) return source;
+  return source.replace(dossier, dossier + 'reduites/' + largeur + '/');
 }
 
 // Dimensions reelles d'une image du catalogue, pour ses attributs width et
@@ -328,14 +352,21 @@ const DIMENSIONS_TEMPLATE = {
 };
 
 export function dimensionsImage(source) {
-  if (source.includes(DOSSIER_PHOTOS)) return [899, 1600];
+  const dossier = dossierMarque(source);
+  if (dossier) return PHOTOS_MARQUE[dossier];
   return DIMENSIONS_TEMPLATE[source.split('/').pop()] || [370, 390];
 }
 
 // srcset d'une photo de la marque (undefined pour les autres images)
 export function srcsetPhoto(source) {
-  if (!source.includes(DOSSIER_PHOTOS)) return undefined;
-  return photoReduite(source, 480) + ' 480w, ' + photoReduite(source, 720) + ' 720w, ' + source + ' 899w';
+  const dossier = dossierMarque(source);
+  if (!dossier) return undefined;
+  const original = PHOTOS_MARQUE[dossier][0];
+  return [480, 720]
+    .filter((largeur) => largeur < original)
+    .map((largeur) => photoReduite(source, largeur) + ' ' + largeur + 'w')
+    .concat(source + ' ' + original + 'w')
+    .join(', ');
 }
 
 // Recherche dans le catalogue : nom, couleur, description et categorie, sans

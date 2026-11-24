@@ -10,7 +10,7 @@ export const metadata = {
 // Tuiles de la banniere : chacune mene a sa page categorie.
 const TUILES = [
   { slug: 'homme', nom: 'Homme', accroche: 'Nos manches longues signature', image: chemin('/assets/images/banniere/homme.jpg') },
-  { slug: 'femme', nom: 'Femme', accroche: 'La fierté malagasy au féminin', image: chemin('/assets/images/baner-right-image-01.jpg') },
+  { slug: 'femme', nom: 'Femme', accroche: 'La fierté malagasy au féminin', image: chemin('/assets/images/banniere/femme.jpg') },
   { slug: 'enfant', nom: 'Enfant', accroche: 'Dès le plus jeune âge', image: chemin('/assets/images/baner-right-image-03.jpg') },
   { slug: 'accessoires', nom: 'Accessoires', accroche: 'Les détails qui comptent', image: chemin('/assets/images/baner-right-image-04.jpg') },
 ];

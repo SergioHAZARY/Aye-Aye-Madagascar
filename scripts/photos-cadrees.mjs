@@ -22,6 +22,7 @@ import path from 'node:path';
 
 const SOURCES = 'public/assets/images/Homme';
 const IMAGES = 'public/assets/images';
+const LUMIERE_FEMME = Number(process.env.LUMIERE_FEMME || 0.58);
 
 // voile sombre degrade : depuis la gauche (titre de la banniere ordinateur)
 // ou depuis le bas (texte en bas du hero mobile)
@@ -44,11 +45,39 @@ function voile(largeur, hauteur, debut, fin, arret, sens = 'gauche') {
 // etire une bande de 1 px prise au bord de `image` pour couvrir largeur x hauteur.
 // 1 px et pas plus : une fois la photo reduite, une bande plus large attrape
 // le bout d une manche proche du bord et laisse une trainee de couleur.
-async function etirer(image, zone, largeur, hauteur) {
+async function etirer(image, zone, largeur, hauteur, nettoyer = false) {
+  let bande = sharp(image).extract(zone);
+  if (nettoyer) bande = sharp(await sansDebord(bande));
   // flou le long de la bande : efface le grain JPEG, qui sinon devient des
   // lignes fines une fois etire ; le degrade lent du fond est conserve
-  const bande = await sharp(image).extract(zone).blur(6).toBuffer();
-  return sharp(bande).resize(largeur, hauteur, { fit: 'fill' }).toBuffer();
+  const floue = await bande.blur(6).toBuffer();
+  return sharp(floue).resize(largeur, hauteur, { fit: 'fill' }).toBuffer();
+}
+
+// Bande de bord ou le sujet deborde (Femme_1 : la manche droite touche le
+// bord) : chaque pixel trop different du fond qui l'entoure (mediane glissante
+// sur un quart de la bande) prend la couleur de ce fond. Sans cela, la manche
+// s'etirerait en une trainee sur toute la largeur du comble.
+async function sansDebord(bande) {
+  const { data, info } = await bande.removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  const n = info.width * info.height;
+  const c = info.channels;
+  const demi = Math.max(15, Math.round(n / 8));
+  const propre = Buffer.from(data);
+  for (let i = 0; i < n; i++) {
+    const debut = Math.max(0, i - demi);
+    const fin = Math.min(n, i + demi + 1);
+    const mediane = [];
+    for (let k = 0; k < c; k++) {
+      const valeurs = [];
+      for (let j = debut; j < fin; j++) valeurs.push(data[j * c + k]);
+      valeurs.sort((a, b) => a - b);
+      mediane.push(valeurs[valeurs.length >> 1]);
+    }
+    const ecart = Math.max(...mediane.map((m, k) => Math.abs(data[i * c + k] - m)));
+    if (ecart > 24) for (let k = 0; k < c; k++) propre[i * c + k] = mediane[k];
+  }
+  return sharp(propre, { raw: { width: info.width, height: info.height, channels: c } }).png().toBuffer();
 }
 
 async function composer({
@@ -56,8 +85,11 @@ async function composer({
   echelle = 1,            // part de la hauteur occupee par la photo (marge en haut)
   position = 'centre',    // 'centre' ou 'droite'
   lumiere = 1, saturation = 1, gradient = null,
+  bordsPropres = false,   // nettoyer les bandes de bord (sujet qui touche le bord)
+  retrait = 0,            // bande prise a n px du bord (bord de photo plus sombre)
 }) {
-  const photo = fs.readFileSync(path.join(SOURCES, source));
+  // 'DSC_1793.jpg' : dossier Homme ; 'Femme/Femme_1.jpeg' : relatif a images/
+  const photo = fs.readFileSync(source.includes('/') ? path.join(IMAGES, source) : path.join(SOURCES, source));
 
   // 1. la photo entiere, a la hauteur voulue
   const hs = Math.round(hauteur * echelle);
@@ -74,7 +106,7 @@ async function composer({
   if (marge > 0) {
     colonne = await sharp({ create: { width: ls, height: hauteur, channels: 3, background: '#808080' } })
       .composite([
-        { input: await etirer(sujet, { left: 0, top: 0, width: ls, height: 1 }, ls, marge), left: 0, top: 0 },
+        { input: await etirer(sujet, { left: 0, top: 0, width: ls, height: 1 }, ls, marge, bordsPropres), left: 0, top: 0 },
         { input: sujet, left: 0, top: marge },
       ])
       .png()
@@ -87,14 +119,15 @@ async function composer({
     : Math.round((largeur - ls) / 2);
   const droite = largeur - gauche - ls;
 
-  const calques = [];
+  // avec `retrait`, le comble recouvre aussi les `retrait` derniers pixels de
+  // la photo (sa bordure plus sombre, qui dessinerait une ligne) : du fond.
+  const calques = [{ input: colonne, left: gauche, top: 0 }];
   if (gauche > 0) {
-    calques.push({ input: await etirer(colonne, { left: 0, top: 0, width: 1, height: hauteur }, gauche, hauteur), left: 0, top: 0 });
+    calques.push({ input: await etirer(colonne, { left: retrait, top: 0, width: 1, height: hauteur }, gauche + retrait, hauteur, bordsPropres), left: 0, top: 0 });
   }
   if (droite > 0) {
-    calques.push({ input: await etirer(colonne, { left: ls - 1, top: 0, width: 1, height: hauteur }, droite, hauteur), left: gauche + ls, top: 0 });
+    calques.push({ input: await etirer(colonne, { left: ls - 1 - retrait, top: 0, width: 1, height: hauteur }, droite + retrait, hauteur, bordsPropres), left: gauche + ls - retrait, top: 0 });
   }
-  calques.push({ input: colonne, left: gauche, top: 0 });
   if (gradient) calques.push({ input: voile(largeur, hauteur, ...gradient), left: 0, top: 0 });
 
   const image = await sharp({ create: { width: largeur, height: hauteur, channels: 3, background: '#808080' } })
@@ -122,6 +155,12 @@ await composer({
 await composer({
   source: 'DSC_1807.jpg', sortie: 'banniere/homme.jpg', largeur: 385, hauteur: 330,
   lumiere: 0.76, saturation: 0.62,
+});
+// tuile Femme : premiere photo femme de la marque (fond rose), assombrie au
+// gris moyen des autres tuiles (~95) pour garder le texte blanc lisible
+await composer({
+  source: 'Femme/Femme_1.jpeg', sortie: 'banniere/femme.jpg', largeur: 385, hauteur: 330,
+  lumiere: LUMIERE_FEMME, saturation: 0.62, bordsPropres: true, retrait: 2,
 });
 
 // hero mobile (portrait, plein ecran) : meme photo et meme ton, personnage
@@ -162,3 +201,4 @@ await composer({ source: 'DSC_1808.jpg', sortie: 'apropos/histoire.jpg', largeur
 // --- Collections : le dessin au dos, sur la page Nos collections --------------
 await composer({ source: 'DSC_1795.jpg', sortie: 'collections/antsatsaka.jpg', largeur: 480, hauteur: 480 });
 await composer({ source: 'DSC_1807.jpg', sortie: 'collections/aye-aye-madagascar.jpg', largeur: 480, hauteur: 480 });
+await composer({ source: 'Femme/Femme_1.jpeg', sortie: 'collections/tarondro.jpg', largeur: 480, hauteur: 480, bordsPropres: true, retrait: 2 });
