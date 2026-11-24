@@ -1967,7 +1967,7 @@ a.aye-moyen:hover .aye-moyen-valeur {
      d'origine. Le bouton ouvre le menu deroulant du template (Accueil ·
      Modeles · Collections · A propos · Contact) ;
    - accueil : en-tete transparent sur un hero plein ecran bord a bord (image
-     portrait dediee), texte en bas du hero (sans bouton) ;
+     portrait dediee), texte et bouton blanc pleine largeur en bas du hero ;
      l'en-tete redevient blanc des la fin du hero (aye-aye.js) ou quand le
      menu est ouvert ;
    - sous le hero : titre centre et onglets centres, sur deux lignes si besoin.
@@ -2146,6 +2146,20 @@ a.aye-moyen:hover .aye-moyen-valeur {
     width: calc(100% - 40px);
     transform: translateX(-50%);
     text-align: center;
+  }
+  /* bouton blanc pleine largeur */
+  .main-banner .left-content .main-border-button a {
+    display: block;
+    padding: 14px 20px;
+    background-color: #fff;
+    border-color: #fff;
+    color: #2a2a2a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .main-banner .left-content .main-border-button a:hover {
+    background-color: transparent;
+    color: #fff;
   }
 
   /* --- Titre et onglets sous le hero ------------------------------------------- */

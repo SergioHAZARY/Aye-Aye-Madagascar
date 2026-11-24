@@ -97,11 +97,11 @@ async function bandeLisse(image, zone, nettoyer, assombrir) {
 
 // Masque de fondu : la photo passe en douceur dans le degrade sur `fondu`
 // pixels, sur les bords demandes (gauche, droite, haut).
-function masqueFondu(largeur, hauteur, fondu, aGauche, aDroite, enHaut) {
+function masqueFondu(largeur, hauteur, fondu, aGauche, aDroite, enHaut, enBas = false) {
   const masque = Buffer.alloc(largeur * hauteur);
   const lisse = (a) => { const b = Math.max(0, Math.min(1, a)); return b * b * (3 - 2 * b); };
   for (let y = 0; y < hauteur; y++) {
-    const ay = enHaut ? lisse(y / fondu) : 1;
+    const ay = (enHaut ? lisse(y / fondu) : 1) * (enBas ? lisse((hauteur - 1 - y) / fondu) : 1);
     for (let x = 0; x < largeur; x++) {
       let ax = 1;
       if (aGauche) ax = Math.min(ax, x / fondu);
@@ -115,7 +115,9 @@ function masqueFondu(largeur, hauteur, fondu, aGauche, aDroite, enHaut) {
 // Composition « photo en exterieur » : fond fait de degrades lisses tires des
 // bords de la photo (cotes, et haut s'il reste une marge), puis la photo
 // entiere par-dessus, fondue sur ses bords.
-async function composerFondu({ sujet, ls, hs, largeur, hauteur, gauche, marge, fondu, bordsPropres, retrait }) {
+// `marge` (au-dessus de la photo) et `margeBas` (en dessous) sont comblees par
+// les couleurs du haut et du bas de la photo.
+async function composerFondu({ sujet, ls, hs, largeur, hauteur, gauche, marge, margeBas = 0, fondu, bordsPropres, retrait }) {
   const droite = largeur - gauche - ls;
   const calques = [];
   // cotes : bande de 1 px sur la hauteur de la photo, prolongee vers le haut
@@ -125,10 +127,11 @@ async function composerFondu({ sujet, ls, hs, largeur, hauteur, gauche, marge, f
     // prolongement vers le haut a la main (extendWith: 'copy' laisse du noir
     // avec cette version de sharp) : le premier pixel, repete sur la marge
     let pleine = bande;
-    if (marge > 0) {
-      const premier = await sharp(bande).extract({ left: 0, top: 0, width: 1, height: 1 }).resize(1, marge, { fit: 'fill' }).toBuffer();
-      pleine = await sharp({ create: { width: 1, height: hauteur, channels: 3, background: '#000' } })
-        .composite([{ input: premier, left: 0, top: 0 }, { input: bande, left: 0, top: marge }]).png().toBuffer();
+    if (marge > 0 || margeBas > 0) {
+      const morceaux = [{ input: bande, left: 0, top: marge }];
+      if (marge > 0) morceaux.push({ input: await sharp(bande).extract({ left: 0, top: 0, width: 1, height: 1 }).resize(1, marge, { fit: 'fill' }).toBuffer(), left: 0, top: 0 });
+      if (margeBas > 0) morceaux.push({ input: await sharp(bande).extract({ left: 0, top: hs - 1, width: 1, height: 1 }).resize(1, margeBas, { fit: 'fill' }).toBuffer(), left: 0, top: marge + hs });
+      pleine = await sharp({ create: { width: 1, height: hauteur, channels: 3, background: '#000' } }).composite(morceaux).png().toBuffer();
     }
     calques.push({ input: await sharp(pleine).resize(larg, hauteur, { fit: 'fill' }).toBuffer(), left: gaucheCalque, top: 0 });
   };
@@ -142,9 +145,16 @@ async function composerFondu({ sujet, ls, hs, largeur, hauteur, gauche, marge, f
     const masqueHaut = masqueFondu(ls, marge + fondu, fondu, gauche > 0, droite > 0, false);
     calques.push({ input: await sharp(haut).joinChannel(masqueHaut, { raw: { width: ls, height: marge + fondu, channels: 1 } }).png().toBuffer(), left: gauche, top: 0 });
   }
+  // bas : ligne inferieure lissee, etiree sur la marge du bas (et sous le fondu)
+  if (margeBas > 0) {
+    const ligne = await bandeLisse(sujet, { left: 0, top: hs - 1, width: ls, height: 1 }, false, ASSOMBRIR_FOND);
+    const bas = await sharp(ligne).resize(ls, margeBas + fondu, { fit: 'fill' }).removeAlpha().toBuffer();
+    const masqueBas = masqueFondu(ls, margeBas + fondu, fondu, gauche > 0, droite > 0, false);
+    calques.push({ input: await sharp(bas).joinChannel(masqueBas, { raw: { width: ls, height: margeBas + fondu, channels: 1 } }).png().toBuffer(), left: gauche, top: marge + hs - fondu });
+  }
   // photo : RGB d'abord (pipeline separe), puis le masque en canal alpha
   const rgb = await sharp(sujet).removeAlpha().toBuffer();
-  const masque = masqueFondu(ls, hs, fondu, gauche > 0, droite > 0, marge > 0);
+  const masque = masqueFondu(ls, hs, fondu, gauche > 0, droite > 0, marge > 0, margeBas > 0);
   calques.push({ input: await sharp(rgb).joinChannel(masque, { raw: { width: ls, height: hs, channels: 1 } }).png().toBuffer(), left: gauche, top: marge });
   return calques;
 }
@@ -157,6 +167,7 @@ async function composer({
   bordsPropres = false,   // nettoyer les bandes de bord (sujet qui touche le bord)
   retrait = 0,            // bande prise a n px du bord (bord de photo plus sombre)
   fondu = 0,              // > 0 : photo en exterieur, degrade lisse + fondu de n px
+  haut = 1,               // avec fondu : part de la marge placee au-dessus de la photo (le reste en dessous)
 }) {
   // 'DSC_1793.jpg' : dossier Homme ; 'Femme/Femme_1.jpeg' : relatif a images/
   const photo = fs.readFileSync(source.includes('/') ? path.join(IMAGES, source) : path.join(SOURCES, source));
@@ -194,7 +205,8 @@ async function composer({
   // la photo (sa bordure plus sombre, qui dessinerait une ligne) : du fond.
   let calques = [{ input: colonne, left: gauche, top: 0 }];
   if (fondu) {
-    calques = await composerFondu({ sujet, ls, hs, largeur, hauteur, gauche, marge, fondu, bordsPropres, retrait });
+    const margeHaut = Math.round(marge * haut);
+    calques = await composerFondu({ sujet, ls, hs, largeur, hauteur, gauche, marge: margeHaut, margeBas: marge - margeHaut, fondu, bordsPropres, retrait });
     if (gradient) calques.push({ input: voile(largeur, hauteur, ...gradient), left: 0, top: 0 });
     const image = await sharp({ create: { width: largeur, height: hauteur, channels: 3, background: '#808080' } })
       .composite(calques).jpeg({ quality: 84, mozjpeg: true }).toBuffer();
@@ -260,12 +272,16 @@ await composer({
 // diapositives (comme sur Femme_2, qui a beaucoup de ciel), donc nettement
 // sous l'en-tete transparent ; Femme_5 et DSC_1793 sont reduites en
 // consequence (0,88 et 0,85 ci-dessus).
-const DIAPOS = [['Femme/Femme_2.jpeg', 2, 1], ['Femme/Femme_5.jpeg', 3, 0.88]];
-for (const [source, n, echelleLarge] of DIAPOS) {
+// Mobile (et tablette en portrait) : photo aussi grande que la largeur le
+// permet (0,8), placee pour que la tete tombe vers 19 % de la hauteur, comme
+// sur l'image de l'homme ; le reste de la marge passe sous la photo (haut :
+// part de la marge au-dessus).
+const DIAPOS = [['Femme/Femme_2.jpeg', 2, 1, 0.07], ['Femme/Femme_5.jpeg', 3, 0.88, 0.5]];
+for (const [source, n, echelleLarge, hautMobile] of DIAPOS) {
   const reglage = { source, lumiere: LUMIERE_DIAPOS, saturation: 0.6, bordsPropres: true, retrait: 2, fondu: 90 };
   await composer({ ...reglage, sortie: 'banniere/diapo-' + n + '-large.jpg', largeur: 1760, hauteur: 800, echelle: echelleLarge, position: 0.68, gradient: [0.85, 0.30, 70] });
   await composer({ ...reglage, sortie: 'banniere/diapo-' + n + '-tablette.jpg', largeur: 1050, hauteur: 700, echelle: 0.85, position: 'droite', gradient: [0.85, 0.30, 62] });
-  await composer({ ...reglage, sortie: 'banniere/diapo-' + n + '-mobile.jpg', largeur: 800, hauteur: 1500, echelle: 0.7, gradient: [0.85, 0.12, 58, 'bas'] });
+  await composer({ ...reglage, sortie: 'banniere/diapo-' + n + '-mobile.jpg', largeur: 800, hauteur: 1500, echelle: 0.8, haut: hautMobile, gradient: [0.85, 0.12, 58, 'bas'] });
 }
 
 // hero mobile (portrait, plein ecran) : meme photo et meme ton, personnage

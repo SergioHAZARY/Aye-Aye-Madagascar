@@ -70,7 +70,9 @@ export default function PageAccueil() {
                         Des vêtements 100{' '}% coton qui racontent Madagascar{' '}: sa
                         nature, ses symboles, son âme.
                       </span>
-                      {/* pas de bouton : retire a la demande de la marque */}
+                      <div className="main-border-button">
+                        <a href={chemin('/collections/')}>Découvrir nos collections</a>
+                      </div>
                     </div>
                   </CarrouselBanniere>
                 </div>
