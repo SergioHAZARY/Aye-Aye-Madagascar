@@ -30,8 +30,9 @@ export default function Footer() {
   return (
     <footer>
       <div className="container">
-        <div className="row">
-          <div className="col-lg-2 col-md-6">
+        {/* disposition en grille (aye-aye.css, « Pied de page ») */}
+        <div className="row aye-pied-colonnes">
+          <div className="col-12 aye-pied-logo">
             <div className="first-item">
               <div className="logo aye-logo aye-logo-pied">
                 <img
@@ -46,7 +47,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="col-lg-2 col-md-6">
+          <div className="col-12 aye-pied-modeles">
             <h4>Modèles</h4>
             <ul>
               {' '}
@@ -59,20 +60,19 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="col-lg-2 col-md-6">
+          <div className="col-12 aye-pied-collections">
             <h4>Collections</h4>
-            <ul>
-              {' '}
+            {/* 3 colonnes de 3 collections, dans l'ordre du catalogue */}
+            <ul className="aye-pied-collections-liste">
               {COLLECTIONS.map((collection) => (
                 <li key={collection.slug}>
                   <a href={chemin('/collections/#' + collection.slug)}>{collection.nom}</a>
                 </li>
               ))}
-              {' '}
             </ul>
           </div>
 
-          <div className="col-lg-2 col-md-6">
+          <div className="col-12 aye-pied-reseaux-col">
             <h4>Suivez-nous</h4>
             <ul className="aye-pied-reseaux">
               {' '}
@@ -91,7 +91,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="col-lg-2 col-md-6">
+          <div className="col-12 aye-pied-apropos">
             <h4>À propos</h4>
             <ul>
               {' '}
@@ -102,7 +102,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="col-lg-2 col-md-6">
+          <div className="col-12 aye-pied-contact">
             <h4><a href={chemin('/contact/')}>Contact</a></h4>
             <ul>
               {' '}
@@ -117,7 +117,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="col-lg-12">
+          <div className="col-12 aye-pied-bas">
             <div className="under-footer">
               <p>© 2026 Aye Aye Madagascar. {MARQUE.slogan}</p>
             </div>
