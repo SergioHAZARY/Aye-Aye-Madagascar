@@ -11,7 +11,7 @@ export const metadata = {
 export default function PageProduits() {
   return (
     <>
-      <Header actif="modeles" />
+      <Header actif="modeles" surBanniere />
 
       <div className="page-heading" id="top">
         <div className="container">
