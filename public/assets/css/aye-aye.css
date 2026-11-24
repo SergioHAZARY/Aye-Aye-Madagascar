@@ -444,7 +444,122 @@ footer .aye-logo img[width][height] {
   .main-banner .left-content .thumb img[width][height] {
     height: max(calc(100vw / 2.2), min(calc(100vh - 120px), calc(81.8vw - 462px)));
     object-fit: cover;
-    object-position: 65% center;
+    /* centre du personnage dans l'image (--aye-position, voir page.js) */
+    object-position: var(--aye-position, 65%) center;
+  }
+}
+
+/* --- Carrousel de la banniere (CarrouselBanniere.js) ------------------------
+   La premiere image reste dans le flux et donne la hauteur ; les suivantes se
+   superposent exactement (memes formats). Fondu enchaine ; le texte et les
+   commandes passent au-dessus. */
+.aye-diapos {
+  position: relative;
+}
+
+.aye-diapo {
+  display: block;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.aye-diapo.actif {
+  opacity: 1;
+  z-index: 1;
+}
+
+.aye-diapo:not(:first-child) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.aye-diapo:not(:first-child) img[width][height] {
+  width: 100%;
+  height: 100%;
+}
+
+.main-banner .left-content .thumb .inner-content {
+  z-index: 3;
+}
+
+.aye-diapos-fleche {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  display: none; /* ordinateur seulement, voir plus bas */
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  background: rgba(42, 42, 42, 0.35);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.aye-diapos-fleche:hover {
+  background: #fff;
+  color: #2a2a2a;
+}
+
+.aye-diapos-fleche svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.aye-diapos-precedente {
+  left: 10px;
+}
+
+.aye-diapos-suivante {
+  right: 16px;
+}
+
+.aye-diapos-points {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  z-index: 4;
+  display: flex;
+  gap: 10px;
+  transform: translateX(-50%);
+}
+
+.aye-diapos-points button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.aye-diapos-points button.actif {
+  background: #fff;
+}
+
+@media (min-width: 992px) {
+  .aye-diapos-fleche {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aye-diapo {
+    transition: none;
   }
 }
 
@@ -1999,6 +2114,18 @@ a.aye-moyen:hover .aye-moyen-valeur {
     height: 100%;
     object-fit: cover;
     object-position: center top;
+  }
+  /* carrousel : toutes les diapositives remplissent le hero */
+  .main-banner .aye-diapos,
+  .main-banner .aye-diapo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .aye-diapos-points {
+    bottom: 12px;
   }
   /* texte en bas du hero, centre */
   .main-banner .left-content .thumb .inner-content {

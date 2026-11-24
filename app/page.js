@@ -1,4 +1,5 @@
 import { chemin } from '@/app/lib/chemin';
+import CarrouselBanniere from './components/CarrouselBanniere';
 import Header from './components/Header';
 import SectionCarrousel from './components/SectionCarrousel';
 import { CONTACT, MARQUE } from './components/Footer';
@@ -6,6 +7,25 @@ import { CONTACT, MARQUE } from './components/Footer';
 export const metadata = {
   title: 'Aye-Aye Madagascar',
 };
+
+// Diapositives de la banniere (scripts/photos-cadrees.mjs) : chacune en trois
+// formats. `position` : centre du personnage dans l'image panoramique, repris
+// par object-position (aye-aye.css).
+const IMG = (nom) => chemin('/assets/images/banniere/' + nom);
+const DIAPOS = [
+  {
+    mobile: IMG('principale-mobile.jpg'), tablette: IMG('principale-tablette.jpg'), large: IMG('principale-large.jpg'),
+    alt: 'Manches longues Antsatsaka écru, coton 100 %', position: '65%',
+  },
+  {
+    mobile: IMG('diapo-2-mobile.jpg'), tablette: IMG('diapo-2-tablette.jpg'), large: IMG('diapo-2-large.jpg'),
+    alt: 'Tee-shirt Dauphins rouge, vue de face', position: '68%',
+  },
+  {
+    mobile: IMG('diapo-3-mobile.jpg'), tablette: IMG('diapo-3-tablette.jpg'), large: IMG('diapo-3-large.jpg'),
+    alt: 'Tee-shirt Djembe noir, vue de face', position: '68%',
+  },
+];
 
 // Onglets sous le hero, sur mobile.
 const ONGLETS = [
@@ -38,40 +58,20 @@ export default function PageAccueil() {
             <div className="col-12">
               <div className="left-content">
                 <div className="thumb">
-                  <div className="inner-content">
-                    <h4>{MARQUE.slogan}</h4>
-                    <span>
-                      Des vêtements 100 % coton qui célèbrent la nature, les symboles et les
-                      valeurs de Madagascar. Pour chaque Malgache, où qu’il se trouve.
-                    </span>
-                    <div className="main-border-button">
-                      <a href={chemin('/collections/')}>Découvrir nos collections</a>
+                  {/* carrousel : mobile portrait plein ecran ; tablette 3:2 ;
+                      ordinateur panoramique pleine largeur */}
+                  <CarrouselBanniere diapos={DIAPOS}>
+                    <div className="inner-content">
+                      <h4>{MARQUE.slogan}</h4>
+                      <span>
+                        Des vêtements 100 % coton qui célèbrent la nature, les symboles et les
+                        valeurs de Madagascar. Pour chaque Malgache, où qu’il se trouve.
+                      </span>
+                      <div className="main-border-button">
+                        <a href={chemin('/collections/')}>Découvrir nos collections</a>
+                      </div>
                     </div>
-                  </div>
-                  {/* mobile : portrait plein ecran ; tablette : 3:2 ;
-                      ordinateur : panoramique pleine largeur */}
-                  <picture>
-                    <source
-                      media="(max-width: 767px)"
-                      srcSet={chemin('/assets/images/banniere/principale-mobile.jpg')}
-                      width={800}
-                      height={1500}
-                    />
-                    <source
-                      media="(min-width: 992px)"
-                      srcSet={chemin('/assets/images/banniere/principale-large.jpg')}
-                      width={1760}
-                      height={800}
-                    />
-                    {/* la plus grande image du premier ecran : demandee en premier */}
-                    <img
-                      src={chemin('/assets/images/banniere/principale-tablette.jpg')}
-                      alt="Manches longues Antsatsaka écru, coton 100 %"
-                      width={1050}
-                      height={700}
-                      fetchPriority="high"
-                    />
-                  </picture>
+                  </CarrouselBanniere>
                 </div>
               </div>
             </div>
