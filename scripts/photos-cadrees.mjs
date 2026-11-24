@@ -82,7 +82,7 @@ async function sansDebord(bande) {
 async function composer({
   source, sortie, largeur, hauteur,
   echelle = 1,            // part de la hauteur occupee par la photo (marge en haut)
-  position = 'centre',    // 'centre' ou 'droite'
+  position = 'centre',    // 'centre', 'droite', ou un nombre : centre du sujet en part de la largeur (0,65)
   lumiere = 1, saturation = 1, gradient = null,
   bordsPropres = false,   // nettoyer les bandes de bord (sujet qui touche le bord)
   retrait = 0,            // bande prise a n px du bord (bord de photo plus sombre)
@@ -114,9 +114,9 @@ async function composer({
   }
 
   // 3. cotes : on etire la colonne de gauche et celle de droite
-  const gauche = position === 'droite'
-    ? Math.max(0, largeur - ls - Math.round(largeur * 0.04))
-    : Math.round((largeur - ls) / 2);
+  let gauche = Math.round((largeur - ls) / 2);
+  if (position === 'droite') gauche = Math.max(0, largeur - ls - Math.round(largeur * 0.04));
+  else if (typeof position === 'number') gauche = Math.min(largeur - ls, Math.max(0, Math.round(largeur * position - ls / 2)));
   const droite = largeur - gauche - ls;
 
   // avec `retrait`, le comble recouvre aussi les `retrait` derniers pixels de
@@ -159,12 +159,13 @@ await composer({
   position: 'droite', lumiere: 0.93, saturation: 0.30, gradient: [0.85, 0.30, 62],
 });
 // banniere pleine largeur des ordinateurs (992 px et plus) : meme photo et
-// meme ton, format panoramique (~2,2:1), personnage entier a droite, texte a
-// gauche sur le voile sombre. Les tuiles Homme / Femme / Enfant / Accessoires
+// meme ton, format panoramique (~2,2:1), personnage entier centre a 65 % de la
+// largeur (« au centre, un peu a droite », demande de la marque), texte a
+// gauche sur le voile sombre. aye-aye.css s'appuie sur ces 65 %. Les tuiles Homme / Femme / Enfant / Accessoires
 // ont ete retirees a la demande de la marque (une seule banniere).
 await composer({
   source: 'DSC_1793.jpg', sortie: 'banniere/principale-large.jpg', largeur: 1760, hauteur: 800,
-  position: 'droite', lumiere: 0.93, saturation: 0.30, gradient: [0.85, 0.30, 70],
+  position: 0.65, lumiere: 0.93, saturation: 0.30, gradient: [0.85, 0.30, 70],
 });
 
 // hero mobile (portrait, plein ecran) : meme photo et meme ton, personnage

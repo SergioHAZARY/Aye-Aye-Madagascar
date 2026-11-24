@@ -424,22 +424,36 @@ footer .aye-logo img[width][height] {
 }
 
 /* Ordinateur : la banniere remplit la hauteur de l'ecran sous l'en-tete.
-   L'image panoramique (2,2:1) y est en cover, ancree a droite : quand l'ecran
-   est plus haut que l'image, seul le fond sombre de gauche est rogne, jamais
-   le personnage (photo entiere a droite).
-   - max(...) : jamais moins haut que l'image elle-meme (100vw / 2,2), sinon
-     cover rognerait le haut et le bas ;
-   - min(..., 84,2vw - 219px) : plafond ou le personnage (a 27 % du bord droit
-     de l'image) reste a 30 px du texte (100 px + 50 % de la largeur). */
+   L'image panoramique (2,2:1, personnage centre a 65 % de sa largeur) y est
+   en cover avec object-position 65 % : le personnage reste a 65 % de l'ecran,
+   « au centre, un peu a droite ». Quand l'ecran est plus haut que l'image,
+   seul du fond est rogne sur les cotes, jamais le personnage.
+   - max(100vw / 2,2, ...) : jamais moins haut que l'image elle-meme, sinon
+     cover rognerait le haut (la tete) et le bas ;
+   - min(100vh - 120px, 81,8vw - 462px) : hauteur de l'ecran, plafonnee pour
+     que le personnage (450 px de large a 800 px de haut) reste a 30 px du
+     texte (100 px + 42 % de la largeur). */
 @media (min-width: 992px) {
+  .main-banner .left-content .inner-content {
+    max-width: 42%;
+  }
   .main-banner .left-content .thumb {
     position: relative;
     overflow: hidden;
   }
   .main-banner .left-content .thumb img[width][height] {
-    height: min(max(calc(100vh - 120px), calc(100vw / 2.2)), calc(84.2vw - 219px));
+    height: max(calc(100vw / 2.2), min(calc(100vh - 120px), calc(81.8vw - 462px)));
     object-fit: cover;
-    object-position: right center;
+    object-position: 65% center;
+  }
+}
+
+/* 992 a 1279 px : l'image est a sa hauteur naturelle ; le texte se rapproche
+   du bord et se resserre pour laisser 30 px avant le personnage */
+@media (min-width: 992px) and (max-width: 1279px) {
+  .main-banner .left-content .inner-content {
+    left: 60px;
+    max-width: 40%;
   }
 }
 
