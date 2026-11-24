@@ -39,7 +39,8 @@ export default function Footer() {
   return (
     <footer>
       <div className="container">
-        <div className="row">
+        {/* aye-pied-ligne : logo a gauche, colonnes alignees a droite (aye-aye.css) */}
+        <div className="row aye-pied-ligne">
           <div className="col-lg-3 col-md-6">
             <div className="first-item">
               <div className="logo aye-logo aye-logo-pied">

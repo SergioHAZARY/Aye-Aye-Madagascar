@@ -795,6 +795,24 @@ footer ul.aye-pied-reseaux li a:hover {
   color: #2a2a2a;
 }
 
+/* Colonnes du pied sur ordinateur : le logo a gauche, les quatre colonnes
+   (Modeles, Collections, A propos, Contact) poussees a droite, le bord
+   droit de Contact sur la fin de la ligne de separation (demande de la
+   marque). Chaque colonne prend la largeur de son contenu. */
+@media (min-width: 992px) {
+  footer .aye-pied-ligne > .col-md-6 {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: none;
+  }
+  footer .aye-pied-ligne > .col-md-6:first-child {
+    margin-right: auto;
+  }
+  footer .aye-pied-ligne > .col-md-6 + .col-md-6 {
+    margin-left: clamp(16px, 8vw - 60px, 110px);
+  }
+}
+
 /* « Voir plus » sous les 3 collections du pied : bouton blanc du template
    (fait pour les fonds sombres), un peu plus compact */
 footer .aye-pied-voir-plus {
