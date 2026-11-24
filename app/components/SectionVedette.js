@@ -1,11 +1,10 @@
-// Section « vedette » (Collection Femme sur l'accueil), forme demandee par la
-// marque : surtitre et titre a gauche, pastilles de categories a droite, une
-// grande carte vedette (premier produit) et une grille de quatre cartes.
-// Police du template et photos 3:4 inchangees. Pas d'etat ni de JavaScript :
-// les pastilles et les boutons sont de simples liens.
+// « Nouveautes » (accueil) : surtitre et titre a gauche, pastilles de
+// categories a droite, une grande carte vedette et une grille de quatre
+// cartes, tous univers confondus. Photos 3:4, police du template. Sans
+// JavaScript : pastilles et boutons sont de simples liens.
 
 import { chemin } from '@/app/lib/chemin';
-import { CATEGORIES, categorieParSlug, imageCarte, produitsParCategorie, taillesDuProduit } from '../data/catalogue';
+import { CATEGORIES, categorieParSlug, imageCarte, produitParSlug, taillesDuProduit } from '../data/catalogue';
 import { CONTACT } from './Footer';
 
 function lienWhatsApp(produit) {
@@ -14,27 +13,14 @@ function lienWhatsApp(produit) {
   );
 }
 
-function tailles(produit) {
-  const liste = taillesDuProduit(produit);
-  return liste.length ? liste : null;
-}
-
-export default function SectionVedette({ categorie, surtitre, titre }) {
-  const [vedette, ...autres] = produitsParCategorie(categorie);
-  const nomCategorie = categorieParSlug(categorie).nom;
-
-  // quatre cartes : chaque autre produit, vue par vue, a tour de role
-  // (dos du 1er, dos du 2e, face du 1er…), pour varier les produits
-  const cartes = [];
-  for (let vue = 0; cartes.length < 4 && autres.some((p) => p.galerie[vue]); vue++) {
-    autres.forEach((p) => p.galerie[vue] && cartes.length < 4 && cartes.push({ produit: p, image: p.galerie[vue] }));
-  }
-
-  const tv = tailles(vedette);
+// `produits` : slugs, le premier en vedette, les quatre suivants en grille
+export default function SectionVedette({ surtitre, titre, produits }) {
+  const [vedette, ...autres] = produits.map(produitParSlug).filter(Boolean);
+  const tv = taillesDuProduit(vedette);
   const photoVedette = imageCarte(vedette.image);
 
   return (
-    <section className="section aye-vedettes" id={categorie}>
+    <section className="section aye-vedettes" id="nouveautes">
       <div className="container">
         <div className="aye-vedettes-tete">
           <div className="section-heading">
@@ -42,10 +28,10 @@ export default function SectionVedette({ categorie, surtitre, titre }) {
             <h2>{titre}</h2>
           </div>
           <ul className="aye-pastilles">
-            <li><a href={chemin('/produits/')}>Tout</a></li>
+            <li><a href={chemin('/produits/')} className="actif">Tout</a></li>
             {CATEGORIES.map((c) => (
               <li key={c.slug}>
-                <a href={chemin('/' + c.slug + '/')} className={c.slug === categorie ? 'actif' : undefined}>{c.nom}</a>
+                <a href={chemin('/' + c.slug + '/')}>{c.nom}</a>
               </li>
             ))}
           </ul>
@@ -69,7 +55,8 @@ export default function SectionVedette({ categorie, surtitre, titre }) {
               <span className="aye-badge">Nouveauté du moment</span>
               <h3>{vedette.nom}</h3>
               <p>
-                {nomCategorie} · 100 % coton{tv && ' · Tailles ' + tv[0] + ' à ' + tv[tv.length - 1]}
+                {categorieParSlug(vedette.categorie).nom} · 100 % coton
+                {tv.length > 0 && ' · Tailles ' + tv[0] + ' à ' + tv[tv.length - 1]}
               </p>
               <a className="aye-bouton-blanc" href={lienWhatsApp(vedette)} target="_blank" rel="noopener noreferrer">
                 Prix et commande sur WhatsApp
@@ -78,11 +65,11 @@ export default function SectionVedette({ categorie, surtitre, titre }) {
           </article>
 
           <div className="aye-vedettes-cartes">
-            {cartes.map(({ produit, image }) => {
-              const photo = imageCarte(image);
-              const t = tailles(produit);
+            {autres.map((produit) => {
+              const photo = imageCarte(produit.image);
+              const t = taillesDuProduit(produit);
               return (
-                <article className="aye-mini" key={image}>
+                <article className="aye-mini" key={produit.slug}>
                   <a href={chemin('/produit/' + produit.slug + '/')} className="aye-mini-photo">
                     <span className="aye-badge">Nouveau</span>
                     <img
@@ -97,8 +84,8 @@ export default function SectionVedette({ categorie, surtitre, titre }) {
                     />
                   </a>
                   <h4><a href={chemin('/produit/' + produit.slug + '/')}>{produit.nom}</a></h4>
-                  <p>{nomCategorie} · 100 % coton</p>
-                  {t && <p className="aye-mini-tailles">Tailles : {t.join(' · ')}</p>}
+                  <p>{categorieParSlug(produit.categorie).nom} · 100 % coton</p>
+                  {t.length > 0 && <p className="aye-mini-tailles">Tailles : {t.join(' · ')}</p>}
                   <a className="aye-bouton-noir" href={lienWhatsApp(produit)} target="_blank" rel="noopener noreferrer">
                     Prix sur WhatsApp
                   </a>
@@ -110,7 +97,7 @@ export default function SectionVedette({ categorie, surtitre, titre }) {
 
         <div className="aye-voir-tout">
           <div className="main-border-button">
-            <a href={chemin('/' + categorie + '/')}>Voir toute la collection</a>
+            <a href={chemin('/produits/')}>Voir toute la boutique</a>
           </div>
         </div>
       </div>

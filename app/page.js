@@ -2,8 +2,8 @@ import { chemin } from '@/app/lib/chemin';
 import { Fragment } from 'react';
 import CarrouselBanniere from './components/CarrouselBanniere';
 import Header from './components/Header';
-import SectionCarrousel from './components/SectionCarrousel';
 import SectionHistoire from './components/SectionHistoire';
+import SectionUnivers from './components/SectionUnivers';
 import SectionVedette from './components/SectionVedette';
 import { CONTACT } from './components/Footer';
 
@@ -70,7 +70,7 @@ const ATOUTS = [
   },
 ];
 
-// Mots du bandeau defilant, sous « Nouveautes Homme ».
+// Mots du bandeau defilant, sous « Nos univers ».
 const BANDEAU = ['Authentique', 'Nature', 'Qualité', '100\u00a0% coton', 'Imprimé à Madagascar'];
 
 // Onglets sous le hero, sur mobile.
@@ -135,14 +135,8 @@ export default function PageAccueil() {
         </div>
       </div>
 
-      {/* ***** Catégories : sections du template, produits en carrousel ***** */}
-      <SectionCarrousel
-        categorie="homme"
-        modele="men"
-        surtitre="Collection Homme"
-        titre="Nouveautés Homme"
-        sousTitre="Manches longues en coton 100 %, imprimées à Madagascar."
-      />
+      {/* ***** Nos univers, bandeau, Nouveautés, Nos collections ***** */}
+      <SectionUnivers />
 
       {/* Bandeau defilant (CSS seul) : deux moities identiques, la piste glisse
           de la moitie de sa largeur puis recommence, sans raccord visible */}
@@ -164,12 +158,18 @@ export default function PageAccueil() {
           ))}
         </div>
       </div>
-      <SectionVedette categorie="femme" surtitre="Arrivées récentes" titre="Collection Femme" />
-      <SectionHistoire
-        categorie="enfant"
-        titre="Collection Enfant"
-        sousTitre="La culture malagasy dès le plus jeune âge."
+      <SectionVedette
+        surtitre="Arrivées récentes"
+        titre="Nouveautés"
+        produits={[
+          'manches-longues-aye-aye-rouge',
+          'tee-shirt-dauphins-rouge',
+          'tee-shirt-tortue-moutarde',
+          'tee-shirt-djembe-noir',
+          'manches-longues-antsatsaka-ecru',
+        ]}
       />
+      <SectionHistoire />
 
       {/* ***** Notre histoire et notre engagement ***** */}
       {/* Forme demandee par la marque : grande photo a gauche, textes du

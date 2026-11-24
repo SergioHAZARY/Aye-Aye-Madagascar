@@ -289,32 +289,6 @@ footer .aye-logo img[width][height] {
   color: #2a2a2a;
 }
 
-/* --- Fleches des carrousels sur ecran moyen --------------------------------
-   Le template les place a 80-85 px hors du .container. Sous 1300 px, la marge
-   laissee par le conteneur est plus etroite et la page deborde (defilement
-   horizontal). On les ramene sur le bord des photos, fond blanc pour rester
-   lisibles. Au-dela de 1300 px : position du template, inchangee. */
-@media (max-width: 1299px) {
-  #men .owl-nav .owl-prev,
-  #women .owl-nav .owl-prev,
-  #kids .owl-nav .owl-prev {
-    left: 10px;
-  }
-  #men .owl-nav .owl-next,
-  #women .owl-nav .owl-next,
-  #kids .owl-nav .owl-next {
-    right: 10px;
-  }
-  #men .owl-nav .owl-prev:before,
-  #men .owl-nav .owl-next:before,
-  #women .owl-nav .owl-prev:before,
-  #women .owl-nav .owl-next:before,
-  #kids .owl-nav .owl-prev:before,
-  #kids .owl-nav .owl-next:before {
-    background-color: #fff;
-  }
-}
-
 /* --- Banniere : accroche longue ------------------------------------------------
    Le template n'y mettait qu'un titre court et une ligne. La marque y place
    son slogan et une phrase : on borne la largeur du bloc pour que le texte
@@ -640,16 +614,16 @@ footer .aye-logo img[width][height] {
   margin-right: 6px;
 }
 
-/* --- Section « univers » (Nouveautes Homme) -----------------------------------
-   Forme demandee par la marque : titre centre sous un surtitre, fond gris
-   clair, cartes arrondies dont le nom et « Decouvrir » sont poses en bas de
-   la photo sur un degrade sombre. Police, tailles du template et format 3:4
-   des photos inchanges ; palette du template. */
+/* --- « Nos univers » (SectionUnivers.js) -----------------------------------------
+   Titre centre sous un surtitre, fond gris clair, trois cartes arrondies
+   (Homme, Femme, Enfant) : photo 3:4, nom et « Decouvrir » poses en bas sur
+   un degrade sombre. Police et palette du template. */
 .aye-univers {
   background-color: #f7f7f7;
 }
 
 .aye-univers .section-heading {
+  margin-bottom: 50px;
   text-align: center;
 }
 
@@ -662,55 +636,63 @@ footer .aye-logo img[width][height] {
   color: #777;
 }
 
-.aye-univers .item .thumb {
+.aye-univers-cartes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aye-univers-cartes a {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
   border-radius: 6px;
   overflow: hidden;
+  background-color: #eee;
 }
 
-.aye-univers .item .down-content {
-  display: none;
+.aye-univers-cartes img[width][height] {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
 }
 
-.aye-carte-titre {
-  display: none;
+.aye-univers-cartes a:hover img {
+  transform: scale(1.04);
 }
 
-.aye-univers .aye-carte-titre {
+.aye-univers-titre {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1;
-  display: block;
   padding: 90px 28px 26px;
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75));
   color: #fff;
 }
 
-.aye-univers .aye-carte-titre strong {
+.aye-univers-titre strong {
   display: block;
   font-size: 26px;
   font-weight: 700;
   letter-spacing: 2px;
-  line-height: 1.2;
   text-transform: uppercase;
 }
 
-.aye-univers .aye-carte-titre span {
+.aye-univers-titre span {
   display: block;
-  margin-top: 8px;
+  margin-top: 6px;
   font-size: 15px;
 }
 
-.aye-univers .aye-carte-titre:hover {
-  color: #fff;
-}
-
-/* icones voir / favori / panier : en haut de la photo, le bas porte le nom */
-#men.aye-univers .item .thumb .hover-content,
-#men.aye-univers .item .thumb:hover .hover-content {
-  top: 20px;
-  bottom: auto;
+@media (max-width: 767px) {
+  .aye-univers-cartes {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* --- Bandeau defilant -----------------------------------------------------------
@@ -762,7 +744,7 @@ footer .aye-logo img[width][height] {
   }
 }
 
-/* --- Section « vedette » (Collection Femme, SectionVedette.js) ------------------
+/* --- « Nouveautes » (SectionVedette.js) ------------------
    Surtitre et titre a gauche, pastilles a droite ; une grande carte (photo,
    degrade, texte et bouton blancs) et une grille de 4 cartes (badge, nom,
    categorie, tailles, bouton noir). Photos 3:4, palette du template. */
@@ -985,7 +967,7 @@ footer .aye-logo img[width][height] {
   }
 }
 
-/* --- Section « histoire » (Collection Enfant, SectionHistoire.js) --------------
+/* --- « Nos collections » (SectionHistoire.js) --------------
    Titre centre, puis une ligne par produit : photo 3:4 et texte, de cote
    alterne. Couleurs de texte et police du template. */
 .aye-histoire {
@@ -1293,35 +1275,6 @@ footer .aye-logo img[width][height] {
 @media (max-width: 767px) {
   .aye-connexion {
     padding-top: 110px;
-  }
-}
-
-/* --- Carrousels avant owl-carousel ---------------------------------------
-   owl-carousel.css masque .owl-carousel (display: none) jusqu'a son
-   initialisation, qui n'a lieu qu'apres le JavaScript de la page : sur une
-   connexion lente, les sections restaient vides plusieurs secondes, puis la
-   page sautait. En attendant owl, les cartes s'affichent deja a leur place :
-   1, 2 ou 3 par ligne, 30 px d'ecart, aux memes seuils que custom.js. */
-.owl-carousel:not(.owl-loaded) {
-  display: flex;
-  gap: 30px;
-  overflow: hidden;
-}
-
-.owl-carousel:not(.owl-loaded) > .item {
-  flex: 0 0 100%;
-  min-width: 0;
-}
-
-@media (min-width: 600px) {
-  .owl-carousel:not(.owl-loaded) > .item {
-    flex-basis: calc((100% - 30px) / 2);
-  }
-}
-
-@media (min-width: 1000px) {
-  .owl-carousel:not(.owl-loaded) > .item {
-    flex-basis: calc((100% - 60px) / 3);
   }
 }
 

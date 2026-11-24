@@ -57,7 +57,7 @@ app/
     Footer.js            + exports CONTACT (coordonnées) et MARQUE (slogan)
     SilhouetteModele.js  silhouettes SVG des 3 coupes
     FicheProduit.js      carte produit
-    SectionCarrousel.js  section produits en carrousel, structure et ids du template
+    SectionUnivers.js SectionVedette.js SectionHistoire.js   sections de l'accueil
     GalerieProduit.js    'use client' — photo + vignettes de la fiche produit
     CarrouselBanniere.js 'use client' — carrousel de la bannière d'accueil (fondu, 3 diapositives)
     AchatProduit.js      'use client' — choix de taille + bouton d'ajout de la fiche
@@ -104,20 +104,16 @@ One banner only, full width (`col-12`): the owner had the four Homme / Femme / E
 
 Every product card, collection card and model card shows its photo in the same **3:4 frame** (`.item .thumb > a` and `.aye-carte-visuel`, `aspect-ratio: 3 / 4`, `object-fit: contain`, background `#f7f7f7`), so cards line up whatever the photo's shape (owner's request). `imageCarte(source)` in `catalogue.js` picks the picture: studio photos (`CARTES_STUDIO`: the DSC_ shots, Femme_1, Homme_1) use a 3:4 version with the backdrop extended (`cartes/480|720/`, made by `photos-cadrees.mjs`); outdoor photos are shown whole, reduced, with thin light bands where their ratio differs (Enfant photos are 3:4 and fill the frame). Template images (Accessoires) are landscape and get wide bands until real photos replace them.
 
-### Home sections: « univers » (Homme), band, « vedette » (Femme)
+### Home sections (owner's shapes, template font and palette, 3:4 photos)
 
-At the owner's request three home blocks have their own shape (template font, 3:4 photos and palette kept):
-- **Nouveautés Homme**: `SectionCarrousel` with a `surtitre` gets `.aye-univers` (centred heading under a small uppercase kicker, `#f7f7f7` background, rounded cards whose name and « Découvrir → » sit on a dark gradient at the bottom of the photo, `FicheProduit univers`; the hover icons move to the top). Same owl carousel.
-- **Scrolling band** right under it (`.aye-bandeau`): « Authentique ✦ Nature ✦ Qualité ✦ 100 % coton ✦ Imprimé à Madagascar », pure CSS, two identical halves, `translateX(-50%)` in 40 s, stopped under reduced motion.
-- **Collection Femme**: `SectionVedette` (no owl, no JS): kicker « Arrivées récentes » and title on the left, category pills on the right (plain links, Femme active), the first Femme product as a large featured card (photo in `cover` stretched to the grid's height, badge, name, « Femme · 100 % coton · Tailles S à XXL », white « Prix et commande sur WhatsApp » button) and a 2 × 2 grid of the other products' views taken in turn (badge « Nouveau », name, category, sizes, black « Prix sur WhatsApp » button). WhatsApp links carry a pre-filled message naming the product; no price is shown anywhere.
-- **Découvrez Aye-Aye Madagascar** (`#explore.aye-decouvrez`): one large rounded photo on the left (`apropos/decouvrez.jpg`, 1100×900, from `photos-cadrees.mjs`), the template's texts on the right (title, line, quote, two paragraphs, « Notre histoire » button), vertically centred. The two pillar boxes and the two small photos it had are gone (the pillars are still on À propos).
-- **Points forts** under it (`.aye-atouts`): four columns, black line icons (inline SVG) in white circles on `#f7f7f7`, title and one sentence (Qualité premium, Tissu 100 % coton, Imprimé à Madagascar, Identité malagasy).
-- **Rejoignez la communauté** (`.aye-communaute-section`, still `id="social"`): centred heading, four rounded square photos (`social/01–04`, link to Facebook), the « Nous suivre sur Facebook » button. The **newsletter** section was removed (owner's request), with its contact grid.
-- **Collection Enfant**: `SectionHistoire` (no owl, no JS): centred title and subtitle (unchanged texts), then one row per Enfant product, 3:4 photo and text alternating sides (photo right on even rows, always first on phones), big light number « 01 », name, catalogue description, « Découvrir → » link; template text colours.
+In order under the banner:
+- **Nos univers** (`SectionUnivers`): kicker « Pour toute la famille », three rounded cards Homme / Femme / Enfant (the `image` of each category in `CATEGORIES`), name and « Découvrir → » on a dark gradient, links to the category pages.
+- **Scrolling band** (`.aye-bandeau`): « Authentique ✦ Nature ✦ Qualité ✦ 100 % coton ✦ Imprimé à Madagascar », pure CSS, two identical halves, `translateX(-50%)` in 40 s, stopped under reduced motion.
+- **Nouveautés** (`SectionVedette produits={[…]}`): kicker « Arrivées récentes », category pills (Tout active, plain links), the first slug as a large featured card (photo in `cover` stretched to the grid's height, badge, name, « Homme · 100 % coton · Tailles S à XXL », white « Prix et commande sur WhatsApp ») and the next four as a 2 × 2 grid (badge « Nouveau », name, category, sizes, black « Prix sur WhatsApp »), all categories mixed; « Voir toute la boutique » → `/produits/`. WhatsApp links carry a pre-filled message naming the product; no price is shown anywhere.
+- **Nos collections** (`SectionHistoire`): kicker « Chaque motif a une histoire », the first three collections with a photo, 3:4 photo and text alternating sides, big light number, name, the collection's `texte`, « Découvrir la collection → », then « Voir toutes les collections ».
+- **Découvrez Aye-Aye Madagascar**, **Points forts**, **Rejoignez la communauté** (see below).
 
-### Home sections reuse the template's ids
-
-The Homme section is rendered by `SectionCarrousel` with `modele="men" | "women" | "kid"`, which gives them the template's own markup: `<section id="men">`, a `.container` (not full width), `.men-item-carousel > .owl-men-item`. The template CSS (`#men …`) and `custom.js` therefore style and initialise them exactly as in the original. Explore and Social are the template's layouts too (Social = six `col-2` thumbnails, no carousel). The owner asked for all of these to stay at container width — don't make them full width again.
+There is **no owl carousel on the site any more**. `owl-carousel.js` is still loaded only because `custom.js` (template, unedited) calls `$('.owl-men-item').owlCarousel(...)` and would throw without the plugin; `owl-carousel.css` and the project's carousel CSS were removed.
 
 ### Navigation is full page loads, on purpose
 
@@ -127,7 +123,7 @@ Internal links are plain `<a href="/homme/">`, not `next/link`. With client-side
 
 **Content width**: from 1200 px every `.container` is `max-width: max(1140px, min(1620px, 86%))` (owner's request: all sections, header to footer, wider than Bootstrap's 1140 px). The home banner text uses the same expression in its `left` so it stays aligned on the logo; change both together.
 
-**`public/assets/css/aye-aye.css` is the only stylesheet to edit.** The template's remaining stylesheets (`bootstrap.min.css`, `font-awesome.css`, `templatemo-hexashop.css`, `owl-carousel.css`) are byte-identical to the original and must stay that way; the project sheet is loaded last. It uses only the template's palette (`#2a2a2a`, `#f7f7f7`, `#eee`) and Poppins — no new font, no new colour. One exception, asked for by the owner: the Facebook logo of the « Nous suivre sur Facebook » button sits in a round Facebook-blue badge (`#1877f2`, `.aye-icone-facebook`) so it is recognisable at a glance.
+**`public/assets/css/aye-aye.css` is the only stylesheet to edit.** The template's remaining stylesheets (`bootstrap.min.css`, `font-awesome.css`, `templatemo-hexashop.css`) are byte-identical to the original and must stay that way; the project sheet is loaded last. It uses only the template's palette (`#2a2a2a`, `#f7f7f7`, `#eee`) and Poppins — no new font, no new colour. One exception, asked for by the owner: the Facebook logo of the « Nous suivre sur Facebook » button sits in a round Facebook-blue badge (`#1877f2`, `.aye-icone-facebook`) so it is recognisable at a glance.
 
 Three things in it are load-bearing:
 
