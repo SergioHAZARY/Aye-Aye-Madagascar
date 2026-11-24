@@ -1294,6 +1294,17 @@ footer .aye-logo img[width][height] {
 }
 
 /* --- Pied de page --------------------------------------------------------- */
+/* colle a la derniere section de chaque page : sans la marge de 60 px du
+   template, ni le filet pointille de la section qui le precede (demande de
+   la marque) */
+footer {
+  margin-top: 0;
+}
+
+:has(+ footer) {
+  border-bottom: 0 !important;
+}
+
 /* Bas du pied : copyright et, a sa droite, Facebook et WhatsApp (centres
    ensemble ; sur une ligne etroite, les logos passent dessous) */
 footer .aye-pied-bas {
