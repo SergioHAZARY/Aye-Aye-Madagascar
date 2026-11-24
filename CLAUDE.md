@@ -8,7 +8,7 @@ E-commerce site for **Aye-Aye Madagascar**, a Malagasy clothing brand. Next.js 1
 
 The site is in **French**. All copy, component names, comments and data fields are French — keep writing them that way.
 
-The brand's own photos are in `public/assets/images/Homme/` (9 shots of 2 garments: a red "Aye-Aye" long sleeve and an écru "Antsatsaka" long sleeve) and `public/assets/images/Femme/Femme_1.jpeg` (a beige Tarondro tee-shirt, back view, pink backdrop, 720×1280). Femme_1 is the « Tee-shirt Tarondro » product (first of the Femme carousel), the Femme banner tile and the Tarondro collection photo. Newer shots: `Enfant/Enfant_1–4`, `Femme/Femme_2–6`, `Homme/Homme_1` (various sizes, listed in `DIMENSIONS_PHOTOS` in `catalogue.js`; add a line for any new photo). Enfant_3 (Tortue) is the « Tee-shirt Tortue » product, first of the Enfant carousel, and the Enfant banner tile. Collection photos: Lemurs of Madagascar = Homme_1, Madagascar Roots Djembe = Enfant_4, Dauphins = Femme_4, Tortue = Enfant_3, Lakana = Enfant_1 (Enfant_2 and Femme_6 show Tarondro and Djembe again; Femme_2, 3, 5 are front views). « Madagascar » has no photo yet. The other Femme products, Enfant and Accessoires still use template placeholder images, by the owner's decision, until real photos exist; the `Femme/`, `Enfant/`, `Accessoire/` folders also hold copies of those template images.
+The brand's own photos are in `public/assets/images/Homme/` (9 shots of 2 garments: a red "Aye-Aye" long sleeve and an écru "Antsatsaka" long sleeve) and `public/assets/images/Femme/Femme_1.jpeg` (a beige Tarondro tee-shirt, back view, pink backdrop, 720×1280). Femme_1 is the « Tee-shirt Tarondro » product (first of the Femme carousel), the Femme banner tile and the Tarondro collection photo. Newer shots: `Enfant/Enfant_1–4`, `Femme/Femme_2–6`, `Homme/Homme_1` (various sizes, listed in `DIMENSIONS_PHOTOS` in `catalogue.js`; add a line for any new photo). Enfant_3 (Tortue) is the « Tee-shirt Tortue » product, first of the Enfant carousel, and the Enfant banner tile. Collection photos: Lemurs of Madagascar = Homme_1, Madagascar Roots Djembe = Enfant_4, Dauphins = Femme_4, Tortue = Enfant_3, Lakana = Enfant_1 (Enfant_2 and Femme_6 show Tarondro and Djembe again; Femme_2, 3, 5 are front views). « Madagascar » has no photo yet. Femme and Enfant products are all real (owner's request): Femme = Tarondro beige (Femme_1), Dauphins rouge (Femme_4 back, Femme_2–3 front), Djembe noir (Femme_6 back, Femme_5 front); Enfant = Tortue (Enfant_3), Lakana bordeaux (Enfant_1), Tarondro beige (Enfant_2), Djembe blanc (Enfant_4). The back view, which shows the collection's design, is always the first photo. Only Accessoires still uses template images (`single-product-01/02`, `baner-right-image-04`, `explore-image-01`); the owner deleted the other template images, don't reference them again.
 
 ## Commands
 
@@ -168,7 +168,7 @@ Brand photos come out of the camera at 3400×6048 and ~1 MB each. `npm run image
 
 ## Legacy
 
-The five original `.html` files and the root `assets/` folder are the untouched reference the Next.js port was verified against. They are not used by the build and can be deleted once the site is accepted.
+The five original `.html` files are the untouched reference the Next.js port was verified against (the owner deleted the root `assets/` folder that went with them). They are not used by the build and can be deleted once the site is accepted.
 
 ## Template attribution
 

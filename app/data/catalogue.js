@@ -7,8 +7,8 @@ import { chemin } from '@/app/lib/chemin';
 // produit, changer une photo ou une categorie se fait ici, et tout le
 // site suit (accueil, pages categories, fiches produit, recherche, panier).
 //
-// Les noms des produits Femme / Enfant / Accessoires sont des
-// exemples a remplacer par vos vraies references.
+// Les produits Accessoires sont encore des exemples du template, a remplacer
+// par vos vraies references.
 // ---------------------------------------------------------------------------
 
 export const CATEGORIES = [
@@ -80,7 +80,7 @@ export const PRODUITS = [
     details: ['Coton 100 %', 'Impression dos et manche', 'Coupe droite', 'Lavage à 30 °C'],
   },
 
-  // --- Femme : le premier modele photographie, puis des exemples ------------
+  // --- Femme : les modeles photographies -----------------------------------
   {
     slug: 'tee-shirt-tarondro-beige',
     nom: 'Tee-shirt Tarondro',
@@ -95,42 +95,42 @@ export const PRODUITS = [
     details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye au col'],
   },
 
-  // exemples a remplacer
   {
-    slug: 'blazer-kaki',
-    nom: 'Blazer kaki',
-    couleur: 'Kaki',
+    slug: 'tee-shirt-dauphins-rouge',
+    nom: 'Tee-shirt Dauphins',
+    couleur: 'Rouge',
     categorie: 'femme',
     note: 5,
-    image: chemin('/assets/images/women-01.jpg'),
-    galerie: [chemin('/assets/images/women-01.jpg')],
-    description: 'Blazer en coton kaki, coupe droite, à porter ouvert sur un t-shirt.',
-    details: ['Coton 100 %', 'Coupe droite'],
+    image: chemin('/assets/images/Femme/Femme_4.jpeg'),
+    galerie: [
+      chemin('/assets/images/Femme/Femme_4.jpeg'),
+      chemin('/assets/images/Femme/Femme_2.jpeg'),
+      chemin('/assets/images/Femme/Femme_3.jpeg'),
+    ],
+    description:
+      'Tee-shirt en coton 100 %, rouge. Des dauphins jaillissant des vagues sont '
+      + 'imprimés dans le dos ; petit logo Aye-Aye sur la poitrine.',
+    details: ['Coton 100 %', 'Impression dos', 'Logo Aye-Aye sur la poitrine'],
   },
   {
-    slug: 'robe-fleurie',
-    nom: 'Robe fleurie',
-    couleur: 'Imprimé',
+    slug: 'tee-shirt-djembe-noir',
+    nom: 'Tee-shirt Djembe',
+    couleur: 'Noir',
     categorie: 'femme',
     note: 5,
-    image: chemin('/assets/images/women-02.jpg'),
-    galerie: [chemin('/assets/images/women-02.jpg')],
-    description: 'Robe courte à imprimé floral, ceinture à la taille, manches évasées.',
-    details: ['Coton 100 %', 'Ceinture fournie'],
-  },
-  {
-    slug: 'pull-oversize',
-    nom: 'Pull oversize',
-    couleur: 'Gris',
-    categorie: 'femme',
-    note: 5,
-    image: chemin('/assets/images/women-03.jpg'),
-    galerie: [chemin('/assets/images/women-03.jpg')],
-    description: 'Pull maille douce, coupe oversize, col montant.',
-    details: ['Maille douce', 'Coupe oversize'],
+    image: chemin('/assets/images/Femme/Femme_6.jpeg'),
+    galerie: [
+      chemin('/assets/images/Femme/Femme_6.jpeg'),
+      chemin('/assets/images/Femme/Femme_5.jpeg'),
+    ],
+    description:
+      'Tee-shirt en coton 100 %, noir. Trois danseuses et l’inscription '
+      + '« Madagascar Roots Djembe » sont imprimées dans le dos ; petit logo '
+      + 'Aye-Aye sur la poitrine.',
+    details: ['Coton 100 %', 'Impression dos', 'Logo Aye-Aye sur la poitrine'],
   },
 
-  // --- Enfant : le premier modele photographie, puis des exemples -----------
+  // --- Enfant : les modeles photographies ----------------------------------
   {
     slug: 'tee-shirt-tortue-moutarde',
     nom: 'Tee-shirt Tortue',
@@ -145,39 +145,46 @@ export const PRODUITS = [
     details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye sur la manche'],
   },
 
-  // exemples a remplacer
   {
-    slug: 'ensemble-marin',
-    nom: 'Ensemble marin',
-    couleur: 'Bleu',
+    slug: 'tee-shirt-lakana-enfant-bordeaux',
+    nom: 'Tee-shirt Lakana',
+    couleur: 'Bordeaux',
     categorie: 'enfant',
     note: 5,
-    image: chemin('/assets/images/kid-01.jpg'),
-    galerie: [chemin('/assets/images/kid-01.jpg')],
-    description: 'Ensemble deux pièces pour enfant, motif marin.',
-    details: ['Coton 100 %', 'Du 4 au 12 ans'],
+    image: chemin('/assets/images/Enfant/Enfant_1.jpeg'),
+    galerie: [chemin('/assets/images/Enfant/Enfant_1.jpeg')],
+    description:
+      'Tee-shirt enfant en coton 100 %, bordeaux. Une pirogue à voile sous le '
+      + 'soleil couchant et « Lakana » sont imprimés dans le dos ; étiquette '
+      + 'Aye-Aye au col.',
+    details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye au col'],
   },
   {
-    slug: 'robe-a-pois',
-    nom: 'Robe à pois',
-    couleur: 'Bleu nuit',
+    slug: 'tee-shirt-tarondro-enfant-beige',
+    nom: 'Tee-shirt Tarondro',
+    couleur: 'Beige',
     categorie: 'enfant',
     note: 5,
-    image: chemin('/assets/images/kid-02.jpg'),
-    galerie: [chemin('/assets/images/kid-02.jpg')],
-    description: 'Robe à pois, coupe confortable pour tous les jours.',
-    details: ['Coton 100 %', 'Du 4 au 12 ans'],
+    image: chemin('/assets/images/Enfant/Enfant_2.jpeg'),
+    galerie: [chemin('/assets/images/Enfant/Enfant_2.jpeg')],
+    description:
+      'Tee-shirt enfant en coton 100 %, beige. Tarondro, le caméléon de '
+      + 'Madagascar, est imprimé dans le dos ; étiquette Aye-Aye au col.',
+    details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye au col'],
   },
   {
-    slug: 't-shirt-raye-enfant',
-    nom: 'T-shirt rayé',
-    couleur: 'Blanc / bleu',
+    slug: 'tee-shirt-djembe-enfant-blanc',
+    nom: 'Tee-shirt Djembe',
+    couleur: 'Blanc',
     categorie: 'enfant',
     note: 5,
-    image: chemin('/assets/images/kid-03.jpg'),
-    galerie: [chemin('/assets/images/kid-03.jpg')],
-    description: 'T-shirt rayé en coton, facile à assortir.',
-    details: ['Coton 100 %', 'Du 4 au 12 ans'],
+    image: chemin('/assets/images/Enfant/Enfant_4.jpeg'),
+    galerie: [chemin('/assets/images/Enfant/Enfant_4.jpeg')],
+    description:
+      'Tee-shirt enfant en coton 100 %, blanc. Trois danseuses et l’inscription '
+      + '« Madagascar Roots Djembe » sont imprimées dans le dos ; étiquette '
+      + 'Aye-Aye au col.',
+    details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye au col'],
   },
 
   // --- Accessoires : exemples a remplacer ----------------------------------
