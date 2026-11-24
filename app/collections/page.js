@@ -12,7 +12,7 @@ export const metadata = {
 export default function PageCollections() {
   return (
     <>
-      <Header actif="collections" />
+      <Header actif="collections" surBanniere />
 
       <div className="page-heading" id="top">
         <div className="container">

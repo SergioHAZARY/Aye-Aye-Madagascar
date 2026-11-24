@@ -31,7 +31,7 @@ const PILIERS = [
 export default function PageAPropos() {
   return (
     <>
-      <Header actif="apropos" />
+      <Header actif="apropos" surBanniere />
 
       <div className="page-heading about-page-heading" id="top">
         <div className="container">

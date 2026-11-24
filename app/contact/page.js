@@ -20,7 +20,7 @@ const MOYENS = [
 export default function PageContact() {
   return (
     <>
-      <Header actif="contact" />
+      <Header actif="contact" surBanniere />
 
       <div className="page-heading aye-entete-femme" id="top">
         <div className="container">

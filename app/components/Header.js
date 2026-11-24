@@ -48,9 +48,6 @@ const LIENS = [
   { cle: 'contact', libelle: 'Contact', href: chemin('/contact/') },
 ];
 
-// pages dont l'en-tete est transparent sur la banniere
-const SUR_BANNIERE = ['accueil', 'modeles', 'collections', 'apropos', 'contact'];
-
 const ACTIONS = [
   {
     href: chemin('/recherche/'),
@@ -75,9 +72,13 @@ const ACTIONS = [
   },
 ];
 
-export default function Header({ actif = '' }) {
+// `surBanniere` : la page commence par une banniere sombre (accueil, Modeles,
+// Collections, A propos, Contact) ; l'en-tete y est transparent. A donner
+// explicitement : `actif` seul ne suffit pas (la fiche produit est rangee
+// sous « Modeles » mais n'a pas de banniere, le texte blanc y disparaissait).
+export default function Header({ actif = '', surBanniere = false }) {
   return (
-    <header className={'header-area header-sticky' + (SUR_BANNIERE.includes(actif) ? ' aye-entete-sur-hero' : '')}>
+    <header className={'header-area header-sticky' + (surBanniere ? ' aye-entete-sur-hero' : '')}>
       <div className="container">
         <div className="row">
           <div className="col-12">

@@ -14,7 +14,7 @@ const PUBLICS = CATEGORIES;
 export default function PageModeles() {
   return (
     <>
-      <Header actif="modeles" />
+      <Header actif="modeles" surBanniere />
 
       <div className="page-heading aye-entete-face" id="top">
         <div className="container">

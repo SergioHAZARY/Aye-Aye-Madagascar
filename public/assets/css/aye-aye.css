@@ -619,6 +619,7 @@ footer .aye-logo img[width][height] {
    (Homme, Femme, Enfant) : photo 3:4, nom et « Decouvrir » poses en bas sur
    un degrade sombre. Police et palette du template. */
 .aye-univers {
+  padding: 90px 0;
   background-color: #f7f7f7;
 }
 
@@ -700,6 +701,7 @@ footer .aye-logo img[width][height] {
    moities identiques ; elle glisse de 50 % puis repart, sans raccord. A
    l'arret si le visiteur demande moins d'animations. */
 .aye-bandeau {
+  margin: 60px 0 0;
   overflow: hidden;
   padding: 18px 0;
   background-color: #2a2a2a;

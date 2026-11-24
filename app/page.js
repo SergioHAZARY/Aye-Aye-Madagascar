@@ -86,7 +86,7 @@ const ONGLETS = [
 export default function PageAccueil() {
   return (
     <>
-      <Header actif="accueil" />
+      <Header actif="accueil" surBanniere />
 
       {/* ***** Bannière ***** : une seule, pleine largeur (les tuiles
           Homme / Femme / Enfant ont ete retirees a la demande de
