@@ -7,14 +7,6 @@ export const metadata = {
   title: 'Aye-Aye Madagascar',
 };
 
-// Tuiles de la banniere : chacune mene a sa page categorie.
-const TUILES = [
-  { slug: 'homme', nom: 'Homme', accroche: 'Nos manches longues signature', image: chemin('/assets/images/banniere/homme.jpg') },
-  { slug: 'femme', nom: 'Femme', accroche: 'La fierté malagasy au féminin', image: chemin('/assets/images/banniere/femme.jpg') },
-  { slug: 'enfant', nom: 'Enfant', accroche: 'Dès le plus jeune âge', image: chemin('/assets/images/banniere/enfant.jpg') },
-  { slug: 'accessoires', nom: 'Accessoires', accroche: 'Les détails qui comptent', image: chemin('/assets/images/baner-right-image-04.jpg') },
-];
-
 // Onglets sous le hero, sur mobile.
 const ONGLETS = [
   { href: chemin('/produits/'), libelle: 'Tout' },
@@ -37,11 +29,13 @@ export default function PageAccueil() {
     <>
       <Header actif="accueil" />
 
-      {/* ***** Bannière ***** */}
+      {/* ***** Bannière ***** : une seule, pleine largeur (les tuiles
+          Homme / Femme / Enfant / Accessoires ont ete retirees a la demande de
+          la marque) */}
       <div className="main-banner" id="top">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-lg-6">
+            <div className="col-12">
               <div className="left-content">
                 <div className="thumb">
                   <div className="inner-content">
@@ -54,7 +48,8 @@ export default function PageAccueil() {
                       <a href={chemin('/collections/')}>Découvrir nos collections</a>
                     </div>
                   </div>
-                  {/* mobile : version portrait plein ecran ; ordinateur : celle du template */}
+                  {/* mobile : portrait plein ecran ; tablette : 3:2 ;
+                      ordinateur : panoramique pleine largeur */}
                   <picture>
                     <source
                       media="(max-width: 767px)"
@@ -62,12 +57,18 @@ export default function PageAccueil() {
                       width={800}
                       height={1500}
                     />
+                    <source
+                      media="(min-width: 992px)"
+                      srcSet={chemin('/assets/images/banniere/principale-large.jpg')}
+                      width={1760}
+                      height={800}
+                    />
                     {/* la plus grande image du premier ecran : demandee en premier */}
                     <img
-                      src={chemin('/assets/images/banniere/principale.jpg')}
+                      src={chemin('/assets/images/banniere/principale-tablette.jpg')}
                       alt="Manches longues Antsatsaka écru, coton 100 %"
-                      width={790}
-                      height={680}
+                      width={1050}
+                      height={700}
                       fetchPriority="high"
                     />
                   </picture>
@@ -87,36 +88,6 @@ export default function PageAccueil() {
                   ))}
                 </ul>
               </nav>
-            </div>
-            <div className="col-lg-6">
-              <div className="right-content">
-                <div className="row">
-                  {TUILES.map((tuile) => (
-                    <div className="col-lg-6" key={tuile.slug}>
-                      <div className="right-first-image">
-                        <div className="thumb">
-                          <div className="inner-content">
-                            <h4>{tuile.nom}</h4>
-                            <span>{tuile.accroche}</span>
-                          </div>
-                          <img
-                            src={tuile.image}
-                            alt={'Catégorie ' + tuile.nom}
-                            width={385}
-                            height={330}
-                            fetchPriority="low"
-                          />
-                          <a
-                            href={chemin('/' + tuile.slug + '/')}
-                            className="aye-lien-couvrant"
-                            aria-label={'Voir la catégorie ' + tuile.nom}
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         </div>

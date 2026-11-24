@@ -401,6 +401,15 @@ footer .aye-logo img[width][height] {
   }
 }
 
+/* tablette : l'image 3:2 garde le personnage dans la moitie droite ; le texte
+   occupe la moitie gauche, plus pres du bord que les 100 px du template */
+@media (min-width: 768px) and (max-width: 991px) {
+  .main-banner .left-content .inner-content {
+    left: 40px;
+    width: 54%;
+  }
+}
+
 /* --- Section « Rejoignez la communauté » --------------------------------------- */
 .aye-communaute {
   margin-top: 40px;
@@ -512,16 +521,6 @@ footer .aye-logo img[width][height] {
 
 .aye-boutons-contact .main-border-button a i {
   margin-right: 6px;
-}
-
-/* --- Lien couvrant une tuile entiere -------------------------------------- */
-.aye-lien-couvrant {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 5;
 }
 
 /* --- Carrousels avant owl-carousel ---------------------------------------
@@ -1769,8 +1768,7 @@ a.aye-moyen:hover .aye-moyen-valeur {
      portrait dediee), texte et bouton blanc pleine largeur en bas du hero ;
      l'en-tete redevient blanc des la fin du hero (aye-aye.js) ou quand le
      menu est ouvert ;
-   - sous le hero : titre centre et onglets centres, sur deux lignes si besoin ;
-   - tuiles en cartes pleine largeur, gouttiere de 10 px.
+   - sous le hero : titre centre et onglets centres, sur deux lignes si besoin.
    Les tailles de police du template ne changent pas.
    ============================================================================= */
 .aye-logo-clair,
@@ -2056,13 +2054,5 @@ a.aye-moyen:hover .aye-moyen-valeur {
   }
   .aye-compte-info h4 {
     font-size: 22px;
-  }
-
-  /* --- Tuiles : cartes pleine largeur, gouttiere de 10 px ---------------------- */
-  .main-banner .right-content {
-    padding: 0 10px;
-  }
-  .main-banner .right-content .right-first-image {
-    margin-bottom: 10px;
   }
 }

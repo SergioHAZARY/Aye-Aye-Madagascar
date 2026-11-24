@@ -22,8 +22,6 @@ import path from 'node:path';
 
 const SOURCES = 'public/assets/images/Homme';
 const IMAGES = 'public/assets/images';
-const LUMIERE_FEMME = Number(process.env.LUMIERE_FEMME || 0.58);
-const LUMIERE_ENFANT = Number(process.env.LUMIERE_ENFANT || 0.97);
 
 // voile sombre degrade : depuis la gauche (titre de la banniere ordinateur)
 // ou depuis le bas (texte en bas du hero mobile)
@@ -167,24 +165,19 @@ async function ecrire(image, sortie, largeur, hauteur) {
 }
 
 // --- Banniere d'accueil (texte blanc : tonalite du template, 77 et ~95) ------
+// tablette (768 a 991 px) : format 3:2, personnage entier a droite, assez
+// etroit pour laisser la moitie gauche, sombre, au texte
 await composer({
-  source: 'DSC_1793.jpg', sortie: 'banniere/principale.jpg', largeur: 790, hauteur: 680,
-  position: 'droite', lumiere: 0.93, saturation: 0.30, gradient: [0.85, 0.30, 78],
+  source: 'DSC_1793.jpg', sortie: 'banniere/principale-tablette.jpg', largeur: 1050, hauteur: 700,
+  position: 'droite', lumiere: 0.93, saturation: 0.30, gradient: [0.85, 0.30, 62],
 });
+// banniere pleine largeur des ordinateurs (992 px et plus) : meme photo et
+// meme ton, format panoramique (~2,2:1), personnage entier a droite, texte a
+// gauche sur le voile sombre. Les tuiles Homme / Femme / Enfant / Accessoires
+// ont ete retirees a la demande de la marque (une seule banniere).
 await composer({
-  source: 'DSC_1807.jpg', sortie: 'banniere/homme.jpg', largeur: 385, hauteur: 330,
-  lumiere: 0.76, saturation: 0.62,
-});
-// tuile Femme : premiere photo femme de la marque (fond rose), assombrie au
-// gris moyen des autres tuiles (~95) pour garder le texte blanc lisible
-await composer({
-  source: 'Femme/Femme_1.jpeg', sortie: 'banniere/femme.jpg', largeur: 385, hauteur: 330,
-  lumiere: LUMIERE_FEMME, saturation: 0.62, bordsPropres: true, retrait: 2,
-});
-// tuile Enfant : Enfant_3 (collection Tortue), photo de jardin -> fond flou
-await composer({
-  source: 'Enfant/Enfant_3.jpeg', sortie: 'banniere/enfant.jpg', largeur: 385, hauteur: 330,
-  lumiere: LUMIERE_ENFANT, saturation: 0.45, fond: 'flou',
+  source: 'DSC_1793.jpg', sortie: 'banniere/principale-large.jpg', largeur: 1760, hauteur: 800,
+  position: 'droite', lumiere: 0.93, saturation: 0.30, gradient: [0.85, 0.30, 70],
 });
 
 // hero mobile (portrait, plein ecran) : meme photo et meme ton, personnage

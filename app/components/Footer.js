@@ -29,7 +29,9 @@ export const CONTACT = {
 
 // Slogan de la marque, repris dans le pied de page, l'accueil et A propos.
 export const MARQUE = {
-  slogan: 'Porter votre culture avec fierté !',
+  // espace insecable avant « ! » : le point d'exclamation ne passe jamais
+  // seul a la ligne
+  slogan: 'Porter votre culture avec fierté !',
 };
 
 export default function Footer() {

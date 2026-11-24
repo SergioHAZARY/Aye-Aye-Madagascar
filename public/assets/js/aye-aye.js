@@ -26,7 +26,7 @@
 
   /* En-tete transparent sur le hero (accueil, mobile).
      custom.js ne rend l'en-tete opaque qu'apres tout le bloc #top ; sur
-     mobile ce bloc contient aussi les quatre tuiles empilees, et le logo blanc
+     mobile ce bloc contient aussi les onglets sous le hero, et le logo blanc
      se retrouverait sur fond blanc. On le rend opaque des la fin du hero. */
   var $entete = $('.header-area.aye-entete-sur-hero');
   var $hero = $('.main-banner .left-content');
