@@ -19,6 +19,7 @@ npm run images                 # aperçu de la compression des photos
 npm run images -- --appliquer  # applique, originaux gardés dans photos-originales/
 node scripts/logo.mjs          # logo de l'en-tête et du pied, depuis le logo officiel
 node scripts/photos-cadrees.mjs  # toutes les images tirées des photos Homme (jamais rognées)
+node scripts/photos-reduites.mjs # versions 160/480/720 px des photos Homme (cartes, vignettes)
 ```
 
 No tests, no linter. `next build` fails with `EBUSY ... rmdir out` if a server is still serving `out/` — stop it first.
@@ -40,7 +41,8 @@ app/
   data/catalogue.js      LE fichier à éditer : catégories, produits, photos,
                          modèles (3 coupes) et collections (9 dessins)
   lib/panier.js          panier + favoris (localStorage, sans dépendance)
-  layout.js              <html lang="fr">, <head>, Preloader, Footer, scripts
+  layout.js              <html lang="fr">, <head> (préchargement des scripts), Footer, scripts
+  lib/scripts-template.js  la liste des scripts jQuery, partagée par layout et TemplateScripts
   page.js                accueil
   homme|femme|enfant|accessoires/page.js     → <PageCategorie slug="…" />
   produit/[slug]/page.js  fiche produit (generateStaticParams)
@@ -89,7 +91,7 @@ Read paths (`CompteurPanier`, `PanierDetail`, `Favoris`) are normal client compo
 
 `TemplateScripts` injects, in order and after hydration: jQuery, owl-carousel, scrollReveal, then `custom.js` and `aye-aye.js`. `quantity.js` is no longer loaded: the product page has no quantity field, quantities are changed in the cart. The template shipped 15 scripts (984 KB); the 10 never called by `custom.js` were removed (`accordions.js` alone was 458 KB) — verified: zero layout and behaviour difference. **Don't re-add a vendor script unless something calls it.**
 
-`script.async = false` guarantees execution order, a module flag prevents a double injection under StrictMode, and `jQuery(window).trigger('load')` is replayed when `readyState === 'complete'` — otherwise `custom.js`'s preloader handler never fires and **the preloader covers the page forever**.
+`script.async = false` guarantees execution order, a module flag prevents a double injection under StrictMode, and `jQuery(window).trigger('load')` is replayed when `readyState === 'complete'` for `custom.js`'s load handlers. The scripts must run after hydration (owl moves and clones nodes React owns), but `layout.js` preloads them with `<link rel="preload" as="script">` so they download in parallel with Next's JS; the list lives in `app/lib/scripts-template.js` for both.
 
 `public/assets/js/aye-aye.js` is the project's own script: it initialises `.owl-aye-carousel` with custom.js's exact settings (only the Accessoires section uses it — see below), and removes `custom.js`'s broken scroll-spy with `$(document).off('scroll')` inside a `$(function(){})` — the `ready` queue matters, custom.js's callback runs *after* this file loads.
 
@@ -99,7 +101,7 @@ The Homme, Femme and Enfant sections are rendered by `SectionCarrousel` with `mo
 
 ### Navigation is full page loads, on purpose
 
-Internal links are plain `<a href="/homme/">`, not `next/link`. With client-side navigation React swaps the DOM while jQuery keeps handlers on the old nodes: carousels would not re-init, the burger menu would lose its handler, and the preloader would reappear with no `load` event to hide it. Switch a page to `next/link` only once it no longer depends on `custom.js`.
+Internal links are plain `<a href="/homme/">`, not `next/link`. With client-side navigation React swaps the DOM while jQuery keeps handlers on the old nodes: carousels would not re-init and the burger menu would lose its handler. `ActionsGlobales` softens the cost of full loads: hovering or touching an internal link inserts a `<link rel="prefetch">` for it (skipped under Save-Data). Switch a page to `next/link` only once it no longer depends on `custom.js`.
 
 ## Styling rules
 
@@ -132,6 +134,16 @@ Three things in it are load-bearing:
 **Brand copy is used verbatim.** The structure texts come from the owner (home, Modèles, Collections, À propos, Suivez-nous, Contact, footer). They write « Aye Aye » without a hyphen and « Porter votre culture avec fierté ! » (`MARQUE.slogan`). Keep their wording; product names keep « Aye-Aye ».
 
 Images below the first screen carry `loading="lazy" decoding="async"`; keep the first screen eager (5 images on the home page, 3 on a category page).
+
+## Performance
+
+The site is used on slow Malagasy mobile connections (measured from here: ~70 KB/s, ~0.7 s per request to GitHub Pages). Rules that keep it fast:
+
+- **No preloader.** The template's `#preloader` hid the page until window `load`, i.e. until the last file arrived: 6 s to 100 s+ online while the content was ready at 2–3 s. It was removed (owner's complaint that the site « rame »); don't bring it back.
+- **Carousels are visible before owl.** `owl-carousel.css` sets `.owl-carousel { display: none }` until init; `aye-aye.css` (« Carrousels avant owl-carousel ») lays the cards out 1/2/3 per row with 30 px gaps, at owl's 600/1000 px breakpoints, so nothing jumps when owl starts.
+- **Images declare their real size.** `dimensionsImage()` in `catalogue.js` gives width/height (brand photos 899×1600, template 370×390 plus listed exceptions). A wrong ratio made cards grow when the photo arrived. Add an entry when a catalogue image has another size.
+- **Brand photos are served at the size shown**: `photoReduite(src, 160|480|720)` and `srcsetPhoto(src)` pick from `Homme/reduites/`, made by `node scripts/photos-reduites.mjs`. Re-run it after adding or replacing a photo. The original is used only for the large product photo on high-density screens and for the zoom link.
+- Measured after these changes (mobile, 1.6 Mbit/s, 150 ms, CPU ×4): content painted at 1.3–2.1 s, CLS ≈ 0, Homme page 447 KB (was 641), product page 440 KB (was 1056).
 
 ## Gotchas
 

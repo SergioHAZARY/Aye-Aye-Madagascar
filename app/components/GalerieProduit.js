@@ -9,6 +9,8 @@
 
 import { useState } from 'react';
 
+import { dimensionsImage, photoReduite, srcsetPhoto } from '../data/catalogue';
+
 export default function GalerieProduit({ images, nom }) {
   const [actif, setActif] = useState(0);
   const source = images[actif];
@@ -16,7 +18,15 @@ export default function GalerieProduit({ images, nom }) {
   return (
     <div className="aye-galerie">
       <div className="aye-galerie-principale">
-        <img src={source} alt={nom + ' – vue ' + (actif + 1)} width={899} height={1600} />
+        {/* 640 px de haut (520 px sous 992 px) : ~360 / ~292 px de large */}
+        <img
+          src={source}
+          srcSet={srcsetPhoto(source)}
+          sizes="(max-width: 991px) 292px, 360px"
+          alt={nom + ' – vue ' + (actif + 1)}
+          width={dimensionsImage(source)[0]}
+          height={dimensionsImage(source)[1]}
+        />
         <a
           className="aye-galerie-zoom"
           href={source}
@@ -45,7 +55,7 @@ export default function GalerieProduit({ images, nom }) {
                 aria-current={index === actif ? 'true' : undefined}
                 onClick={() => setActif(index)}
               >
-                <img src={image} alt="" width={899} height={1600} loading="lazy" decoding="async" />
+                <img src={photoReduite(image, 160)} alt="" width={dimensionsImage(image)[0]} height={dimensionsImage(image)[1]} loading="lazy" decoding="async" />
               </button>
             </li>
           ))}

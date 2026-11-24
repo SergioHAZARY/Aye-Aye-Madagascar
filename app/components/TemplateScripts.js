@@ -1,29 +1,12 @@
 'use client';
 
-import { chemin } from '@/app/lib/chemin';
+import { SCRIPTS_TEMPLATE } from '@/app/lib/scripts-template';
 import { useEffect } from 'react';
 
-// Scripts du template, dans l'ordre d'origine.
-//
-// Le template chargeait 15 fichiers (984 Ko). custom.js n'en utilise que trois :
-// jQuery, owl-carousel (les carrousels) et scrollReveal (les animations a
-// l'apparition). Les dix autres (accordions, slick, popper, bootstrap.min.js,
-// datepicker, isotope, imgfix, lightbox, waypoints, counterup) n'etaient
-// appeles nulle part : 805 Ko telecharges pour rien.
-// Retrait verifie : aucun ecart de mise en page ni de comportement.
-const SCRIPTS = [
-  // jQuery
-  chemin('/assets/js/jquery-2.1.0.min.js'),
-  // Plugins reellement utilises par custom.js
-  chemin('/assets/js/owl-carousel.js'),
-  chemin('/assets/js/scrollreveal.min.js'),
-];
-
-// Initialisations : celles du template, puis celles du projet.
-const INITIALISATIONS = [
-  chemin('/assets/js/custom.js'),
-  chemin('/assets/js/aye-aye.js'),
-];
+// Execute les scripts du template (liste et raisons : lib/scripts-template.js).
+// Ils sont injectes apres l'hydratation, car owl-carousel deplace et clone les
+// cartes : fait avant, React trouverait un DOM different du sien. layout.js
+// les precharge des le <head>, ils s'executent donc sans attente reseau.
 
 // Les scripts ne sont injectes qu'une fois par chargement de page
 // (React StrictMode monte les effets deux fois en developpement).
@@ -34,7 +17,7 @@ export default function TemplateScripts() {
     if (injecte) return;
     injecte = true;
 
-    const sources = [...SCRIPTS, ...INITIALISATIONS];
+    const sources = SCRIPTS_TEMPLATE;
 
     // `async = false` : telechargement en parallele, execution dans l'ordre
     // d'insertion -> comportement identique a des <script src> en fin de body.
@@ -48,9 +31,9 @@ export default function TemplateScripts() {
     }
 
     dernier.addEventListener('load', () => {
-      // custom.js masque le preloader dans un handler `$(window).on('load')`.
-      // Les scripts etant injectes apres l'hydratation, l'evenement `load` peut
-      // deja etre passe : on le rejoue pour conserver le comportement d'origine.
+      // custom.js pose des handlers `$(window).on('load')`. Les scripts etant
+      // injectes apres l'hydratation, l'evenement `load` peut deja etre passe :
+      // on le rejoue pour conserver le comportement d'origine.
       if (document.readyState === 'complete' && window.jQuery) {
         window.jQuery(window).trigger('load');
       }

@@ -41,6 +41,40 @@ export default function ActionsGlobales() {
     return () => document.removeEventListener('click', auClic);
   }, []);
 
+  // Prechargement des pages : le site navigue par chargements complets (voir
+  // CLAUDE.md). Des qu'un lien interne est survole (souris) ou touche (doigt),
+  // la page visee est demandee en arriere-plan ; au clic, elle s'affiche
+  // presque aussitot. Une page n'est prechargee qu'une fois, et jamais en
+  // mode « economie de donnees ».
+  useEffect(() => {
+    if (navigator.connection && navigator.connection.saveData) return undefined;
+    const dejaFaits = new Set([window.location.pathname]);
+
+    function precharger(evenement) {
+      const lien = evenement.target.closest && evenement.target.closest('a[href]');
+      if (!lien || lien.target === '_blank' || lien.hasAttribute('download')) return;
+      let adresse;
+      try {
+        adresse = new URL(lien.href, window.location.href);
+      } catch {
+        return;
+      }
+      if (adresse.origin !== window.location.origin || dejaFaits.has(adresse.pathname)) return;
+      dejaFaits.add(adresse.pathname);
+      const balise = document.createElement('link');
+      balise.rel = 'prefetch';
+      balise.href = adresse.pathname;
+      document.head.appendChild(balise);
+    }
+
+    document.addEventListener('pointerover', precharger, { passive: true });
+    document.addEventListener('touchstart', precharger, { passive: true });
+    return () => {
+      document.removeEventListener('pointerover', precharger);
+      document.removeEventListener('touchstart', precharger);
+    };
+  }, []);
+
   // Au chargement, on recolore les coeurs des produits deja en favoris.
   useEffect(() => {
     const marquer = () => {

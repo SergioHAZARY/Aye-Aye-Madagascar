@@ -524,6 +524,35 @@ footer .aye-logo img[width][height] {
   z-index: 5;
 }
 
+/* --- Carrousels avant owl-carousel ---------------------------------------
+   owl-carousel.css masque .owl-carousel (display: none) jusqu'a son
+   initialisation, qui n'a lieu qu'apres le JavaScript de la page : sur une
+   connexion lente, les sections restaient vides plusieurs secondes, puis la
+   page sautait. En attendant owl, les cartes s'affichent deja a leur place :
+   1, 2 ou 3 par ligne, 30 px d'ecart, aux memes seuils que custom.js. */
+.owl-carousel:not(.owl-loaded) {
+  display: flex;
+  gap: 30px;
+  overflow: hidden;
+}
+
+.owl-carousel:not(.owl-loaded) > .item {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+@media (min-width: 600px) {
+  .owl-carousel:not(.owl-loaded) > .item {
+    flex-basis: calc((100% - 30px) / 2);
+  }
+}
+
+@media (min-width: 1000px) {
+  .owl-carousel:not(.owl-loaded) > .item {
+    flex-basis: calc((100% - 60px) / 3);
+  }
+}
+
 /* --- Pied de page --------------------------------------------------------- */
 /* logos Facebook et WhatsApp : memes cercles que l'under-footer du template */
 footer ul.aye-pied-reseaux li {

@@ -15,7 +15,7 @@
 import { chemin } from '@/app/lib/chemin';
 import { useEffect, useRef, useState } from 'react';
 
-import { rechercherProduits } from '../data/catalogue';
+import { photoReduite, rechercherProduits } from '../data/catalogue';
 
 const TRAIT = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round' };
 const MAX_SUGGESTIONS = 6;
@@ -106,7 +106,7 @@ export default function RechercheRapide() {
                   {resultats.slice(0, MAX_SUGGESTIONS).map((produit) => (
                     <li key={produit.slug}>
                       <a href={chemin('/produit/' + produit.slug + '/')}>
-                        <img src={produit.image} alt="" width={899} height={1600} loading="lazy" decoding="async" />
+                        <img src={photoReduite(produit.image, 160)} alt="" width={899} height={1600} loading="lazy" decoding="async" />
                         <span>
                           <strong>{produit.nom}</strong>
                           <small>{produit.couleur}</small>

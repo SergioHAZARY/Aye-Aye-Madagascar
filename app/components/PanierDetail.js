@@ -11,7 +11,7 @@ import {
   retirerDuPanier,
   viderPanier,
 } from '../lib/panier';
-import { produitParSlug, taillesDuProduit } from '../data/catalogue';
+import { photoReduite, produitParSlug, taillesDuProduit } from '../data/catalogue';
 import { CONTACT } from './Footer';
 
 export default function PanierDetail() {
@@ -116,7 +116,7 @@ export default function PanierDetail() {
               <tr key={produit.slug + '|' + (taille || '')}>
                 <td className="aye-panier-image">
                   <a href={chemin('/produit/' + produit.slug + '/')}>
-                    <img src={produit.image} alt={produit.nom} width={80} height={80} />
+                    <img src={photoReduite(produit.image, 160)} alt={produit.nom} width={80} height={80} />
                   </a>
                 </td>
                 <td>

@@ -1,7 +1,7 @@
 import { chemin } from '@/app/lib/chemin';
+import { SCRIPTS_TEMPLATE } from '@/app/lib/scripts-template';
 import ActionsGlobales from './components/ActionsGlobales';
 import Footer from './components/Footer';
-import Preloader from './components/Preloader';
 import TemplateScripts from './components/TemplateScripts';
 
 export const metadata = {
@@ -23,6 +23,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <head>
+        {/* Poppins vient de Google Fonts (ici et par l'@import du template) :
+            ouvrir la connexion tot evite d'attendre la feuille du template. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
           rel="stylesheet"
@@ -34,16 +38,23 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" type="text/css" href={chemin('/assets/css/font-awesome.css')} />
         <link rel="stylesheet" href={chemin('/assets/css/templatemo-hexashop.css')} />
         <link rel="stylesheet" href={chemin('/assets/css/owl-carousel.css')} />
-        <link rel="stylesheet" href={chemin('/assets/css/lightbox.css')} />
+        {/* lightbox.css n'est plus chargee : lightbox.js ne l'est plus non plus */}
 
         {/* Feuille du projet, chargee en dernier : les ajouts vont ici,
             les feuilles du template restent inchangees. */}
         <link rel="stylesheet" href={chemin('/assets/css/aye-aye.css')} />
+
+        {/* Scripts du template telecharges des maintenant, en parallele du
+            JavaScript de Next : TemplateScripts les execute apres
+            l'hydratation, depuis le cache, sans nouvelle attente reseau. */}
+        {SCRIPTS_TEMPLATE.map((src) => (
+          <link key={src} rel="preload" as="script" href={src} />
+        ))}
       </head>
       <body>
-        {/* ***** Preloader ***** */}
-        <Preloader />
-
+        {/* Pas de preloader : celui du template cachait la page jusqu'au
+            dernier fichier telecharge (plusieurs secondes sur mobile), alors
+            que le contenu s'affiche bien avant. */}
         {children}
 
         <Footer />

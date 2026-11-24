@@ -305,6 +305,39 @@ export function vignettes(categorieSlug) {
   return produits.flatMap((p) => p.galerie.map((image) => ({ produit: p, image })));
 }
 
+// Photos de la marque en taille reduite (scripts/photos-reduites.mjs) :
+// Homme/reduites/160|480|720/. Les autres images (exemples du template)
+// n'ont qu'une taille et sont renvoyees telles quelles.
+const DOSSIER_PHOTOS = '/assets/images/Homme/';
+
+export function photoReduite(source, largeur) {
+  return source.includes(DOSSIER_PHOTOS)
+    ? source.replace(DOSSIER_PHOTOS, DOSSIER_PHOTOS + 'reduites/' + largeur + '/')
+    : source;
+}
+
+// Dimensions reelles d'une image du catalogue, pour ses attributs width et
+// height : le navigateur reserve ainsi la bonne hauteur avant l'arrivee de la
+// photo, et la page ne saute pas. Photos de la marque : 899x1600 ; images du
+// template : 370x390, sauf les quelques exceptions ci-dessous.
+const DIMENSIONS_TEMPLATE = {
+  'single-product-01.jpg': [770, 400],
+  'single-product-02.jpg': [770, 400],
+  'baner-right-image-04.jpg': [385, 330],
+  'explore-image-01.jpg': [263, 263],
+};
+
+export function dimensionsImage(source) {
+  if (source.includes(DOSSIER_PHOTOS)) return [899, 1600];
+  return DIMENSIONS_TEMPLATE[source.split('/').pop()] || [370, 390];
+}
+
+// srcset d'une photo de la marque (undefined pour les autres images)
+export function srcsetPhoto(source) {
+  if (!source.includes(DOSSIER_PHOTOS)) return undefined;
+  return photoReduite(source, 480) + ' 480w, ' + photoReduite(source, 720) + ' 720w, ' + source + ' 899w';
+}
+
 // Recherche dans le catalogue : nom, couleur, description et categorie, sans
 // tenir compte des accents ni des majuscules. Deux lettres au minimum.
 // Partagee par la page /recherche/ et la barre de recherche de l'en-tete.

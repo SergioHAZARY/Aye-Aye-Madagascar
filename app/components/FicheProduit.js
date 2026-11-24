@@ -6,10 +6,12 @@
 // y compris sur les cartes dupliquees par le carrousel.
 
 import { chemin } from '@/app/lib/chemin';
+import { dimensionsImage, photoReduite, srcsetPhoto } from '../data/catalogue';
 
 export default function FicheProduit({ produit, image, differer = true }) {
   const lien = chemin('/produit/' + produit.slug + '/');
   const visuel = image || produit.image;
+  const [largeur, hauteur] = dimensionsImage(visuel);
 
   return (
     <div className="item">
@@ -43,11 +45,15 @@ export default function FicheProduit({ produit, image, differer = true }) {
           </ul>
         </div>
         <a href={lien}>
+          {/* carte : ~370 px sur ordinateur, demi-ecran ou plein ecran en
+              dessous ; le navigateur choisit la photo reduite adaptee */}
           <img
-            src={visuel}
+            src={photoReduite(visuel, 480)}
+            srcSet={srcsetPhoto(visuel)}
+            sizes="(max-width: 599px) 100vw, (max-width: 999px) 50vw, 370px"
             alt={produit.nom + ' – ' + produit.couleur}
-            width={370}
-            height={390}
+            width={largeur}
+            height={hauteur}
             {...(differer ? { loading: 'lazy', decoding: 'async' } : {})}
           />
         </a>
