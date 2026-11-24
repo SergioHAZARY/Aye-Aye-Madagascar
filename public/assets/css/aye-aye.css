@@ -985,8 +985,7 @@ footer .aye-logo img[width][height] {
    Titre centre, puis une ligne par produit : photo 3:4 et texte, de cote
    alterne. Couleurs de texte et police du template. */
 .aye-histoire {
-  padding: 90px 0;
-  border-bottom: 3px dotted #eee;
+  padding: 90px 0 0;
 }
 
 .aye-histoire .section-heading {
