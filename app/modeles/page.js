@@ -16,7 +16,7 @@ export default function PageModeles() {
     <>
       <Header actif="modeles" />
 
-      <div className="page-heading" id="top">
+      <div className="page-heading aye-entete-face" id="top">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">

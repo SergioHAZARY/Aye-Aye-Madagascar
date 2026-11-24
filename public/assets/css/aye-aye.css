@@ -315,44 +315,6 @@ footer .aye-logo img[width][height] {
   }
 }
 
-/* --- Coordonnees du bloc newsletter -----------------------------------------
-   Une grille de deux colonnes : WhatsApp | Telephone, puis l'e-mail et la
-   boutique sur toute la largeur. Les lignes restent alignees et l'adresse
-   e-mail (un seul mot de 24 caracteres) a la place de tenir sans etre coupee.
-   Styles des libelles et des valeurs : ceux du template (.subscribe ul li). */
-.subscribe .aye-coordonnees {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 30px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.subscribe .aye-coordonnees li {
-  margin-bottom: 24px;
-}
-
-.subscribe .aye-coordonnees .aye-coordonnee-large {
-  grid-column: 1 / -1;
-}
-
-/* filet de securite, seulement si un mot ne tient pas sur une ligne entiere */
-.subscribe .aye-coordonnees span {
-  overflow-wrap: break-word;
-}
-
-/* --- Vignettes « Suivez-nous » sur mobile ----------------------------------
-   Le template garde six vignettes par ligne (col-2) a toutes les largeurs :
-   sur telephone elles ne font plus que 60 px. Sous 768 px, trois par ligne.
-   Le balisage reste celui du template (col-2 et sa regle #social .col-2). */
-@media (max-width: 767px) {
-  #social .images .col-2 {
-    flex: 0 0 33.3333%;
-    max-width: 33.3333%;
-  }
-}
-
 /* --- Banniere : accroche longue ------------------------------------------------
    Le template n'y mettait qu'un titre court et une ligne. La marque y place
    son slogan et une phrase : on borne la largeur du bloc pour que le texte
@@ -1143,6 +1105,194 @@ footer .aye-logo img[width][height] {
   }
   #explore.aye-decouvrez .left-content {
     padding-left: 0;
+  }
+}
+
+/* --- En-tete transparent sur le bandeau de page (Modeles, Collections,
+   Contact) : le bandeau remonte sous l'en-tete, sa hauteur visible ne change
+   pas (le padding remplace la marge). */
+@media (min-width: 768px) {
+  .header-area.aye-entete-sur-hero ~ .page-heading {
+    margin-top: 0;
+    padding-top: 120px;
+  }
+}
+
+@media (max-width: 767px) {
+  .header-area.aye-entete-sur-hero ~ .page-heading {
+    margin-top: 0;
+    padding-top: 64px;
+  }
+}
+
+/* --- Points forts (sous « Decouvrez ») ------------------------------------------
+   Quatre colonnes : icone noire au trait dans un cercle blanc, titre, phrase.
+   Textes et couleurs du template, fond gris clair du template. */
+.aye-atouts {
+  padding: 70px 0;
+  background-color: #f7f7f7;
+}
+
+.aye-atouts ul {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.aye-atout-icone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #2a2a2a;
+}
+
+.aye-atout-icone svg {
+  width: 28px;
+  height: 28px;
+}
+
+.aye-atouts h4 {
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2a2a2a;
+}
+
+.aye-atouts p {
+  margin: 0;
+}
+
+@media (max-width: 991px) {
+  .aye-atouts ul {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 40px;
+  }
+}
+
+@media (max-width: 479px) {
+  .aye-atouts ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Rejoignez la communaute ----------------------------------------------------
+   Titre centre, quatre photos carrees arrondies, bouton Facebook. */
+.aye-communaute-section .section-heading {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.aye-communaute-photos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aye-communaute-photos a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.aye-communaute-photos img[width][height] {
+  width: 100%;
+  transition: transform 0.4s;
+}
+
+.aye-communaute-photos a:hover img {
+  transform: scale(1.04);
+}
+
+@media (max-width: 767px) {
+  .aye-communaute-photos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --- Page Connexion ---------------------------------------------------------------
+   Carte centree : logo, titre du template, formulaire (champs comme ceux du
+   formulaire de contact du template). */
+.aye-connexion {
+  padding-top: 200px;
+  padding-bottom: 90px;
+}
+
+.aye-connexion-carte {
+  max-width: 440px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.aye-connexion-logo[width][height] {
+  height: 110px;
+  width: auto;
+  margin-bottom: 24px;
+}
+
+.aye-connexion .section-heading {
+  margin-bottom: 30px;
+}
+
+.aye-connexion-formulaire label {
+  display: block;
+  margin-bottom: 18px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2a2a2a;
+}
+
+.aye-connexion-formulaire input {
+  display: block;
+  width: 100%;
+  height: 46px;
+  margin-top: 6px;
+  padding: 0 15px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 14px;
+  color: #2a2a2a;
+  outline: none;
+}
+
+.aye-connexion-formulaire input:focus {
+  border-color: #2a2a2a;
+}
+
+.aye-connexion-formulaire .aye-bouton-noir,
+.aye-connexion-message .aye-bouton-noir {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+}
+
+.aye-connexion-lien {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #2a2a2a;
+  text-decoration: underline;
+}
+
+.aye-connexion-message p {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 767px) {
+  .aye-connexion {
+    padding-top: 110px;
   }
 }
 
@@ -2370,8 +2520,16 @@ a.aye-moyen:hover .aye-moyen-valeur {
   background-image: url(../images/banniere/entete.jpg);
 }
 
+.page-heading.aye-entete-face {
+  background-image: url(../images/banniere/entete-face.jpg);
+}
+
+.page-heading.aye-entete-femme {
+  background-image: url(../images/banniere/entete-femme.jpg);
+}
+
 .about-page-heading {
-  background-image: url(../images/banniere/entete-marque.jpg);
+  background-image: url(../images/banniere/entete-apropos.jpg);
 }
 
 /* --- Responsive ----------------------------------------------------------- */
@@ -2707,7 +2865,6 @@ a.aye-moyen:hover .aye-moyen-valeur {
   }
   .section-heading h2,
   #explore .left-content h2,
-  .subscribe .section-heading h2,
   .about-us .right-content h4 {
     font-size: 24px;
     line-height: 1.3;

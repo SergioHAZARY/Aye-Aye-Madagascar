@@ -28,7 +28,7 @@
      mobile ce bloc contient aussi les onglets sous le hero, et le logo blanc
      se retrouverait sur fond blanc. On le rend opaque des la fin du hero. */
   var $entete = $('.header-area.aye-entete-sur-hero');
-  var $hero = $('.main-banner .left-content');
+  var $hero = $('.main-banner .left-content, .page-heading').first();
   if ($entete.length && $hero.length) {
     var majEntete = function () {
       var limite = $hero.offset().top + $hero.outerHeight() - $entete.outerHeight();

@@ -22,6 +22,7 @@ import path from 'node:path';
 
 const SOURCES = 'public/assets/images/Homme';
 const IMAGES = 'public/assets/images';
+const LUMIERE_ENTETE_FEMME = Number(process.env.LUMIERE_ENTETE_FEMME || 0.62);
 const ASSOMBRIR_FOND = Number(process.env.ASSOMBRIR_FOND || 1);
 const LUMIERE_DIAPOS = Number(process.env.LUMIERE_DIAPOS || 1.15);
 
@@ -301,9 +302,20 @@ await composer({
   source: 'DSC_1807.jpg', sortie: 'banniere/entete.jpg', largeur: 1600, hauteur: 520,
   echelle: 0.92, lumiere: 0.44, saturation: 0.45,
 });
+// Modeles : vue de face (les modeles se voient de face ; les collections, de dos)
 await composer({
-  source: 'DSC_1795.jpg', sortie: 'banniere/entete-marque.jpg', largeur: 1600, hauteur: 520,
-  echelle: 0.92, lumiere: 0.43, saturation: 0.45,
+  source: 'DSC_1808.jpg', sortie: 'banniere/entete-face.jpg', largeur: 1600, hauteur: 520,
+  echelle: 0.92, lumiere: 0.44, saturation: 0.45,
+});
+// Contact : photo de femme (exterieur : degrade lisse et fondu)
+await composer({
+  source: 'Femme/Femme_2.jpeg', sortie: 'banniere/entete-femme.jpg', largeur: 1600, hauteur: 520,
+  echelle: 0.92, lumiere: LUMIERE_ENTETE_FEMME, saturation: 0.5, bordsPropres: true, retrait: 2, fondu: 90,
+});
+// A propos : une autre femme (Femme_5)
+await composer({
+  source: 'Femme/Femme_5.jpeg', sortie: 'banniere/entete-apropos.jpg', largeur: 1600, hauteur: 520,
+  echelle: 0.92, lumiere: LUMIERE_ENTETE_FEMME, saturation: 0.5, bordsPropres: true, retrait: 2, fondu: 90,
 });
 
 // --- Vignettes « Suivez-nous » (01 et 05 servent aussi a « Decouvrez ») ------

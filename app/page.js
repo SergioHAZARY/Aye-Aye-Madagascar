@@ -30,6 +30,46 @@ const DIAPOS = [
   },
 ];
 
+// Points forts, sous « Decouvrez » (icones au trait, noires).
+const TRAIT = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' };
+const ATOUTS = [
+  {
+    titre: 'Qualité premium',
+    texte: 'Des produits de qualité supérieure.',
+    icone: (
+      <>
+        <circle cx="12" cy="9" r="6" {...TRAIT} />
+        <path d="M8.6 13.8 7.5 21l4.5-2.5 4.5 2.5-1.1-7.2" {...TRAIT} />
+      </>
+    ),
+  },
+  {
+    titre: 'Tissu 100 % coton',
+    texte: 'Le confort avant tout.',
+    icone: (
+      <>
+        <path d="M5 19C5 10.5 10.5 5 19.5 4.5 19 13.5 13.5 19 5 19Z" {...TRAIT} />
+        <path d="M5 19 13 11" {...TRAIT} />
+      </>
+    ),
+  },
+  {
+    titre: 'Imprimé à Madagascar',
+    texte: 'Chaque pièce est imprimée localement.',
+    icone: (
+      <>
+        <path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11Z" {...TRAIT} />
+        <circle cx="12" cy="10" r="2.3" {...TRAIT} />
+      </>
+    ),
+  },
+  {
+    titre: 'Identité malagasy',
+    texte: 'Notre culture dans chaque création.',
+    icone: <path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10Z" {...TRAIT} />,
+  },
+];
+
 // Mots du bandeau defilant, sous « Nouveautes Homme ».
 const BANDEAU = ['Authentique', 'Nature', 'Qualité', '100\u00a0% coton', 'Imprimé à Madagascar'];
 
@@ -182,48 +222,52 @@ export default function PageAccueil() {
         </div>
       </section>
 
-      {/* ***** Suivez-nous : la grille de six vignettes du template + bouton ***** */}
-      <section className="section" id="social">
+      {/* ***** Nos points forts ***** */}
+      <section className="aye-atouts">
         <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="section-heading">
-                <h2>
-                  Rejoignez la communauté <span className="aye-insecable">Aye Aye</span>
-                </h2>
-                <span>
-                  Plus de 11 000 personnes nous suivent déjà sur Facebook. Découvrez nos
-                  nouveautés, nos vidéos et les photos de nos clients qui portent fièrement
-                  leur Aye Aye.
+          <ul>
+            {ATOUTS.map((atout) => (
+              <li key={atout.titre}>
+                <span className="aye-atout-icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">{atout.icone}</svg>
                 </span>
-              </div>
-            </div>
-          </div>
+                <h4>{atout.titre}</h4>
+                <p>{atout.texte}</p>
+              </li>
+            ))}
+          </ul>
         </div>
+      </section>
+
+      {/* ***** Rejoignez la communaute : titre centre, 4 photos, bouton ***** */}
+      <section className="section aye-communaute-section" id="social">
         <div className="container">
-          <div className="row images">
-            {[1, 2, 3, 4, 5, 6].map((numero) => (
-              <div className="col-2" key={numero}>
-                <div className="thumb">
-                  <div className="icon">
-                    <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer">
-                      {' '}
-                      <h6>Aye-Aye</h6>{' '}
-                      <i className="fa fa-facebook"></i>{' '}
-                    </a>
-                  </div>
+          <div className="section-heading">
+            <h2>
+              Rejoignez la communauté <span className="aye-insecable">Aye Aye</span>
+            </h2>
+            <span>
+              Plus de 11 000 personnes nous suivent déjà sur Facebook. Découvrez nos
+              nouveautés, nos vidéos et les photos de nos clients qui portent fièrement
+              leur Aye Aye.
+            </span>
+          </div>
+          <ul className="aye-communaute-photos">
+            {[1, 2, 3, 4].map((numero) => (
+              <li key={numero}>
+                <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer" aria-label="Aye-Aye Madagascar sur Facebook">
                   <img
                     src={chemin('/assets/images/social/0' + numero + '.jpg')}
-                    alt="Aye-Aye Madagascar"
+                    alt=""
                     width={320}
                     height={320}
                     loading="lazy"
                     decoding="async"
                   />
-                </div>
-              </div>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
           <div className="aye-communaute">
             <div className="main-border-button aye-plein">
               <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer">
@@ -236,80 +280,6 @@ export default function PageAccueil() {
           </div>
         </div>
       </section>
-
-      {/* ***** Newsletter ***** */}
-      <div className="subscribe">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-8">
-              <div className="section-heading">
-                <h2>
-                  Inscrivez-vous à notre newsletter et recevez nos nouveautés en{' '}
-                  <span className="aye-insecable">avant-première</span>
-                </h2>
-                <span>Une à deux fois par mois, pas plus. Désinscription en un clic.</span>
-              </div>
-              <form id="subscribe" action="" method="get">
-                <div className="row">
-                  <div className="col-lg-5">
-                    <fieldset>
-                      <input name="name" type="text" id="abonne-nom" placeholder="Votre nom" required={true} />
-                    </fieldset>
-                  </div>
-                  <div className="col-lg-5">
-                    <fieldset>
-                      <input
-                        name="email"
-                        type="email"
-                        id="abonne-email"
-                        placeholder="Votre adresse e-mail"
-                        required={true}
-                      />
-                    </fieldset>
-                  </div>
-                  <div className="col-lg-2">
-                    <fieldset>
-                      <button type="submit" className="main-dark-button" aria-label="S’inscrire">
-                        <i className="fa fa-paper-plane"></i>
-                      </button>
-                    </fieldset>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div className="col-lg-4">
-              {/* Une seule grille : les lignes restent alignees, et l'e-mail
-                  occupe toute la largeur pour ne jamais etre coupe en plein mot. */}
-              <ul className="aye-coordonnees">
-                <li>
-                  WhatsApp :<br />
-                  <span>
-                    <a href={CONTACT.whatsappLien} target="_blank" rel="noopener noreferrer">
-                      {CONTACT.whatsapp}
-                    </a>
-                  </span>
-                </li>
-                <li>
-                  Téléphone :<br />
-                  <span>
-                    <a href={CONTACT.telephoneLien}>{CONTACT.telephone}</a>
-                  </span>
-                </li>
-                <li className="aye-coordonnee-large">
-                  E-mail :<br />
-                  <span>
-                    <a href={'mailto:' + CONTACT.email}>{CONTACT.email}</a>
-                  </span>
-                </li>
-                <li className="aye-coordonnee-large">
-                  Boutique :<br />
-                  <span>{CONTACT.qualification}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   );
 }

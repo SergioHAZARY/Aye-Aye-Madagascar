@@ -20,9 +20,9 @@
 // Panier et favoris : page Mon compte (icone compte).
 // La loupe ouvre une barre de recherche en haut de l'ecran (RechercheRapide).
 //
-// Sur l'accueil mobile (classe aye-entete-sur-hero), l'en-tete est transparent
-// sur le hero et passe en blanc des qu'on le quitte (aye-aye.js ajoute
-// aye-entete-opaque).
+// Sur l'accueil et les pages Modeles, Collections et Contact (classe
+// aye-entete-sur-hero), l'en-tete est transparent sur la banniere et passe en
+// blanc des qu'on la quitte (aye-aye.js ajoute aye-entete-opaque).
 //
 // Les {' '} reproduisent les espaces entre elements du template : les <li> sont
 // en inline-block, ces espaces sont visibles.
@@ -48,6 +48,9 @@ const LIENS = [
   { cle: 'contact', libelle: 'Contact', href: chemin('/contact/') },
 ];
 
+// pages dont l'en-tete est transparent sur la banniere
+const SUR_BANNIERE = ['accueil', 'modeles', 'collections', 'apropos', 'contact'];
+
 const ACTIONS = [
   {
     href: chemin('/recherche/'),
@@ -61,7 +64,7 @@ const ACTIONS = [
     ),
   },
   {
-    href: chemin('/compte/'),
+    href: chemin('/connexion/'),
     titre: 'Mon compte',
     icone: (
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -74,7 +77,7 @@ const ACTIONS = [
 
 export default function Header({ actif = '' }) {
   return (
-    <header className={'header-area header-sticky' + (actif === 'accueil' ? ' aye-entete-sur-hero' : '')}>
+    <header className={'header-area header-sticky' + (SUR_BANNIERE.includes(actif) ? ' aye-entete-sur-hero' : '')}>
       <div className="container">
         <div className="row">
           <div className="col-12">

@@ -22,7 +22,7 @@ export default function PageContact() {
     <>
       <Header actif="contact" />
 
-      <div className="page-heading" id="top">
+      <div className="page-heading aye-entete-femme" id="top">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
