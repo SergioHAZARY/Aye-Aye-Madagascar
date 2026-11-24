@@ -1120,6 +1120,32 @@ footer .aye-logo img[width][height] {
   }
 }
 
+/* --- Section « Decouvrez Aye-Aye Madagascar » (#explore) ----------------------
+   Forme demandee par la marque : grande photo arrondie a gauche, textes du
+   template a droite, centres verticalement. Textes et couleurs du template. */
+.aye-decouvrez-photo {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.aye-decouvrez-photo img[width][height] {
+  width: 100%;
+}
+
+#explore.aye-decouvrez .left-content {
+  margin-right: 0;
+  padding-left: 30px;
+}
+
+@media (max-width: 991px) {
+  .aye-decouvrez-photo {
+    margin-bottom: 40px;
+  }
+  #explore.aye-decouvrez .left-content {
+    padding-left: 0;
+  }
+}
+
 /* --- Carrousels avant owl-carousel ---------------------------------------
    owl-carousel.css masque .owl-carousel (display: none) jusqu'a son
    initialisation, qui n'a lieu qu'apres le JavaScript de la page : sur une

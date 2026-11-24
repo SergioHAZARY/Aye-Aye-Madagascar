@@ -43,12 +43,6 @@ const ONGLETS = [
   { href: chemin('/collections/'), libelle: 'Collections' },
 ];
 
-const PILIERS = [
-  { titre: 'Qualité premium', texte: 'Des produits de qualité supérieure.' },
-  { titre: 'Tissu 100 % coton', texte: 'Le confort avant tout.' },
-  { titre: 'Identité malagasy', texte: 'Notre culture dans chaque création.' },
-];
-
 export default function PageAccueil() {
   return (
     <>
@@ -138,9 +132,23 @@ export default function PageAccueil() {
       />
 
       {/* ***** Notre histoire et notre engagement ***** */}
-      <section className="section" id="explore">
+      {/* Forme demandee par la marque : grande photo a gauche, textes du
+          template a droite (titre, accroche, citation, paragraphes, bouton) */}
+      <section className="section aye-decouvrez" id="explore">
         <div className="container">
-          <div className="row">
+          <div className="row align-items-center">
+            <div className="col-lg-6">
+              <div className="aye-decouvrez-photo">
+                <img
+                  src={chemin('/assets/images/apropos/decouvrez.jpg')}
+                  alt="Manches longues Aye-Aye rouge"
+                  width={1100}
+                  height={900}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
             <div className="col-lg-6">
               <div className="left-content">
                 <h2>
@@ -167,48 +175,6 @@ export default function PageAccueil() {
                 </p>
                 <div className="main-border-button">
                   <a href={chemin('/about/')}>Notre histoire</a>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <div className="right-content">
-                <div className="row">
-                  <div className="col-lg-6">
-                    <div className="leather">
-                      <h4>{PILIERS[0].titre}</h4>
-                      <span>{PILIERS[0].texte}</span>
-                    </div>
-                  </div>
-                  <div className="col-lg-6">
-                    <div className="first-image">
-                      <img
-                        src={chemin('/assets/images/social/01.jpg')}
-                        alt="Manches longues Aye-Aye rouge"
-                        width={320}
-                        height={320}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6">
-                    <div className="second-image">
-                      <img
-                        src={chemin('/assets/images/social/05.jpg')}
-                        alt="Manches longues Antsatsaka écru"
-                        width={320}
-                        height={320}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6">
-                    <div className="types">
-                      <h4>{PILIERS[1].titre}</h4>
-                      <span>{PILIERS[2].titre}</span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

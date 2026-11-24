@@ -318,6 +318,8 @@ for (const [i, source] of PILIERS.entries()) {
   await composer({ source, sortie: 'piliers/0' + (i + 1) + '.jpg', largeur: 310, hauteur: 250 });
 }
 await composer({ source: 'DSC_1808.jpg', sortie: 'apropos/histoire.jpg', largeur: 570, hauteur: 422 });
+// grande photo de la section « Decouvrez Aye-Aye Madagascar » (accueil)
+await composer({ source: 'DSC_1808.jpg', sortie: 'apropos/decouvrez.jpg', largeur: 1100, hauteur: 900 });
 
 // --- Cartes 3:4 : cartes produit, page Collections, page Modeles ------------
 // Un seul format de carte pour tout le site, pour que les photos s'alignent.
