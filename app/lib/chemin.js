@@ -13,6 +13,14 @@
 
 export const BASE = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
+// version du build (next.config.mjs), pour les fichiers du projet qui gardent
+// le meme nom d'une publication a l'autre
+export const VERSION = process.env.NEXT_PUBLIC_VERSION || 'dev';
+
+export function cheminVersionne(adresse) {
+  return chemin(adresse) + '?v=' + VERSION;
+}
+
 export function chemin(adresse) {
   return BASE + adresse;
 }

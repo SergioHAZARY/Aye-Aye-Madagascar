@@ -1,4 +1,4 @@
-import { chemin } from '@/app/lib/chemin';
+import { chemin, cheminVersionne } from '@/app/lib/chemin';
 import { SCRIPTS_TEMPLATE } from '@/app/lib/scripts-template';
 import ActionsGlobales from './components/ActionsGlobales';
 import Footer from './components/Footer';
@@ -42,7 +42,7 @@ export default function RootLayout({ children }) {
 
         {/* Feuille du projet, chargee en dernier : les ajouts vont ici,
             les feuilles du template restent inchangees. */}
-        <link rel="stylesheet" href={chemin('/assets/css/aye-aye.css')} />
+        <link rel="stylesheet" href={cheminVersionne('/assets/css/aye-aye.css')} />
 
         {/* Scripts du template telecharges des maintenant, en parallele du
             JavaScript de Next : TemplateScripts les execute apres

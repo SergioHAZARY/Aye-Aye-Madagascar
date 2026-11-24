@@ -1,4 +1,4 @@
-import { chemin } from './chemin';
+import { chemin, cheminVersionne } from './chemin';
 
 // Scripts du template, dans l'ordre d'execution. Partages par layout.js (qui
 // les precharge des le <head>) et TemplateScripts (qui les execute apres
@@ -16,5 +16,5 @@ export const SCRIPTS_TEMPLATE = [
   chemin('/assets/js/scrollreveal.min.js'),
   // initialisations : celles du template, puis celles du projet
   chemin('/assets/js/custom.js'),
-  chemin('/assets/js/aye-aye.js'),
+  cheminVersionne('/assets/js/aye-aye.js'), // fichier du projet : versionne
 ];

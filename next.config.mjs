@@ -15,6 +15,14 @@ const nextConfig = {
   // GitHub Pages (defini par la GitHub Action). Next.js prefixe ainsi ses
   // propres fichiers (/_next/...) ; nos liens passent par app/lib/chemin.js.
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+
+  // Numero de version, different a chaque build (commit en ligne, heure en
+  // local). Ajoute a l'adresse des fichiers du projet (aye-aye.css,
+  // aye-aye.js) et du service worker : apres une publication, le navigateur
+  // et le service worker prennent les nouveaux fichiers des la premiere visite.
+  env: {
+    NEXT_PUBLIC_VERSION: (process.env.GITHUB_SHA || Date.now().toString(36)).slice(0, 8),
+  },
 };
 
 export default nextConfig;

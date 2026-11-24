@@ -1,6 +1,6 @@
 'use client';
 
-import { chemin } from '@/app/lib/chemin';
+import { chemin, cheminVersionne } from '@/app/lib/chemin';
 import { useEffect } from 'react';
 
 import { ajouterAuPanier, basculerFavori } from '../lib/panier';
@@ -46,12 +46,14 @@ export default function ActionsGlobales() {
   // la page visee est demandee en arriere-plan ; au clic, elle s'affiche
   // presque aussitot. Une page n'est prechargee qu'une fois, et jamais en
   // mode « economie de donnees ».
+  // Les 5 pages du menu sont aussi prechargees des que la page est affichee et
+  // le navigateur au repos (6 a 12 Ko chacune), sauf en 2G.
   useEffect(() => {
-    if (navigator.connection && navigator.connection.saveData) return undefined;
+    const connexion = navigator.connection || {};
+    if (connexion.saveData) return undefined;
     const dejaFaits = new Set([window.location.pathname]);
 
-    function precharger(evenement) {
-      const lien = evenement.target.closest && evenement.target.closest('a[href]');
+    function prechargerLien(lien) {
       if (!lien || lien.target === '_blank' || lien.hasAttribute('download')) return;
       let adresse;
       try {
@@ -67,12 +69,43 @@ export default function ActionsGlobales() {
       document.head.appendChild(balise);
     }
 
+    function precharger(evenement) {
+      prechargerLien(evenement.target.closest && evenement.target.closest('a[href]'));
+    }
+
+    let minuteur;
+    function prechargerMenu() {
+      if (/(^|-)2g$/.test(connexion.effectiveType || '')) return;
+      document.querySelectorAll('.header-area .nav a[href]').forEach(prechargerLien);
+    }
+    function auRepos() {
+      if ('requestIdleCallback' in window) window.requestIdleCallback(prechargerMenu, { timeout: 4000 });
+      else minuteur = setTimeout(prechargerMenu, 2000);
+    }
+    if (document.readyState === 'complete') auRepos();
+    else window.addEventListener('load', auRepos, { once: true });
+
     document.addEventListener('pointerover', precharger, { passive: true });
     document.addEventListener('touchstart', precharger, { passive: true });
     return () => {
+      clearTimeout(minuteur);
+      window.removeEventListener('load', auRepos);
       document.removeEventListener('pointerover', precharger);
       document.removeEventListener('touchstart', precharger);
     };
+  }, []);
+
+  // Service worker (public/sw.js) : garde CSS, JS, images et polices sur
+  // l'appareil, au-dela des 10 minutes que laisse GitHub Pages. Uniquement sur
+  // le site construit (pas avec next dev).
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production' || !('serviceWorker' in navigator)) return undefined;
+    const enregistrer = () => {
+      navigator.serviceWorker.register(cheminVersionne('/sw.js'), { scope: chemin('/') }).catch(() => {});
+    };
+    if (document.readyState === 'complete') enregistrer();
+    else window.addEventListener('load', enregistrer, { once: true });
+    return () => window.removeEventListener('load', enregistrer);
   }, []);
 
   // Au chargement, on recolore les coeurs des produits deja en favoris.

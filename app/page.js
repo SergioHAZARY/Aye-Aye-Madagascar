@@ -62,11 +62,13 @@ export default function PageAccueil() {
                       width={800}
                       height={1500}
                     />
+                    {/* la plus grande image du premier ecran : demandee en premier */}
                     <img
                       src={chemin('/assets/images/banniere/principale.jpg')}
                       alt="Manches longues Antsatsaka écru, coton 100 %"
                       width={790}
                       height={680}
+                      fetchPriority="high"
                     />
                   </picture>
                 </div>
@@ -102,6 +104,7 @@ export default function PageAccueil() {
                             alt={'Catégorie ' + tuile.nom}
                             width={385}
                             height={330}
+                            fetchPriority="low"
                           />
                           <a
                             href={chemin('/' + tuile.slug + '/')}
