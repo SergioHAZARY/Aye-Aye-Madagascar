@@ -9,6 +9,12 @@
 import { chemin } from '@/app/lib/chemin';
 import { COLLECTIONS, MODELES } from '../data/catalogue';
 
+// Collections citees dans le pied de page (choix de la marque) ; les autres
+// sont sur /collections/, via le bouton « Voir plus ».
+const COLLECTIONS_PIED = ['antsatsaka', 'aye-aye-madagascar', 'lemurs-of-madagascar']
+  .map((slug) => COLLECTIONS.find((c) => c.slug === slug))
+  .filter(Boolean);
+
 export const CONTACT = {
   whatsapp: '+261 32 53 486 85',
   whatsappLien: 'https://wa.me/261325348685',
@@ -63,13 +69,16 @@ export default function Footer() {
             <h4>Collections</h4>
             <ul>
               {' '}
-              {COLLECTIONS.map((collection) => (
+              {COLLECTIONS_PIED.map((collection) => (
                 <li key={collection.slug}>
                   <a href={chemin('/collections/#' + collection.slug)}>{collection.nom}</a>
                 </li>
               ))}
               {' '}
             </ul>
+            <div className="main-border-button aye-pied-voir-plus">
+              <a href={chemin('/collections/')}>Voir plus</a>
+            </div>
           </div>
 
           <div className="col-lg-2 col-md-6">

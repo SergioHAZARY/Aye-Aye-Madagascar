@@ -549,6 +549,16 @@ footer ul.aye-pied-reseaux li a:hover {
   color: #2a2a2a;
 }
 
+/* « Voir plus » sous les 3 collections du pied : bouton blanc du template
+   (fait pour les fonds sombres), un peu plus compact */
+footer .aye-pied-voir-plus {
+  margin-top: 6px;
+}
+
+footer .aye-pied-voir-plus a {
+  padding: 9px 20px;
+}
+
 /* le titre « Contact » mene a la page Contact : meme aspect qu'un titre */
 footer h4 a {
   color: inherit;
