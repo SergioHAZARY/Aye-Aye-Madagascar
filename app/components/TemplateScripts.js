@@ -1,5 +1,6 @@
 'use client';
 
+import { chemin } from '@/app/lib/chemin';
 import { useEffect } from 'react';
 
 // Scripts du template, dans l'ordre d'origine.
@@ -12,16 +13,16 @@ import { useEffect } from 'react';
 // Retrait verifie : aucun ecart de mise en page ni de comportement.
 const SCRIPTS = [
   // jQuery
-  '/assets/js/jquery-2.1.0.min.js',
+  chemin('/assets/js/jquery-2.1.0.min.js'),
   // Plugins reellement utilises par custom.js
-  '/assets/js/owl-carousel.js',
-  '/assets/js/scrollreveal.min.js',
+  chemin('/assets/js/owl-carousel.js'),
+  chemin('/assets/js/scrollreveal.min.js'),
 ];
 
 // Initialisations : celles du template, puis celles du projet.
 const INITIALISATIONS = [
-  '/assets/js/custom.js',
-  '/assets/js/aye-aye.js',
+  chemin('/assets/js/custom.js'),
+  chemin('/assets/js/aye-aye.js'),
 ];
 
 // Les scripts ne sont injectes qu'une fois par chargement de page

@@ -1,3 +1,4 @@
+import { chemin } from '@/app/lib/chemin';
 import Header from '../components/Header';
 import { COLLECTIONS } from '../data/catalogue';
 
@@ -59,7 +60,7 @@ export default function PageCollections() {
 
           <div className="aye-voir-tout">
             <div className="main-border-button">
-              <a href="/modeles/">Voir nos modèles</a>
+              <a href={chemin('/modeles/')}>Voir nos modèles</a>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { chemin } from '@/app/lib/chemin';
 import { useEffect, useState } from 'react';
 
 import FicheProduit from './FicheProduit';
@@ -30,7 +31,7 @@ export default function Favoris() {
         <p>Vous n’avez pas encore de favoris.</p>
         <p>Cliquez sur le cœur d’un produit pour le retrouver ici.</p>
         <div className="main-border-button">
-          <a href="/produits/">Voir les produits</a>
+          <a href={chemin('/produits/')}>Voir les produits</a>
         </div>
       </div>
     );

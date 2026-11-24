@@ -10,7 +10,22 @@ npm install
 npm run dev        # http://localhost:3000
 ```
 
-## Mettre le site en ligne
+## Site en ligne
+
+**https://sergiohazary.github.io/Aye-Aye-Madagascar/**
+
+Le site se met à jour tout seul : chaque `git push` sur la branche `main`
+déclenche la GitHub Action `.github/workflows/deploiement-pages.yml`, qui
+construit le site et le publie sur GitHub Pages en deux à trois minutes.
+Suivi et relance manuelle : onglet **Actions** du dépôt.
+
+```bash
+git add -A
+git commit -m "Description du changement"
+git push                       # le site en ligne suit automatiquement
+```
+
+## Construire le site à la main
 
 ```bash
 npm run build      # genere le site statique dans out/
@@ -20,6 +35,11 @@ npx serve out      # pour verifier le resultat
 `out/` est un site 100 % statique, déposable tel quel sur n'importe quel
 hébergement. Il doit être servi par un serveur HTTP (les chemins sont absolus)
 et non ouvert en `file://`.
+
+Pour un hébergement dans un sous-dossier (comme GitHub Pages), on construit
+avec le préfixe : `NEXT_PUBLIC_BASE_PATH=/Aye-Aye-Madagascar npm run build`.
+Dans le code, toute adresse interne passe par `chemin('/...')`
+(`app/lib/chemin.js`), sinon elle casse en ligne.
 
 ## Modifier la boutique
 

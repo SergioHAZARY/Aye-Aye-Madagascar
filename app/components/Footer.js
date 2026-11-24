@@ -6,6 +6,7 @@
 // Panier et favoris ne sont plus ici : on y accede par l'icone « compte » de
 // l'en-tete (page /compte/, qui porte le compteur du panier).
 
+import { chemin } from '@/app/lib/chemin';
 import { MODELES } from '../data/catalogue';
 
 export const CONTACT = {
@@ -34,7 +35,7 @@ export default function Footer() {
             <div className="first-item">
               <div className="logo aye-logo aye-logo-pied">
                 <img
-                  src="/assets/images/logo-aye-aye-blanc.png"
+                  src={chemin('/assets/images/logo-aye-aye-blanc.png')}
                   alt="Aye-Aye Madagascar"
                   width={275}
                   height={330}
@@ -51,7 +52,7 @@ export default function Footer() {
               {' '}
               {MODELES.map((modele) => (
                 <li key={modele.slug}>
-                  <a href={'/modeles/#' + modele.slug}>{modele.nom}</a>
+                  <a href={chemin('/modeles/#' + modele.slug)}>{modele.nom}</a>
                 </li>
               ))}
               {' '}
@@ -62,11 +63,11 @@ export default function Footer() {
             <h4>La marque</h4>
             <ul>
               {' '}
-              <li><a href="/collections/">Collections</a></li>
+              <li><a href={chemin('/collections/')}>Collections</a></li>
               {' '}
-              <li><a href="/about/">À propos</a></li>
+              <li><a href={chemin('/about/')}>À propos</a></li>
               {' '}
-              <li><a href="/contact/">Contact</a></li>
+              <li><a href={chemin('/contact/')}>Contact</a></li>
               {' '}
             </ul>
           </div>

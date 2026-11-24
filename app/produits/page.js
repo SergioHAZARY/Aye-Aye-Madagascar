@@ -1,3 +1,4 @@
+import { chemin } from '@/app/lib/chemin';
 import FicheProduit from '../components/FicheProduit';
 import Header from '../components/Header';
 import { CATEGORIES, produitsParCategorie } from '../data/catalogue';
@@ -50,7 +51,7 @@ export default function PageProduits() {
                 <div className="col-lg-12">
                   <div className="aye-voir-tout">
                     <div className="main-border-button">
-                      <a href={'/' + categorie.slug + '/'}>Voir la catégorie {categorie.nom}</a>
+                      <a href={chemin('/' + categorie.slug + '/')}>Voir la catégorie {categorie.nom}</a>
                     </div>
                   </div>
                 </div>

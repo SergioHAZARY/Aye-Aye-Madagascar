@@ -10,6 +10,11 @@ const nextConfig = {
 
   // Les <img> du template restent des <img> natifs (aucun changement de rendu).
   images: { unoptimized: true },
+
+  // Sous-dossier de publication : vide en local, /Aye-Aye-Madagascar sur
+  // GitHub Pages (defini par la GitHub Action). Next.js prefixe ainsi ses
+  // propres fichiers (/_next/...) ; nos liens passent par app/lib/chemin.js.
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
 };
 
 export default nextConfig;

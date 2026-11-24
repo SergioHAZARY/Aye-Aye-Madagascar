@@ -2,6 +2,7 @@
 // Les quatre pages categorie (homme, femme, enfant, accessoires) partagent ce
 // composant ; seul le slug change.
 
+import { chemin } from '@/app/lib/chemin';
 import FicheProduit from './FicheProduit';
 import Header from './Header';
 import { CATEGORIES, categorieParSlug, vignettes } from '../data/catalogue';
@@ -57,7 +58,7 @@ export default function PageCategorie({ slug }) {
                   {' '}
                   {CATEGORIES.filter((c) => c.slug !== slug).map((c) => (
                     <li key={c.slug}>
-                      <a href={'/' + c.slug + '/'}>{c.nom}</a>
+                      <a href={chemin('/' + c.slug + '/')}>{c.nom}</a>
                     </li>
                   ))}
                   {' '}

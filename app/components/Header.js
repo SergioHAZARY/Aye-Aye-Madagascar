@@ -27,6 +27,7 @@
 // Les {' '} reproduisent les espaces entre elements du template : les <li> sont
 // en inline-block, ces espaces sont visibles.
 
+import { chemin } from '@/app/lib/chemin';
 import { Fragment } from 'react';
 
 import RechercheRapide from './RechercheRapide';
@@ -40,16 +41,16 @@ const TRAIT = {
 };
 
 const LIENS = [
-  { cle: 'accueil', libelle: 'Accueil', href: '/' },
-  { cle: 'modeles', libelle: 'Modèles', href: '/modeles/' },
-  { cle: 'collections', libelle: 'Collections', href: '/collections/' },
-  { cle: 'apropos', libelle: 'À propos', href: '/about/' },
-  { cle: 'contact', libelle: 'Contact', href: '/contact/' },
+  { cle: 'accueil', libelle: 'Accueil', href: chemin('/') },
+  { cle: 'modeles', libelle: 'Modèles', href: chemin('/modeles/') },
+  { cle: 'collections', libelle: 'Collections', href: chemin('/collections/') },
+  { cle: 'apropos', libelle: 'À propos', href: chemin('/about/') },
+  { cle: 'contact', libelle: 'Contact', href: chemin('/contact/') },
 ];
 
 const ACTIONS = [
   {
-    href: '/recherche/',
+    href: chemin('/recherche/'),
     titre: 'Rechercher',
     ouvreRecherche: true, // ouvre la barre de recherche en haut (RechercheRapide)
     icone: (
@@ -60,7 +61,7 @@ const ACTIONS = [
     ),
   },
   {
-    href: '/compte/',
+    href: chemin('/compte/'),
     titre: 'Mon compte',
     icone: (
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -79,10 +80,10 @@ export default function Header({ actif = '' }) {
           <div className="col-12">
             <nav className="main-nav">
               {/* ***** Logo ***** */}
-              <a href="/" className="logo aye-logo">
+              <a href={chemin('/')} className="logo aye-logo">
                 <img
                   className="aye-logo-sombre"
-                  src="/assets/images/logo-aye-aye.png"
+                  src={chemin('/assets/images/logo-aye-aye.png')}
                   alt="Aye-Aye Madagascar"
                   width={275}
                   height={330}
@@ -90,7 +91,7 @@ export default function Header({ actif = '' }) {
                 {/* version blanche : en-tete transparent sur le hero (accueil, mobile) */}
                 <img
                   className="aye-logo-clair"
-                  src="/assets/images/logo-aye-aye-blanc.png"
+                  src={chemin('/assets/images/logo-aye-aye-blanc.png')}
                   alt=""
                   width={275}
                   height={330}

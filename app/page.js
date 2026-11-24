@@ -1,3 +1,4 @@
+import { chemin } from '@/app/lib/chemin';
 import Header from './components/Header';
 import SectionCarrousel from './components/SectionCarrousel';
 import { CONTACT, MARQUE } from './components/Footer';
@@ -8,21 +9,21 @@ export const metadata = {
 
 // Tuiles de la banniere : chacune mene a sa page categorie.
 const TUILES = [
-  { slug: 'homme', nom: 'Homme', accroche: 'Nos manches longues signature', image: '/assets/images/banniere/homme.jpg' },
-  { slug: 'femme', nom: 'Femme', accroche: 'La fierté malagasy au féminin', image: '/assets/images/baner-right-image-01.jpg' },
-  { slug: 'enfant', nom: 'Enfant', accroche: 'Dès le plus jeune âge', image: '/assets/images/baner-right-image-03.jpg' },
-  { slug: 'accessoires', nom: 'Accessoires', accroche: 'Les détails qui comptent', image: '/assets/images/baner-right-image-04.jpg' },
+  { slug: 'homme', nom: 'Homme', accroche: 'Nos manches longues signature', image: chemin('/assets/images/banniere/homme.jpg') },
+  { slug: 'femme', nom: 'Femme', accroche: 'La fierté malagasy au féminin', image: chemin('/assets/images/baner-right-image-01.jpg') },
+  { slug: 'enfant', nom: 'Enfant', accroche: 'Dès le plus jeune âge', image: chemin('/assets/images/baner-right-image-03.jpg') },
+  { slug: 'accessoires', nom: 'Accessoires', accroche: 'Les détails qui comptent', image: chemin('/assets/images/baner-right-image-04.jpg') },
 ];
 
 // Onglets sous le hero, sur mobile.
 const ONGLETS = [
-  { href: '/produits/', libelle: 'Tout' },
-  { href: '/homme/', libelle: 'Homme' },
-  { href: '/femme/', libelle: 'Femme' },
-  { href: '/enfant/', libelle: 'Enfant' },
-  { href: '/accessoires/', libelle: 'Accessoires' },
-  { href: '/modeles/', libelle: 'Modèles' },
-  { href: '/collections/', libelle: 'Collections' },
+  { href: chemin('/produits/'), libelle: 'Tout' },
+  { href: chemin('/homme/'), libelle: 'Homme' },
+  { href: chemin('/femme/'), libelle: 'Femme' },
+  { href: chemin('/enfant/'), libelle: 'Enfant' },
+  { href: chemin('/accessoires/'), libelle: 'Accessoires' },
+  { href: chemin('/modeles/'), libelle: 'Modèles' },
+  { href: chemin('/collections/'), libelle: 'Collections' },
 ];
 
 const PILIERS = [
@@ -50,19 +51,19 @@ export default function PageAccueil() {
                       valeurs de Madagascar. Pour chaque Malgache, où qu’il se trouve.
                     </span>
                     <div className="main-border-button">
-                      <a href="/collections/">Découvrir nos collections</a>
+                      <a href={chemin('/collections/')}>Découvrir nos collections</a>
                     </div>
                   </div>
                   {/* mobile : version portrait plein ecran ; ordinateur : celle du template */}
                   <picture>
                     <source
                       media="(max-width: 767px)"
-                      srcSet="/assets/images/banniere/principale-mobile.jpg"
+                      srcSet={chemin('/assets/images/banniere/principale-mobile.jpg')}
                       width={800}
                       height={1500}
                     />
                     <img
-                      src="/assets/images/banniere/principale.jpg"
+                      src={chemin('/assets/images/banniere/principale.jpg')}
                       alt="Manches longues Antsatsaka écru, coton 100 %"
                       width={790}
                       height={680}
@@ -103,7 +104,7 @@ export default function PageAccueil() {
                             height={330}
                           />
                           <a
-                            href={'/' + tuile.slug + '/'}
+                            href={chemin('/' + tuile.slug + '/')}
                             className="aye-lien-couvrant"
                             aria-label={'Voir la catégorie ' + tuile.nom}
                           ></a>
@@ -172,7 +173,7 @@ export default function PageAccueil() {
                   celle d’être Malagasy.
                 </p>
                 <div className="main-border-button">
-                  <a href="/about/">Notre histoire</a>
+                  <a href={chemin('/about/')}>Notre histoire</a>
                 </div>
               </div>
             </div>
@@ -188,7 +189,7 @@ export default function PageAccueil() {
                   <div className="col-lg-6">
                     <div className="first-image">
                       <img
-                        src="/assets/images/social/01.jpg"
+                        src={chemin('/assets/images/social/01.jpg')}
                         alt="Manches longues Aye-Aye rouge"
                         width={320}
                         height={320}
@@ -200,7 +201,7 @@ export default function PageAccueil() {
                   <div className="col-lg-6">
                     <div className="second-image">
                       <img
-                        src="/assets/images/social/05.jpg"
+                        src={chemin('/assets/images/social/05.jpg')}
                         alt="Manches longues Antsatsaka écru"
                         width={320}
                         height={320}
@@ -253,7 +254,7 @@ export default function PageAccueil() {
                     </a>
                   </div>
                   <img
-                    src={'/assets/images/social/0' + numero + '.jpg'}
+                    src={chemin('/assets/images/social/0' + numero + '.jpg')}
                     alt="Aye-Aye Madagascar"
                     width={320}
                     height={320}

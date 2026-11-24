@@ -1,3 +1,4 @@
+import { chemin } from '@/app/lib/chemin';
 import Header from '../components/Header';
 import { CONTACT, MARQUE } from '../components/Footer';
 
@@ -13,17 +14,17 @@ const PILIERS = [
   {
     titre: 'Qualité premium',
     texte: 'Des produits de qualité supérieure, pensés pour durer.',
-    image: '/assets/images/piliers/01.jpg',
+    image: chemin('/assets/images/piliers/01.jpg'),
   },
   {
     titre: 'Tissu 100 % coton',
     texte: 'Le confort et la douceur avant tout.',
-    image: '/assets/images/piliers/02.jpg',
+    image: chemin('/assets/images/piliers/02.jpg'),
   },
   {
     titre: 'Identité malagasy',
     texte: 'Notre culture et notre patrimoine mis en valeur dans chaque création.',
-    image: '/assets/images/piliers/03.jpg',
+    image: chemin('/assets/images/piliers/03.jpg'),
   },
 ];
 
@@ -52,7 +53,7 @@ export default function PageAPropos() {
             <div className="col-lg-6">
               <div className="left-image">
                 <img
-                  src="/assets/images/apropos/histoire.jpg"
+                  src={chemin('/assets/images/apropos/histoire.jpg')}
                   alt="Manches longues Aye-Aye, impression dos"
                   width={570}
                   height={422}
@@ -134,7 +135,7 @@ export default function PageAPropos() {
               <div className="aye-signature">
                 <h4>Aye Aye Madagascar – {MARQUE.slogan}</h4>
                 <div className="main-border-button">
-                  <a href="/collections/">Découvrir nos collections</a>
+                  <a href={chemin('/collections/')}>Découvrir nos collections</a>
                 </div>
               </div>
             </div>

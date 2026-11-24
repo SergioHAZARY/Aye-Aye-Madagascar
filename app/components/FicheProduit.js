@@ -5,10 +5,11 @@
 // attribut data-* lu par ActionsGlobales. C'est ce qui les rend fonctionnels
 // y compris sur les cartes dupliquees par le carrousel.
 
+import { chemin } from '@/app/lib/chemin';
 import { formaterPrix } from '../data/catalogue';
 
 export default function FicheProduit({ produit, image, differer = true }) {
-  const lien = '/produit/' + produit.slug + '/';
+  const lien = chemin('/produit/' + produit.slug + '/');
   const visuel = image || produit.image;
 
   return (
@@ -31,7 +32,7 @@ export default function FicheProduit({ produit, image, differer = true }) {
             {' '}
             <li>
               <a
-                href="/checkout/"
+                href={chemin('/checkout/')}
                 data-ajout-panier={produit.slug}
                 title="Ajouter au panier"
                 aria-label={'Ajouter ' + produit.nom + ' au panier'}

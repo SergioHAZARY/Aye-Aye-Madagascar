@@ -1,3 +1,4 @@
+import { chemin } from '@/app/lib/chemin';
 import CompteurPanier from '../components/CompteurPanier';
 import Header from '../components/Header';
 import { CONTACT } from '../components/Footer';
@@ -36,13 +37,13 @@ export default function PageCompte() {
                 <h2>Mon espace</h2>
                 <ul className="aye-espace-liens">
                   <li>
-                    <a href="/checkout/">
+                    <a href={chemin('/checkout/')}>
                       <i className="fa fa-shopping-cart" aria-hidden="true"></i> Mon panier
                       <CompteurPanier />
                     </a>
                   </li>
                   <li>
-                    <a href="/favoris/">
+                    <a href={chemin('/favoris/')}>
                       <i className="fa fa-heart-o" aria-hidden="true"></i> Mes favoris
                     </a>
                   </li>
@@ -59,7 +60,7 @@ export default function PageCompte() {
                     recontactons pour la taille, le paiement et la livraison.
                   </p>
                   <div className="main-border-button">
-                    <a href="/collections/">Voir nos collections</a>
+                    <a href={chemin('/collections/')}>Voir nos collections</a>
                   </div>
                 </div>
               </div>

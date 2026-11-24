@@ -23,6 +23,16 @@ node scripts/photos-cadrees.mjs  # toutes les images tirées des photos Homme (j
 
 No tests, no linter. `next build` fails with `EBUSY ... rmdir out` if a server is still serving `out/` — stop it first.
 
+## Deployment
+
+The repo is `github.com/SergioHAZARY/Aye-Aye-Madagascar` (public, at the owner's request). Every push to `main` runs `.github/workflows/deploiement-pages.yml`, which builds with `NEXT_PUBLIC_BASE_PATH=/Aye-Aye-Madagascar` and publishes `out/` to **https://sergiohazary.github.io/Aye-Aye-Madagascar/**. `public/.nojekyll` must stay, otherwise Pages drops the `_next` folder.
+
+Because the site lives in a subfolder there, **every internal URL written in code goes through `chemin('/…')`** (`app/lib/chemin.js`): links, `<img>`/`<source>` paths, catalogue images, the jQuery scripts in `TemplateScripts`, stylesheets in `layout.js`, `window.location` redirects. `next.config.mjs` passes the same value to `basePath` for Next's own files. A bare `href="/x"` or `'/assets/…'` works locally and breaks online. CSS `url(...)` values are relative and need nothing.
+
+To reproduce the online build locally from Git Bash, add `MSYS_NO_PATHCONV=1`, otherwise MSYS rewrites `/Aye-Aye-Madagascar` into a Windows path and `next build` rejects it.
+
+This folder's Git identity is repo-local: author `SergioHAZARY <sergiohazary@gmail.com>`, and a repo-local credential helper that asks `gh` for the **SergioHAZARY** token. The machine's active `gh` account is a different one (SergioBZC); don't switch it.
+
 ## Architecture
 
 ```

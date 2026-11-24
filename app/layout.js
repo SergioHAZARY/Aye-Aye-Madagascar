@@ -1,3 +1,4 @@
+import { chemin } from '@/app/lib/chemin';
 import ActionsGlobales from './components/ActionsGlobales';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
@@ -29,15 +30,15 @@ export default function RootLayout({ children }) {
 
         {/* Feuilles de style du template, servies telles quelles depuis
             /public (aucune transformation par le bundler). */}
-        <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.css" />
-        <link rel="stylesheet" href="/assets/css/templatemo-hexashop.css" />
-        <link rel="stylesheet" href="/assets/css/owl-carousel.css" />
-        <link rel="stylesheet" href="/assets/css/lightbox.css" />
+        <link rel="stylesheet" type="text/css" href={chemin('/assets/css/bootstrap.min.css')} />
+        <link rel="stylesheet" type="text/css" href={chemin('/assets/css/font-awesome.css')} />
+        <link rel="stylesheet" href={chemin('/assets/css/templatemo-hexashop.css')} />
+        <link rel="stylesheet" href={chemin('/assets/css/owl-carousel.css')} />
+        <link rel="stylesheet" href={chemin('/assets/css/lightbox.css')} />
 
         {/* Feuille du projet, chargee en dernier : les ajouts vont ici,
             les feuilles du template restent inchangees. */}
-        <link rel="stylesheet" href="/assets/css/aye-aye.css" />
+        <link rel="stylesheet" href={chemin('/assets/css/aye-aye.css')} />
       </head>
       <body>
         {/* ***** Preloader ***** */}

@@ -1,5 +1,6 @@
 'use client';
 
+import { chemin } from '@/app/lib/chemin';
 import { useEffect, useState } from 'react';
 
 import {
@@ -69,7 +70,7 @@ export default function PanierDetail() {
           </li>
         </ul>
         <div className="main-border-button">
-          <a href="/produits/">Continuer mes achats</a>
+          <a href={chemin('/produits/')}>Continuer mes achats</a>
         </div>
       </div>
     );
@@ -80,7 +81,7 @@ export default function PanierDetail() {
       <div className="aye-panier-vide">
         <p>Votre panier est vide.</p>
         <div className="main-border-button">
-          <a href="/produits/">Voir les produits</a>
+          <a href={chemin('/produits/')}>Voir les produits</a>
         </div>
       </div>
     );
@@ -119,12 +120,12 @@ export default function PanierDetail() {
             {articles.map(({ produit, quantite, taille, tailles }) => (
               <tr key={produit.slug + '|' + (taille || '')}>
                 <td className="aye-panier-image">
-                  <a href={'/produit/' + produit.slug + '/'}>
+                  <a href={chemin('/produit/' + produit.slug + '/')}>
                     <img src={produit.image} alt={produit.nom} width={80} height={80} />
                   </a>
                 </td>
                 <td>
-                  <a href={'/produit/' + produit.slug + '/'}>{produit.nom}</a>
+                  <a href={chemin('/produit/' + produit.slug + '/')}>{produit.nom}</a>
                   <small>{produit.couleur}</small>
                   {tailles.length > 0 && (
                     <label

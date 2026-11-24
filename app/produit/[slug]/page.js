@@ -1,3 +1,4 @@
+import { chemin } from '@/app/lib/chemin';
 import { Fragment } from 'react';
 
 import AchatProduit from '../../components/AchatProduit';
@@ -62,7 +63,7 @@ export default async function PageProduit({ params }) {
       <section className="aye-fiche" id="fiche">
         <div className="container">
           <p className="aye-fil">
-            <a href="/">Accueil</a> / <a href={'/' + categorie.slug + '/'}>{categorie.nom}</a> /{' '}
+            <a href={chemin('/')}>Accueil</a> / <a href={chemin('/' + categorie.slug + '/')}>{categorie.nom}</a> /{' '}
             <span>{produit.nom}</span>
           </p>
 
@@ -143,7 +144,7 @@ export default async function PageProduit({ params }) {
                     <p>
                       Aye-Aye Madagascar valorise la culture malagasy et permet à chaque
                       Malgache de porter fièrement ses origines.{' '}
-                      <a href="/about/">Notre histoire</a>
+                      <a href={chemin('/about/')}>Notre histoire</a>
                     </p>
                   </details>
                 </div>

@@ -9,6 +9,7 @@
 //
 // Gestionnaires React autorises ici : la fiche n'est pas dans un carrousel.
 
+import { chemin } from '@/app/lib/chemin';
 import { useState } from 'react';
 
 import { ajouterAuPanier } from '../lib/panier';
@@ -24,7 +25,7 @@ export default function AchatProduit({ slug, tailles, children }) {
       return;
     }
     ajouterAuPanier(slug, 1, taille);
-    window.location.href = '/checkout/';
+    window.location.href = chemin('/checkout/');
   }
 
   return (

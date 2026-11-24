@@ -1,3 +1,4 @@
+import { chemin } from '@/app/lib/chemin';
 import Header from '../components/Header';
 import SilhouetteModele from '../components/SilhouetteModele';
 import { CATEGORIES, MODELES } from '../data/catalogue';
@@ -44,7 +45,7 @@ export default function PageModeles() {
                     {PUBLICS.map((c, i) => (
                       <span key={c.slug}>
                         {i > 0 && ' · '}
-                        <a href={'/' + c.slug + '/'}>{c.nom}</a>
+                        <a href={chemin('/' + c.slug + '/')}>{c.nom}</a>
                       </span>
                     ))}
                   </p>
@@ -55,7 +56,7 @@ export default function PageModeles() {
 
           <div className="aye-voir-tout">
             <div className="main-border-button">
-              <a href="/collections/">Choisir une collection</a>
+              <a href={chemin('/collections/')}>Choisir une collection</a>
             </div>
           </div>
         </div>

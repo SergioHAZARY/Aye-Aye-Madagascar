@@ -1,5 +1,6 @@
 'use client';
 
+import { chemin } from '@/app/lib/chemin';
 import { useEffect } from 'react';
 
 import { ajouterAuPanier, basculerFavori } from '../lib/panier';
@@ -21,7 +22,7 @@ export default function ActionsGlobales() {
         // Depuis une carte, la taille n'est pas encore choisie : le panier la
         // demandera (la fiche produit, elle, passe par AchatProduit).
         ajouterAuPanier(boutonPanier.dataset.ajoutPanier, 1);
-        window.location.href = '/checkout/';
+        window.location.href = chemin('/checkout/');
         return;
       }
 

@@ -12,6 +12,7 @@
 // ainsi lui donner le focus pendant le clic lui-meme, seule facon d'ouvrir le
 // clavier sur iPhone.
 
+import { chemin } from '@/app/lib/chemin';
 import { useEffect, useRef, useState } from 'react';
 
 import { formaterPrix, rechercherProduits } from '../data/catalogue';
@@ -51,7 +52,7 @@ export default function RechercheRapide() {
 
   const terme = requete.trim();
   const resultats = rechercherProduits(requete);
-  const lienTout = '/recherche/?q=' + encodeURIComponent(terme);
+  const lienTout = chemin('/recherche/?q=' + encodeURIComponent(terme));
 
   function valider(evenement) {
     evenement.preventDefault();
@@ -104,7 +105,7 @@ export default function RechercheRapide() {
                 <ul>
                   {resultats.slice(0, MAX_SUGGESTIONS).map((produit) => (
                     <li key={produit.slug}>
-                      <a href={'/produit/' + produit.slug + '/'}>
+                      <a href={chemin('/produit/' + produit.slug + '/')}>
                         <img src={produit.image} alt="" width={899} height={1600} loading="lazy" decoding="async" />
                         <span>
                           <strong>{produit.nom}</strong>
