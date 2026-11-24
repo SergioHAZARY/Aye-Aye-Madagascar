@@ -104,6 +104,8 @@ One banner only, full width (`col-12`): the owner had the four Homme / Femme / E
 
 Every product card, collection card and model card shows its photo in the same **3:4 frame** (`.item .thumb > a` and `.aye-carte-visuel`, `aspect-ratio: 3 / 4`, `object-fit: contain`, background `#f7f7f7`), so cards line up whatever the photo's shape (owner's request). `imageCarte(source)` in `catalogue.js` picks the picture: studio photos (`CARTES_STUDIO`: the DSC_ shots, Femme_1, Homme_1) use a 3:4 version with the backdrop extended (`cartes/480|720/`, made by `photos-cadrees.mjs`); outdoor photos are shown whole, reduced, with thin light bands where their ratio differs (Enfant photos are 3:4 and fill the frame). Template images (Accessoires) are landscape and get wide bands until real photos replace them.
 
+The banner sits flush on the next section: no bottom padding, no dotted border, no `left-content` margin (owner's request), at every size.
+
 ### Home sections (owner's shapes, template font and palette, 3:4 photos)
 
 In order under the banner:

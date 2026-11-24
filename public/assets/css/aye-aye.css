@@ -390,6 +390,20 @@ footer .aye-logo img[width][height] {
   }
 }
 
+/* --- Banniere collee a la section suivante -------------------------------------
+   Le template laissait sous la banniere 30 px (20 px sur mobile), un filet
+   pointille et, sous 992 px, 30 px de marge : retires a la demande de la
+   marque, a toutes les tailles. */
+.main-banner,
+.header-area.aye-entete-sur-hero ~ .main-banner {
+  padding-bottom: 0 !important;
+  border-bottom: 0;
+}
+
+.main-banner .left-content {
+  margin-bottom: 0;
+}
+
 /* --- Carrousel de la banniere (CarrouselBanniere.js) ------------------------
    La premiere image reste dans le flux et donne la hauteur ; les suivantes se
    superposent exactement (memes formats). Elles glissent vers la gauche
