@@ -1,4 +1,5 @@
 import { chemin } from '@/app/lib/chemin';
+import CompteConnecte from '../components/CompteConnecte';
 import CompteurPanier from '../components/CompteurPanier';
 import Header from '../components/Header';
 import { CONTACT } from '../components/Footer';
@@ -35,6 +36,7 @@ export default function PageCompte() {
             <div className="col-lg-6">
               <div className="left-content">
                 <h2>Mon espace</h2>
+                <CompteConnecte />
                 <ul className="aye-espace-liens">
                   <li>
                     <a href={chemin('/checkout/')}>
@@ -59,9 +61,6 @@ export default function PageCompte() {
                     Pour commander, ajoutez vos articles au panier puis validez. Nous vous
                     recontactons pour la taille, le paiement et la livraison.
                   </p>
-                  <div className="main-border-button">
-                    <a href={chemin('/collections/')}>Voir nos collections</a>
-                  </div>
                 </div>
               </div>
             </div>
