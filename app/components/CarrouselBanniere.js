@@ -102,7 +102,13 @@ export default function CarrouselBanniere({ diapos, children }) {
           aria-hidden={index === actif ? undefined : 'true'}
           style={{ '--aye-position': diapo.position, ...placement(index) }}
         >
-          <source media="(max-width: 767px)" srcSet={diapo.mobile} width={800} height={1500} />
+          {/* portrait plein ecran : telephone, et tablette tenue verticalement */}
+          <source
+            media="(max-width: 767px), (max-width: 991px) and (orientation: portrait)"
+            srcSet={diapo.mobile}
+            width={800}
+            height={1500}
+          />
           <source media="(min-width: 992px)" srcSet={diapo.large} width={1760} height={800} />
           <img
             src={diapo.tablette}

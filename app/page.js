@@ -2,7 +2,7 @@ import { chemin } from '@/app/lib/chemin';
 import CarrouselBanniere from './components/CarrouselBanniere';
 import Header from './components/Header';
 import SectionCarrousel from './components/SectionCarrousel';
-import { CONTACT, MARQUE } from './components/Footer';
+import { CONTACT } from './components/Footer';
 
 export const metadata = {
   title: 'Aye-Aye Madagascar',
@@ -62,10 +62,13 @@ export default function PageAccueil() {
                       ordinateur panoramique pleine largeur */}
                   <CarrouselBanniere diapos={DIAPOS}>
                     <div className="inner-content">
-                      <h4>{MARQUE.slogan}</h4>
+                      {/* texte de la banniere fourni par la marque (le slogan du pied
+                          de page, MARQUE.slogan, reste « Porter … ») ; espaces
+                          insecables avant « ! » et « : » */}
+                      <h4>Portez votre culture avec fierté{' '}!</h4>
                       <span>
-                        Des vêtements 100 % coton qui célèbrent la nature, les symboles et les
-                        valeurs de Madagascar. Pour chaque Malgache, où qu’il se trouve.
+                        Des vêtements 100{' '}% coton qui racontent Madagascar{' '}: sa
+                        nature, ses symboles, son âme.
                       </span>
                       <div className="main-border-button">
                         <a href={chemin('/collections/')}>Découvrir nos collections</a>

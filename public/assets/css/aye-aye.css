@@ -427,20 +427,19 @@ footer .aye-logo img[width][height] {
    seul du fond est rogne sur les cotes, jamais le personnage.
    - max(100vw / 2,2, ...) : jamais moins haut que l'image elle-meme, sinon
      cover rognerait le haut (la tete) et le bas ;
-   - min(100vh, 96vw - 462px) : toute la hauteur de l'ecran (la banniere
-     passe sous l'en-tete transparent), plafonnee pour que le personnage
-     (450 px de large a 800 px de haut, 532 px pour les diapositives 2 et 3,
-     centrees a 68 %) reste a 30 px du texte (100 px + 38 % de la largeur). */
+   - min(100vh, plafond) : toute la hauteur de l'ecran (la banniere passe
+     sous l'en-tete transparent), plafonnee (blocs plus bas) pour que le
+     personnage reste a 30 px du texte. Cas le plus serre : diapositive 2,
+     photo de 532 px de large a 800 px de haut, centree a 68 %.
+   Le texte s'aligne sur le logo et sur les titres de section : bord gauche du
+   .container de Bootstrap + 15 px, largeur 42 % du container. */
 @media (min-width: 992px) {
-  .main-banner .left-content .inner-content {
-    max-width: 38%;
-  }
   .main-banner .left-content .thumb {
     position: relative;
     overflow: hidden;
   }
   .main-banner .left-content .thumb img[width][height] {
-    height: max(calc(100vw / 2.2), min(100vh, calc(96vw - 462px)));
+    height: max(calc(100vw / 2.2), min(100vh, calc(54.1vw + 138px)));
     object-fit: cover;
     /* centre du personnage dans l'image (--aye-position, voir page.js) */
     object-position: var(--aye-position, 65%) center;
@@ -526,21 +525,72 @@ footer .aye-logo img[width][height] {
   }
 }
 
-/* 992 a 1279 px : l'image est a sa hauteur naturelle ; le texte se rapproche
-   du bord et se resserre pour laisser 30 px avant le personnage */
-@media (min-width: 992px) and (max-width: 1279px) {
+/* Texte de la banniere aligne sur la grille (logo, « Nouveautes Homme ») :
+   container de 1140 px des 1200 px, 960 px de 992 a 1199, 720 px de 768 a
+   991 (Bootstrap 4). Plafond de hauteur ordinateur : texte a droite en
+   W/2 - 76 px (1200+) ou W/2 - 62 px (992-1199), d'ou H <= 54,1vw + 138 px
+   ou + 96 px pour garder 30 px avant le personnage de la diapositive 2. */
+@media (min-width: 1200px) {
   .main-banner .left-content .inner-content {
-    left: 60px;
-    max-width: 40%;
+    left: calc((100% - 1140px) / 2 + 15px);
+    width: 479px;
+    max-width: none;
   }
 }
 
-/* tablette : l'image 3:2 garde le personnage dans la moitie droite ; le texte
-   occupe la moitie gauche, plus pres du bord que les 100 px du template */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .main-banner .left-content .inner-content {
+    left: calc((100% - 960px) / 2 + 15px);
+    width: 403px;
+    max-width: none;
+  }
+  .main-banner .left-content .thumb img[width][height] {
+    height: max(calc(100vw / 2.2), min(100vh, calc(54.1vw + 96px)));
+  }
+}
+
+/* tablette tenue horizontalement : image 3:2 a sa hauteur naturelle, le
+   personnage dans la moitie droite, le texte dans la moitie gauche */
 @media (min-width: 768px) and (max-width: 991px) {
   .main-banner .left-content .inner-content {
-    left: 40px;
-    width: 54%;
+    left: calc((100% - 720px) / 2 + 15px);
+    width: 389px;
+    max-width: none;
+  }
+}
+
+/* tablette tenue verticalement : banniere plein ecran, image portrait (celle
+   du telephone) en cover ancree en haut (seul le bas, deja coupe, peut
+   sortir), texte en bas sur le voile sombre, aligne sur la grille */
+@media (min-width: 768px) and (max-width: 991px) and (orientation: portrait) {
+  .main-banner .left-content .thumb {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .main-banner .aye-diapos,
+  .main-banner .aye-diapo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .main-banner .left-content .thumb img[width][height] {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .main-banner .left-content .thumb .inner-content {
+    top: auto;
+    bottom: 70px;
+    transform: none;
+    width: 690px;
+  }  /* le texte passe sur la chemise blanche de la 1re image : ombre douce */
+  .main-banner .left-content .thumb .inner-content h4,
+  .main-banner .left-content .thumb .inner-content span {
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
   }
 }
 
