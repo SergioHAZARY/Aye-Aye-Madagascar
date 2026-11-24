@@ -3,7 +3,7 @@
 // Choix de la taille et ajout au panier, sur la fiche produit.
 //
 // Le bouton reste gris tant qu'aucune taille n'est choisie ; un clic dans cet
-// etat le signale au lieu d'ajouter. Sans tailles (accessoires), il est actif
+// etat le signale au lieu d'ajouter. Sans tailles, il est actif
 // d'emblee. `children` s'insere entre les tailles et le bouton (guide des
 // tailles).
 //

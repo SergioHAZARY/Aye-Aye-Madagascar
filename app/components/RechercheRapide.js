@@ -98,7 +98,7 @@ export default function RechercheRapide() {
             {resultats.length === 0 ? (
               <p className="aye-recherche-vide">
                 Aucun produit ne correspond à « {terme} ». Essayez « manches longues », « rouge » ou
-                « accessoires ».
+                « enfant ».
               </p>
             ) : (
               <>

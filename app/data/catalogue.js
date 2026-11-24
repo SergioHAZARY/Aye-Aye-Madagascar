@@ -7,8 +7,6 @@ import { chemin } from '@/app/lib/chemin';
 // produit, changer une photo ou une categorie se fait ici, et tout le
 // site suit (accueil, pages categories, fiches produit, recherche, panier).
 //
-// Les produits Accessoires sont encore des exemples du template, a remplacer
-// par vos vraies references.
 // ---------------------------------------------------------------------------
 
 export const CATEGORIES = [
@@ -30,12 +28,7 @@ export const CATEGORIES = [
     accroche: 'La culture malagasy dès le plus jeune âge.',
     image: chemin('/assets/images/Enfant/Enfant_3.jpeg'),
   },
-  {
-    slug: 'accessoires',
-    nom: 'Accessoires',
-    accroche: 'Les détails qui complètent votre style.',
-    image: chemin('/assets/images/baner-right-image-04.jpg'),
-  },
+
 ];
 
 export const PRODUITS = [
@@ -186,41 +179,6 @@ export const PRODUITS = [
       + 'Aye-Aye au col.',
     details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye au col'],
   },
-
-  // --- Accessoires : exemples a remplacer ----------------------------------
-  {
-    slug: 'sac-en-cuir',
-    nom: 'Sac en cuir',
-    couleur: 'Camel',
-    categorie: 'accessoires',
-    note: 5,
-    image: chemin('/assets/images/single-product-01.jpg'),
-    galerie: [chemin('/assets/images/single-product-01.jpg'), chemin('/assets/images/single-product-02.jpg')],
-    description: 'Sac en cuir souple, bandoulière réglable.',
-    details: ['Cuir véritable', 'Bandoulière réglable'],
-  },
-  {
-    slug: 'casquette-aye-aye',
-    nom: 'Casquette Aye-Aye',
-    couleur: 'Noir',
-    categorie: 'accessoires',
-    note: 5,
-    image: chemin('/assets/images/baner-right-image-04.jpg'),
-    galerie: [chemin('/assets/images/baner-right-image-04.jpg')],
-    description: 'Casquette brodée à la signature Aye Aye Madagascar.',
-    details: ['Coton 100 %', 'Taille unique réglable'],
-  },
-  {
-    slug: 'tote-bag-malagasy',
-    nom: 'Tote bag Malagasy',
-    couleur: 'Écru',
-    categorie: 'accessoires',
-    note: 5,
-    image: chemin('/assets/images/explore-image-01.jpg'),
-    galerie: [chemin('/assets/images/explore-image-01.jpg')],
-    description: 'Sac en toile épaisse, imprimé aux couleurs de Madagascar.',
-    details: ['Toile de coton', 'Anses renforcées'],
-  },
 ];
 
 // --- Modeles et collections -------------------------------------------------
@@ -312,13 +270,12 @@ export const COLLECTIONS = [
 
 // --- Tailles ----------------------------------------------------------------
 // Proposees par categorie ; un produit peut definir sa propre liste avec un
-// champ `tailles`. Liste vide = pas de choix de taille (accessoires).
+// champ `tailles`. Liste vide = pas de choix de taille.
 // A CONFIRMER avec la marque : ce sont des valeurs de depart.
 export const TAILLES_PAR_CATEGORIE = {
   homme: ['S', 'M', 'L', 'XL', 'XXL'],
   femme: ['S', 'M', 'L', 'XL', 'XXL'],
   enfant: ['4 ans', '6 ans', '8 ans', '10 ans', '12 ans'],
-  accessoires: [],
 };
 
 export function taillesDuProduit(produit) {
@@ -389,17 +346,11 @@ export function photoReduite(source, largeur) {
 // height : le navigateur reserve ainsi la bonne hauteur avant l'arrivee de la
 // photo, et la page ne saute pas. Photos de la marque : voir plus haut ;
 // images du template : 370x390, sauf les quelques exceptions ci-dessous.
-const DIMENSIONS_TEMPLATE = {
-  'single-product-01.jpg': [770, 400],
-  'single-product-02.jpg': [770, 400],
-  'baner-right-image-04.jpg': [385, 330],
-  'explore-image-01.jpg': [263, 263],
-};
 
 export function dimensionsImage(source) {
   const photo = photoMarque(source);
   if (photo) return photo.dimensions;
-  return DIMENSIONS_TEMPLATE[source.split('/').pop()] || [370, 390];
+  return [370, 390];
 }
 
 // srcset d'une photo de la marque (undefined pour les autres images)

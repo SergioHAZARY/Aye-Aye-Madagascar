@@ -33,7 +33,7 @@ function ecrireBrut(cle, valeur) {
 // --- Panier -----------------------------------------------------------------
 // Une ligne = un produit dans une taille : { slug, taille, quantite }.
 // `taille` vaut null quand elle n'est pas encore choisie (ajout depuis une
-// carte de carrousel) ou sans objet (accessoires) ; le panier la demande.
+// carte de carrousel) ou sans objet ; le panier la demande.
 
 const memeLigne = (l, slug, taille) => l.slug === slug && (l.taille || null) === (taille || null);
 

@@ -8,8 +8,8 @@ export const metadata = {
   description: 'Tee-shirt, manches longues, débardeur : trois coupes, disponibles pour hommes, femmes et enfants.',
 };
 
-// Les publics proposes pour chaque coupe : les pages categorie, sauf Accessoires.
-const PUBLICS = CATEGORIES.filter((c) => c.slug !== 'accessoires');
+// Les publics proposes pour chaque coupe : les pages categorie.
+const PUBLICS = CATEGORIES;
 
 export default function PageModeles() {
   return (

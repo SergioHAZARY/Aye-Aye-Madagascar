@@ -3,12 +3,11 @@
 
    custom.js initialise les trois carrousels du template (.owl-men-item,
    .owl-women-item, .owl-kid-item) : les sections Homme, Femme et Enfant les
-   utilisent tels quels. La section Accessoires, absente du template, porte
-   .owl-aye-carousel et recoit ici exactement les memes reglages. */
+   utilisent tels quels. */
 (function ($) {
   'use strict';
 
-  if (!$ || !$.fn || !$.fn.owlCarousel) return;
+  if (!$) return;
 
   /* custom.js installe un « scroll-spy » qui parcourt $('.nav a') et fait
      $(lien.attr('href')).position() sur chaque lien. Il etait deja casse dans
@@ -38,23 +37,4 @@
     $(window).on('scroll resize', majEntete);
     majEntete();
   }
-
-  $('.owl-aye-carousel').each(function () {
-    var $carrousel = $(this);
-    if ($carrousel.hasClass('owl-loaded')) return;
-
-    // reglages identiques a ceux de custom.js pour .owl-men-item
-    $carrousel.owlCarousel({
-      items: 5,
-      loop: true,
-      dots: true,
-      nav: true,
-      margin: 30,
-      responsive: {
-        0: { items: 1 },
-        600: { items: 2 },
-        1000: { items: 3 }
-      }
-    });
-  });
 })(window.jQuery);

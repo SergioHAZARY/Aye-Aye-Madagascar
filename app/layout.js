@@ -38,7 +38,6 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" type="text/css" href={chemin('/assets/css/font-awesome.css')} />
         <link rel="stylesheet" href={chemin('/assets/css/templatemo-hexashop.css')} />
         <link rel="stylesheet" href={chemin('/assets/css/owl-carousel.css')} />
-        {/* lightbox.css n'est plus chargee : lightbox.js ne l'est plus non plus */}
 
         {/* Feuille du projet, chargee en dernier : les ajouts vont ici,
             les feuilles du template restent inchangees. */}

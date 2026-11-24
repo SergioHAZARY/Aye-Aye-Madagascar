@@ -39,7 +39,7 @@ export default function Recherche() {
       {requete.trim().length >= 2 && resultats.length === 0 && (
         <p className="aye-recherche-aide">
           Aucun produit ne correspond à « {requete} ». Essayez « manches longues », « rouge » ou
-          « accessoires ».
+          « enfant ».
         </p>
       )}
 

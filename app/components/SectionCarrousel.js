@@ -6,9 +6,6 @@
 // la section porte ses ids et classes d'origine : le CSS du template
 // (#men, #women, #kids) et custom.js (.owl-men-item, ...) s'appliquent tels
 // quels, avec leurs reglages.
-// Sans modele (Accessoires, qui n'existe pas dans le template), la section
-// prend la classe owl-aye-carousel, initialisee par /assets/js/aye-aye.js
-// avec les memes reglages, et aye-aye.css lui recopie le style de #men.
 
 import FicheProduit from './FicheProduit';
 import { vignettes } from '../data/catalogue';
@@ -17,9 +14,9 @@ const ID_TEMPLATE = { men: 'men', women: 'women', kid: 'kids' };
 
 export default function SectionCarrousel({ categorie, titre, sousTitre, modele }) {
   const articles = vignettes(categorie);
-  const id = modele ? ID_TEMPLATE[modele] : categorie;
-  const enveloppe = (modele || 'aye') + '-item-carousel';
-  const carrousel = (modele ? 'owl-' + modele + '-item' : 'owl-aye-carousel') + ' owl-carousel';
+  const id = ID_TEMPLATE[modele];
+  const enveloppe = modele + '-item-carousel';
+  const carrousel = 'owl-' + modele + '-item owl-carousel';
 
   return (
     <section className="section" id={id}>

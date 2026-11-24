@@ -1,5 +1,5 @@
 // Page d'une categorie : banniere de titre puis grille de produits.
-// Les quatre pages categorie (homme, femme, enfant, accessoires) partagent ce
+// Les trois pages categorie (homme, femme, enfant) partagent ce
 // composant ; seul le slug change.
 
 import { chemin } from '@/app/lib/chemin';

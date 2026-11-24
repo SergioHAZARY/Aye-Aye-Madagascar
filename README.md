@@ -70,7 +70,7 @@ npm run images -- --appliquer  # compresse ; originaux gardes dans photos-origin
 | `app/data/catalogue.js` | **le catalogue — le fichier à éditer** |
 | `app/page.js` | accueil |
 | `app/modeles/`, `app/collections/` | nos 3 coupes, nos 9 collections |
-| `app/homme/`, `femme/`, `enfant/`, `accessoires/` | pages catégorie |
+| `app/homme/`, `femme/`, `enfant/` | pages catégorie |
 | `app/produit/[slug]/` | fiche produit |
 | `app/checkout/` | panier et commande |
 | `app/recherche/`, `compte/` | icônes de la barre de navigation |
@@ -82,11 +82,8 @@ npm run images -- --appliquer  # compresse ; originaux gardes dans photos-origin
 | `app/lib/panier.js` | panier et favoris (stockés dans le navigateur) |
 | `public/assets/css/aye-aye.css` | **la seule feuille de style du projet** |
 | `public/assets/js/aye-aye.js` | le seul script du projet |
-| `public/assets/` (le reste) | template d'origine, inchangé |
+| `public/assets/` (le reste) | fichiers du template réellement utilisés, inchangés |
 | `photos-originales/` | copies intactes des photos avant compression |
-
-Les cinq fichiers `.html` d'origine et le dossier `assets/` de la racine sont
-conservés comme référence ; ils ne sont pas utilisés par Next.js.
 
 Les règles à respecter pour modifier le site sans casser le rendu sont
 détaillées dans [CLAUDE.md](CLAUDE.md).

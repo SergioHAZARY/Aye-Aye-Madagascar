@@ -33,7 +33,6 @@ const ONGLETS = [
   { href: chemin('/homme/'), libelle: 'Homme' },
   { href: chemin('/femme/'), libelle: 'Femme' },
   { href: chemin('/enfant/'), libelle: 'Enfant' },
-  { href: chemin('/accessoires/'), libelle: 'Accessoires' },
   { href: chemin('/modeles/'), libelle: 'Modèles' },
   { href: chemin('/collections/'), libelle: 'Collections' },
 ];
@@ -50,7 +49,7 @@ export default function PageAccueil() {
       <Header actif="accueil" />
 
       {/* ***** Bannière ***** : une seule, pleine largeur (les tuiles
-          Homme / Femme / Enfant / Accessoires ont ete retirees a la demande de
+          Homme / Femme / Enfant ont ete retirees a la demande de
           la marque) */}
       <div className="main-banner" id="top">
         <div className="container-fluid">
@@ -114,11 +113,6 @@ export default function PageAccueil() {
         modele="kid"
         titre="Collection Enfant"
         sousTitre="La culture malagasy dès le plus jeune âge."
-      />
-      <SectionCarrousel
-        categorie="accessoires"
-        titre="Nos accessoires"
-        sousTitre="Les détails qui complètent votre style."
       />
 
       {/* ***** Notre histoire et notre engagement ***** */}
