@@ -104,9 +104,17 @@ One banner only, full width (`col-12`): the owner had the four Homme / Femme / E
 
 Every product card, collection card and model card shows its photo in the same **3:4 frame** (`.item .thumb > a` and `.aye-carte-visuel`, `aspect-ratio: 3 / 4`, `object-fit: contain`, background `#f7f7f7`), so cards line up whatever the photo's shape (owner's request). `imageCarte(source)` in `catalogue.js` picks the picture: studio photos (`CARTES_STUDIO`: the DSC_ shots, Femme_1, Homme_1) use a 3:4 version with the backdrop extended (`cartes/480|720/`, made by `photos-cadrees.mjs`); outdoor photos are shown whole, reduced, with thin light bands where their ratio differs (Enfant photos are 3:4 and fill the frame). Template images (Accessoires) are landscape and get wide bands until real photos replace them.
 
+### Home sections: « univers » (Homme), band, « vedette » (Femme)
+
+At the owner's request three home blocks have their own shape (template font, 3:4 photos and palette kept):
+- **Nouveautés Homme**: `SectionCarrousel` with a `surtitre` gets `.aye-univers` (centred heading under a small uppercase kicker, `#f7f7f7` background, rounded cards whose name and « Découvrir → » sit on a dark gradient at the bottom of the photo, `FicheProduit univers`; the hover icons move to the top). Same owl carousel.
+- **Scrolling band** right under it (`.aye-bandeau`): « Authentique ✦ Nature ✦ Qualité ✦ 100 % coton ✦ Imprimé à Madagascar », pure CSS, two identical halves, `translateX(-50%)` in 40 s, stopped under reduced motion.
+- **Collection Femme**: `SectionVedette` (no owl, no JS): kicker « Arrivées récentes » and title on the left, category pills on the right (plain links, Femme active), the first Femme product as a large featured card (photo in `cover` stretched to the grid's height, badge, name, « Femme · 100 % coton · Tailles S à XXL », white « Prix et commande sur WhatsApp » button) and a 2 × 2 grid of the other products' views taken in turn (badge « Nouveau », name, category, sizes, black « Prix sur WhatsApp » button). WhatsApp links carry a pre-filled message naming the product; no price is shown anywhere.
+- **Collection Enfant**: `SectionHistoire` (no owl, no JS): centred title and subtitle (unchanged texts), then one row per Enfant product, 3:4 photo and text alternating sides (photo right on even rows, always first on phones), big light number « 01 », name, catalogue description, « Découvrir → » link; template text colours.
+
 ### Home sections reuse the template's ids
 
-The Homme, Femme and Enfant sections are rendered by `SectionCarrousel` with `modele="men" | "women" | "kid"`, which gives them the template's own markup: `<section id="men">`, a `.container` (not full width), `.men-item-carousel > .owl-men-item`. The template CSS (`#men …`) and `custom.js` therefore style and initialise them exactly as in the original. Explore and Social are the template's layouts too (Social = six `col-2` thumbnails, no carousel). The owner asked for all of these to stay at container width — don't make them full width again.
+The Homme section is rendered by `SectionCarrousel` with `modele="men" | "women" | "kid"`, which gives them the template's own markup: `<section id="men">`, a `.container` (not full width), `.men-item-carousel > .owl-men-item`. The template CSS (`#men …`) and `custom.js` therefore style and initialise them exactly as in the original. Explore and Social are the template's layouts too (Social = six `col-2` thumbnails, no carousel). The owner asked for all of these to stay at container width — don't make them full width again.
 
 ### Navigation is full page loads, on purpose
 

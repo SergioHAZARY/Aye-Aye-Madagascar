@@ -12,18 +12,21 @@ import { vignettes } from '../data/catalogue';
 
 const ID_TEMPLATE = { men: 'men', women: 'women', kid: 'kids' };
 
-export default function SectionCarrousel({ categorie, titre, sousTitre, modele }) {
+// `surtitre` : forme « univers » (titre centre sous un surtitre, cartes
+// arrondies au nom pose sur la photo), demandee pour « Nouveautes Homme ».
+export default function SectionCarrousel({ categorie, titre, sousTitre, modele, surtitre }) {
   const articles = vignettes(categorie);
   const id = ID_TEMPLATE[modele];
   const enveloppe = modele + '-item-carousel';
   const carrousel = 'owl-' + modele + '-item owl-carousel';
 
   return (
-    <section className="section" id={id}>
+    <section className={'section' + (surtitre ? ' aye-univers' : '')} id={id}>
       <div className="container">
         <div className="row">
-          <div className="col-lg-6">
+          <div className={surtitre ? 'col-12' : 'col-lg-6'}>
             <div className="section-heading">
+              {surtitre && <p className="aye-surtitre">{surtitre}</p>}
               <h2>{titre}</h2>
               <span>{sousTitre}</span>
             </div>
@@ -41,6 +44,7 @@ export default function SectionCarrousel({ categorie, titre, sousTitre, modele }
                     key={article.produit.slug + '-' + index}
                     produit={article.produit}
                     image={article.image}
+                    univers={Boolean(surtitre)}
                   />
                 ))}
                 {' '}

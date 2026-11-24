@@ -1,7 +1,10 @@
 import { chemin } from '@/app/lib/chemin';
+import { Fragment } from 'react';
 import CarrouselBanniere from './components/CarrouselBanniere';
 import Header from './components/Header';
 import SectionCarrousel from './components/SectionCarrousel';
+import SectionHistoire from './components/SectionHistoire';
+import SectionVedette from './components/SectionVedette';
 import { CONTACT } from './components/Footer';
 
 export const metadata = {
@@ -26,6 +29,9 @@ const DIAPOS = [
     alt: 'Tee-shirt Djembe noir, vue de face', position: '68%',
   },
 ];
+
+// Mots du bandeau defilant, sous « Nouveautes Homme ».
+const BANDEAU = ['Authentique', 'Nature', 'Qualité', '100\u00a0% coton', 'Imprimé à Madagascar'];
 
 // Onglets sous le hero, sur mobile.
 const ONGLETS = [
@@ -99,18 +105,34 @@ export default function PageAccueil() {
       <SectionCarrousel
         categorie="homme"
         modele="men"
+        surtitre="Collection Homme"
         titre="Nouveautés Homme"
         sousTitre="Manches longues en coton 100 %, imprimées à Madagascar."
       />
-      <SectionCarrousel
-        categorie="femme"
-        modele="women"
-        titre="Collection Femme"
-        sousTitre="Des pièces qui portent la fierté malagasy."
-      />
-      <SectionCarrousel
+
+      {/* Bandeau defilant (CSS seul) : deux moities identiques, la piste glisse
+          de la moitie de sa largeur puis recommence, sans raccord visible */}
+      <div className="aye-bandeau">
+        <div className="aye-bandeau-piste">
+          {[0, 1].map((moitie) => (
+            <span key={moitie} aria-hidden={moitie === 1 ? 'true' : undefined}>
+              {[0, 1, 2].map((tour) => (
+                <Fragment key={tour}>
+                  {BANDEAU.map((mot) => (
+                    <Fragment key={mot}>
+                      <b>{mot}</b>
+                      <i aria-hidden="true">✦</i>
+                    </Fragment>
+                  ))}
+                </Fragment>
+              ))}
+            </span>
+          ))}
+        </div>
+      </div>
+      <SectionVedette categorie="femme" surtitre="Arrivées récentes" titre="Collection Femme" />
+      <SectionHistoire
         categorie="enfant"
-        modele="kid"
         titre="Collection Enfant"
         sousTitre="La culture malagasy dès le plus jeune âge."
       />

@@ -8,7 +8,9 @@
 import { chemin } from '@/app/lib/chemin';
 import { imageCarte } from '../data/catalogue';
 
-export default function FicheProduit({ produit, image, differer = true }) {
+// `univers` : carte de la section « Nouveautes Homme », nom et « Decouvrir »
+// poses sur la photo (aye-aye.css, .aye-univers).
+export default function FicheProduit({ produit, image, differer = true, univers = false }) {
   const lien = chemin('/produit/' + produit.slug + '/');
   const visuel = image || produit.image;
   const carte = imageCarte(visuel);
@@ -57,6 +59,12 @@ export default function FicheProduit({ produit, image, differer = true }) {
             {...(differer ? { loading: 'lazy', decoding: 'async' } : {})}
           />
         </a>
+        {univers && (
+          <a href={lien} className="aye-carte-titre" tabIndex={-1} aria-hidden="true">
+            <strong>{produit.nom}</strong>
+            <span>Découvrir →</span>
+          </a>
+        )}
       </div>
       <div className="down-content">
         <h4><a href={lien}>{produit.nom}</a></h4>

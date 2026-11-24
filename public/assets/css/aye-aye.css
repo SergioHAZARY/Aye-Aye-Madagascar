@@ -678,6 +678,448 @@ footer .aye-logo img[width][height] {
   margin-right: 6px;
 }
 
+/* --- Section « univers » (Nouveautes Homme) -----------------------------------
+   Forme demandee par la marque : titre centre sous un surtitre, fond gris
+   clair, cartes arrondies dont le nom et « Decouvrir » sont poses en bas de
+   la photo sur un degrade sombre. Police, tailles du template et format 3:4
+   des photos inchanges ; palette du template. */
+.aye-univers {
+  background-color: #f7f7f7;
+}
+
+.aye-univers .section-heading {
+  text-align: center;
+}
+
+.aye-surtitre {
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #777;
+}
+
+.aye-univers .item .thumb {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.aye-univers .item .down-content {
+  display: none;
+}
+
+.aye-carte-titre {
+  display: none;
+}
+
+.aye-univers .aye-carte-titre {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: block;
+  padding: 90px 28px 26px;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75));
+  color: #fff;
+}
+
+.aye-univers .aye-carte-titre strong {
+  display: block;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.aye-univers .aye-carte-titre span {
+  display: block;
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+.aye-univers .aye-carte-titre:hover {
+  color: #fff;
+}
+
+/* icones voir / favori / panier : en haut de la photo, le bas porte le nom */
+#men.aye-univers .item .thumb .hover-content,
+#men.aye-univers .item .thumb:hover .hover-content {
+  top: 20px;
+  bottom: auto;
+}
+
+/* --- Bandeau defilant -----------------------------------------------------------
+   Police du template (Poppins), majuscules espacees. La piste contient deux
+   moities identiques ; elle glisse de 50 % puis repart, sans raccord. A
+   l'arret si le visiteur demande moins d'animations. */
+.aye-bandeau {
+  overflow: hidden;
+  padding: 18px 0;
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.aye-bandeau-piste {
+  display: flex;
+  width: max-content;
+  animation: aye-defile 40s linear infinite;
+}
+
+.aye-bandeau-piste span {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.aye-bandeau b {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.aye-bandeau i {
+  margin: 0 32px;
+  font-style: normal;
+  font-size: 13px;
+  color: #aaa;
+}
+
+@keyframes aye-defile {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aye-bandeau-piste {
+    animation: none;
+  }
+}
+
+/* --- Section « vedette » (Collection Femme, SectionVedette.js) ------------------
+   Surtitre et titre a gauche, pastilles a droite ; une grande carte (photo,
+   degrade, texte et bouton blancs) et une grille de 4 cartes (badge, nom,
+   categorie, tailles, bouton noir). Photos 3:4, palette du template. */
+.aye-vedettes {
+  padding: 90px 0;
+  border-bottom: 3px dotted #eee;
+}
+
+.aye-vedettes-tete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.aye-vedettes-tete .section-heading {
+  margin-bottom: 0;
+}
+
+.aye-pastilles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aye-pastilles a {
+  display: block;
+  padding: 9px 20px;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #2a2a2a;
+  transition: all 0.3s;
+}
+
+.aye-pastilles a:hover,
+.aye-pastilles a.actif {
+  background-color: #2a2a2a;
+  border-color: #2a2a2a;
+  color: #fff;
+}
+
+.aye-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 3px;
+  background-color: #2a2a2a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.aye-vedettes-grille {
+  display: grid;
+  gap: 30px;
+}
+
+.aye-vedette {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.aye-vedette-photo {
+  display: block;
+  height: 100%;
+  background-color: #f7f7f7;
+}
+
+.aye-vedette-photo img[width][height] {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aye-vedette-texte {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 120px 30px 30px;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+  color: #fff;
+}
+
+.aye-vedette-texte h3 {
+  margin: 14px 0 8px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.aye-vedette-texte p {
+  margin-bottom: 20px;
+  font-size: 15px;
+  color: #fff;
+}
+
+.aye-bouton-blanc,
+.aye-bouton-noir {
+  display: inline-block;
+  padding: 13px 24px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: opacity 0.3s;
+}
+
+.aye-bouton-blanc {
+  background-color: #fff;
+  color: #2a2a2a;
+}
+
+.aye-bouton-noir {
+  display: block;
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.aye-bouton-blanc:hover,
+.aye-bouton-noir:hover {
+  opacity: 0.8;
+}
+
+.aye-bouton-blanc:hover {
+  color: #2a2a2a;
+}
+
+.aye-bouton-noir:hover {
+  color: #fff;
+}
+
+.aye-vedettes-cartes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.aye-mini-photo {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  margin-bottom: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #f7f7f7;
+}
+
+.aye-mini-photo img[width][height] {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.aye-mini-photo .aye-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
+
+.aye-mini h4 {
+  margin-bottom: 4px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.aye-mini h4 a {
+  color: #2a2a2a;
+}
+
+.aye-mini p {
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #777;
+}
+
+.aye-mini .aye-mini-tailles {
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+/* ordinateur : la carte vedette prend la hauteur de la grille de droite ;
+   sa photo (version 3:4 a fond prolonge) est en cover, seul du fond sort */
+@media (min-width: 992px) {
+  .aye-vedettes-grille {
+    grid-template-columns: 1.15fr 1fr;
+  }
+}
+
+/* tablette et telephone : vedette au format de sa photo, au-dessus */
+@media (max-width: 991px) {
+  .aye-vedette-photo {
+    aspect-ratio: 3 / 4;
+  }
+  .aye-vedettes-tete .section-heading {
+    text-align: left;
+  }
+}
+
+@media (max-width: 575px) {
+  .aye-vedettes-cartes {
+    grid-template-columns: 1fr;
+  }
+  .aye-vedette-texte h3 {
+    font-size: 24px;
+  }
+}
+
+/* --- Section « histoire » (Collection Enfant, SectionHistoire.js) --------------
+   Titre centre, puis une ligne par produit : photo 3:4 et texte, de cote
+   alterne. Couleurs de texte et police du template. */
+.aye-histoire {
+  padding: 90px 0;
+  border-bottom: 3px dotted #eee;
+}
+
+.aye-histoire .section-heading {
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.aye-histoire-ligne {
+  display: grid;
+  grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+  align-items: center;
+  gap: 30px 80px;
+}
+
+.aye-histoire-ligne + .aye-histoire-ligne {
+  margin-top: 70px;
+}
+
+/* une ligne sur deux : photo a droite */
+.aye-histoire-ligne:nth-of-type(even) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+}
+
+.aye-histoire-ligne:nth-of-type(even) .aye-histoire-photo {
+  order: 2;
+}
+
+.aye-histoire-photo {
+  display: block;
+  aspect-ratio: 3 / 4;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #f7f7f7;
+}
+
+.aye-histoire-photo img[width][height] {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.aye-histoire-numero {
+  display: block;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+  color: #eee;
+}
+
+.aye-histoire-texte h4 {
+  margin: 12px 0 14px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #2a2a2a;
+}
+
+.aye-histoire-texte p {
+  max-width: 520px;
+  margin-bottom: 18px;
+}
+
+.aye-histoire-lien {
+  display: inline-block;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #2a2a2a;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #2a2a2a;
+}
+
+.aye-histoire-lien:hover {
+  color: #aaa;
+  border-color: #aaa;
+}
+
+/* telephone : photo puis texte, toujours dans cet ordre */
+@media (max-width: 767px) {
+  .aye-histoire-ligne,
+  .aye-histoire-ligne:nth-of-type(even) {
+    grid-template-columns: 1fr;
+  }
+  .aye-histoire-ligne:nth-of-type(even) .aye-histoire-photo {
+    order: 0;
+  }
+  .aye-histoire-ligne + .aye-histoire-ligne {
+    margin-top: 50px;
+  }
+}
+
 /* --- Carrousels avant owl-carousel ---------------------------------------
    owl-carousel.css masque .owl-carousel (display: none) jusqu'a son
    initialisation, qui n'a lieu qu'apres le JavaScript de la page : sur une
@@ -1786,13 +2228,13 @@ a.aye-moyen:hover .aye-moyen-valeur {
    template en paysage). Photos de studio : version 3:4 au fond prolonge
    (imageCarte) ; les autres tiennent entieres dans le cadre, sur le fond clair
    du template. Ni flou ni rognage, et des cartes toutes de meme hauteur. */
-.item .thumb > a {
+.item .thumb > a:not(.aye-carte-titre) {
   display: block;
   aspect-ratio: 3 / 4;
   background-color: #f7f7f7;
 }
 
-.item .thumb > a img[width][height] {
+.item .thumb > a:not(.aye-carte-titre) img[width][height] {
   width: 100%;
   height: 100%;
   object-fit: contain;
