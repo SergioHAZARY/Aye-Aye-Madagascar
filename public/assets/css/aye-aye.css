@@ -430,42 +430,77 @@ footer .aye-logo img[width][height] {
    seul du fond est rogne sur les cotes, jamais le personnage.
    - max(100vw / 2,2, ...) : jamais moins haut que l'image elle-meme, sinon
      cover rognerait le haut (la tete) et le bas ;
-   - min(100vh - 120px, 81,8vw - 462px) : hauteur de l'ecran, plafonnee pour
-     que le personnage (450 px de large a 800 px de haut) reste a 30 px du
-     texte (100 px + 42 % de la largeur). */
+   - min(100vh, 96vw - 462px) : toute la hauteur de l'ecran (la banniere
+     passe sous l'en-tete transparent), plafonnee pour que le personnage
+     (450 px de large a 800 px de haut, 532 px pour les diapositives 2 et 3,
+     centrees a 68 %) reste a 30 px du texte (100 px + 38 % de la largeur). */
 @media (min-width: 992px) {
   .main-banner .left-content .inner-content {
-    max-width: 42%;
+    max-width: 38%;
   }
   .main-banner .left-content .thumb {
     position: relative;
     overflow: hidden;
   }
   .main-banner .left-content .thumb img[width][height] {
-    height: max(calc(100vw / 2.2), min(calc(100vh - 120px), calc(81.8vw - 462px)));
+    height: max(calc(100vw / 2.2), min(100vh, calc(96vw - 462px)));
     object-fit: cover;
     /* centre du personnage dans l'image (--aye-position, voir page.js) */
     object-position: var(--aye-position, 65%) center;
   }
 }
 
+/* --- Accueil, ordinateur : en-tete transparent sur la banniere ---------------
+   Comme sur mobile : sur la banniere, l'en-tete est transparent (logo blanc,
+   liens et icones blancs) et reste en place ; des que la banniere est
+   depassee, aye-aye.js ajoute aye-entete-opaque et custom.js
+   background-header : il redevient blanc (en-tete collant du template). La
+   banniere remonte donc sous l'en-tete, et son texte descend de la moitie de
+   la hauteur de l'en-tete pour rester centre dans la partie visible. */
+@media (min-width: 992px) {
+  .header-area.aye-entete-sur-hero {
+    position: fixed;
+  }
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(.background-header) {
+    background-color: transparent;
+    border-bottom-color: transparent !important;
+  }
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(.background-header) .aye-logo-sombre {
+    display: none;
+  }
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(.background-header) .aye-logo-clair {
+    display: block;
+  }
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(.background-header) .main-nav .nav li a,
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(.background-header) .aye-actions-bord a {
+    color: #fff;
+  }
+  /* lien actif : le gris du template (#aaa !important), comme partout */
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(.background-header) .main-nav .nav li a:hover,
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(.background-header) .aye-actions-bord a:hover {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .main-banner {
+    padding-top: 0;
+  }
+  .main-banner .left-content .thumb .inner-content {
+    top: calc(50% + 60px);
+  }
+}
+
 /* --- Carrousel de la banniere (CarrouselBanniere.js) ------------------------
    La premiere image reste dans le flux et donne la hauteur ; les suivantes se
-   superposent exactement (memes formats). Fondu enchaine ; le texte et les
-   commandes passent au-dessus. */
+   superposent exactement (memes formats). Elles glissent vers la gauche
+   (transform pose par le composant) ; le texte et les points passent
+   au-dessus. */
 .aye-diapos {
   position: relative;
+  overflow: hidden;
 }
 
 .aye-diapo {
   display: block;
-  opacity: 0;
-  transition: opacity 0.9s ease;
-}
-
-.aye-diapo.actif {
-  opacity: 1;
-  z-index: 1;
+  will-change: transform;
 }
 
 .aye-diapo:not(:first-child) {
@@ -483,48 +518,6 @@ footer .aye-logo img[width][height] {
 
 .main-banner .left-content .thumb .inner-content {
   z-index: 3;
-}
-
-.aye-diapos-fleche {
-  position: absolute;
-  top: 50%;
-  z-index: 4;
-  width: 44px;
-  height: 44px;
-  margin-top: -22px;
-  display: none; /* ordinateur seulement, voir plus bas */
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 50%;
-  background: rgba(42, 42, 42, 0.35);
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.aye-diapos-fleche:hover {
-  background: #fff;
-  color: #2a2a2a;
-}
-
-.aye-diapos-fleche svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.aye-diapos-precedente {
-  left: 10px;
-}
-
-.aye-diapos-suivante {
-  right: 16px;
 }
 
 .aye-diapos-points {
@@ -551,15 +544,9 @@ footer .aye-logo img[width][height] {
   background: #fff;
 }
 
-@media (min-width: 992px) {
-  .aye-diapos-fleche {
-    display: inline-flex;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .aye-diapo {
-    transition: none;
+    transition: none !important;
   }
 }
 
