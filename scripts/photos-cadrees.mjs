@@ -234,7 +234,7 @@ async function ecrire(image, sortie, largeur, hauteur) {
 // etroit pour laisser la moitie gauche, sombre, au texte
 await composer({
   source: 'DSC_1793.jpg', sortie: 'banniere/principale-tablette.jpg', largeur: 1050, hauteur: 700,
-  position: 'droite', lumiere: 0.93, saturation: 0.30, gradient: [0.85, 0.30, 62],
+  echelle: 0.85, position: 'droite', lumiere: 0.93, saturation: 0.30, gradient: [0.85, 0.30, 62],
 });
 // banniere pleine largeur des ordinateurs (992 px et plus) : meme photo et
 // meme ton, format panoramique (~2,2:1), personnage entier centre a 65 % de la
@@ -243,7 +243,7 @@ await composer({
 // ont ete retirees a la demande de la marque (une seule banniere).
 await composer({
   source: 'DSC_1793.jpg', sortie: 'banniere/principale-large.jpg', largeur: 1760, hauteur: 800,
-  position: 0.65, lumiere: 0.93, saturation: 0.30, gradient: [0.85, 0.30, 70],
+  echelle: 0.85, position: 0.65, lumiere: 0.93, saturation: 0.30, gradient: [0.85, 0.30, 70],
 });
 
 // Diapositives 2 et 3 du carrousel de la banniere (Femme_2, Femme_5) : memes
@@ -256,10 +256,14 @@ await composer({
 // 30 px entre le texte et la photo). Tablette : sujet un peu reduit (0,85)
 // pour rester hors du texte ; mobile : 0,7 pour que le cover des petits
 // ecrans ne rogne que du fond.
-const DIAPOS = [['Femme/Femme_2.jpeg', 2], ['Femme/Femme_5.jpeg', 3]];
-for (const [source, n] of DIAPOS) {
+// echelle : le haut de la tete tombe vers 22 % de la hauteur sur les trois
+// diapositives (comme sur Femme_2, qui a beaucoup de ciel), donc nettement
+// sous l'en-tete transparent ; Femme_5 et DSC_1793 sont reduites en
+// consequence (0,88 et 0,85 ci-dessus).
+const DIAPOS = [['Femme/Femme_2.jpeg', 2, 1], ['Femme/Femme_5.jpeg', 3, 0.88]];
+for (const [source, n, echelleLarge] of DIAPOS) {
   const reglage = { source, lumiere: LUMIERE_DIAPOS, saturation: 0.6, bordsPropres: true, retrait: 2, fondu: 90 };
-  await composer({ ...reglage, sortie: 'banniere/diapo-' + n + '-large.jpg', largeur: 1760, hauteur: 800, position: 0.68, gradient: [0.85, 0.30, 70] });
+  await composer({ ...reglage, sortie: 'banniere/diapo-' + n + '-large.jpg', largeur: 1760, hauteur: 800, echelle: echelleLarge, position: 0.68, gradient: [0.85, 0.30, 70] });
   await composer({ ...reglage, sortie: 'banniere/diapo-' + n + '-tablette.jpg', largeur: 1050, hauteur: 700, echelle: 0.85, position: 'droite', gradient: [0.85, 0.30, 62] });
   await composer({ ...reglage, sortie: 'banniere/diapo-' + n + '-mobile.jpg', largeur: 800, hauteur: 1500, echelle: 0.7, gradient: [0.85, 0.12, 58, 'bas'] });
 }

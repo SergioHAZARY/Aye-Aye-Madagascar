@@ -2,20 +2,21 @@
 
 // Carrousel de la banniere d'accueil : les images glissent vers la gauche
 // sous le texte, qui reste fixe. Le texte est passe en `children` : il est
-// dans la zone du carrousel, si bien que le glissement du doigt et le survol
-// y fonctionnent aussi.
+// dans la zone du carrousel, si bien que le glissement du doigt y fonctionne
+// aussi.
 //
 // Composant React plutot qu'owl-carousel : la banniere n'est pas clonee par
 // owl, les gestionnaires React y fonctionnent, et chaque diapositive garde
 // ses trois formats (<picture> : mobile, tablette, ordinateur) et le
 // cadrage plein ecran d'aye-aye.css.
 //
-// - defilement toutes les 6 s vers la gauche, en pause au survol, au focus
-//   clavier et quand l'onglet est masque ; aucun defilement automatique si le
+// - defilement infini toutes les 6 s vers la gauche (apres la derniere image,
+//   la premiere revient par la droite), sans pause au survol, a la demande de
+//   la marque ; seulement suspendu quand l'onglet est masque, et absent si le
 //   visiteur a demande moins d'animations ;
-// - points (partout) et glissement du doigt ; revenir en arriere (doigt vers
-//   la droite, point precedent) fait glisser dans l'autre sens.
-// Pas de fleches, a la demande de la marque.
+// - glissement du doigt (tactile) ; vers la droite, l'image precedente revient
+//   par la gauche.
+// Ni fleches ni points, a la demande de la marque.
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -27,7 +28,6 @@ export default function CarrouselBanniere({ diapos, children }) {
   const [precedent, setPrecedent] = useState(null);
   const [attente, setAttente] = useState(null); // diapositive placee, prete a entrer
   const [sens, setSens] = useState(1); // 1 : vers la gauche ; -1 : vers la droite
-  const [survol, setSurvol] = useState(false);
   const [cache, setCache] = useState(false);
   const depart = useRef(null);
   const nombre = diapos.length;
@@ -59,7 +59,7 @@ export default function CarrouselBanniere({ diapos, children }) {
 
   // defilement automatique, toujours vers la gauche
   useEffect(() => {
-    if (survol || cache || nombre < 2 || attente !== null) return undefined;
+    if (cache || nombre < 2 || attente !== null) return undefined;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
     const minuteur = setTimeout(() => aller(actif + 1, 1), DUREE);
     return () => clearTimeout(minuteur);
@@ -85,10 +85,6 @@ export default function CarrouselBanniere({ diapos, children }) {
       role="region"
       aria-roledescription="carrousel"
       aria-label="Bannière"
-      onMouseEnter={() => setSurvol(true)}
-      onMouseLeave={() => setSurvol(false)}
-      onFocus={() => setSurvol(true)}
-      onBlur={() => setSurvol(false)}
       onTouchStart={(e) => {
         depart.current = e.touches[0].clientX;
       }}
@@ -120,20 +116,6 @@ export default function CarrouselBanniere({ diapos, children }) {
 
       {children}
 
-      {nombre > 1 && (
-        <div className="aye-diapos-points">
-          {diapos.map((diapo, index) => (
-            <button
-              type="button"
-              key={diapo.large}
-              className={index === actif ? 'actif' : undefined}
-              aria-label={'Image ' + (index + 1) + ' sur ' + nombre}
-              aria-current={index === actif ? 'true' : undefined}
-              onClick={() => aller(index)}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }

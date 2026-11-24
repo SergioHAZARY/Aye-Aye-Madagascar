@@ -402,13 +402,10 @@ footer .aye-logo img[width][height] {
 }
 
 /* --- Banniere plein ecran (768 px et plus) ----------------------------------
-   Bord a bord, collee sous l'en-tete de 120 px (sans les 60 px blancs du
-   template), a la demande de la marque. Sur mobile, le hero l'est deja (voir
+   Bord a bord, a la demande de la marque ; elle passe sous l'en-tete
+   transparent (voir « en-tete transparent sur la banniere »). Sur mobile, le hero l'est deja (voir
    le bloc « Version mobile »). */
 @media (min-width: 768px) {
-  .main-banner {
-    padding-top: 120px;
-  }
   .main-banner > .container-fluid {
     padding-left: 0;
     padding-right: 0;
@@ -450,14 +447,14 @@ footer .aye-logo img[width][height] {
   }
 }
 
-/* --- Accueil, ordinateur : en-tete transparent sur la banniere ---------------
+/* --- Accueil, tablette et ordinateur : en-tete transparent sur la banniere -----
    Comme sur mobile : sur la banniere, l'en-tete est transparent (logo blanc,
    liens et icones blancs) et reste en place ; des que la banniere est
    depassee, aye-aye.js ajoute aye-entete-opaque et custom.js
    background-header : il redevient blanc (en-tete collant du template). La
    banniere remonte donc sous l'en-tete, et son texte descend de la moitie de
    la hauteur de l'en-tete pour rester centre dans la partie visible. */
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .header-area.aye-entete-sur-hero {
     position: fixed;
   }
@@ -491,11 +488,14 @@ footer .aye-logo img[width][height] {
 /* --- Carrousel de la banniere (CarrouselBanniere.js) ------------------------
    La premiere image reste dans le flux et donne la hauteur ; les suivantes se
    superposent exactement (memes formats). Elles glissent vers la gauche
-   (transform pose par le composant) ; le texte et les points passent
-   au-dessus. */
+   (transform pose par le composant) ; le texte passe au-dessus. */
 .aye-diapos {
   position: relative;
   overflow: hidden;
+  /* gestes horizontaux pour le carrousel (glissement du doigt), et non pour
+     le navigateur (sinon il les prend pour « page precedente ») ; le
+     defilement vertical de la page reste normal */
+  touch-action: pan-y;
 }
 
 .aye-diapo {
@@ -518,30 +518,6 @@ footer .aye-logo img[width][height] {
 
 .main-banner .left-content .thumb .inner-content {
   z-index: 3;
-}
-
-.aye-diapos-points {
-  position: absolute;
-  left: 50%;
-  bottom: 22px;
-  z-index: 4;
-  display: flex;
-  gap: 10px;
-  transform: translateX(-50%);
-}
-
-.aye-diapos-points button {
-  width: 10px;
-  height: 10px;
-  padding: 0;
-  border: 1px solid #fff;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-}
-
-.aye-diapos-points button.actif {
-  background: #fff;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2110,9 +2086,6 @@ a.aye-moyen:hover .aye-moyen-valeur {
     left: 0;
     width: 100%;
     height: 100%;
-  }
-  .aye-diapos-points {
-    bottom: 12px;
   }
   /* texte en bas du hero, centre */
   .main-banner .left-content .thumb .inner-content {
