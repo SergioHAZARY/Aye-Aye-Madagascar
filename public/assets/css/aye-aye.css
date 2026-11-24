@@ -93,12 +93,24 @@ footer .aye-logo img[width][height] {
   margin-bottom: 18px;
 }
 
+/* --- Largeur du contenu ----------------------------------------------------
+   A la demande de la marque, toutes les sections (en-tete, bannieres,
+   produits, pied de page) sont plus larges que les 1140 px de Bootstrap sur
+   les grands ecrans : 86 % de la largeur, entre 1140 et 1620 px. Le texte de
+   la banniere d'accueil reprend la meme formule pour rester aligne sur le
+   logo. En % (et non en vw) : meme reference que la banniere, barre de
+   defilement exclue. */
+@media (min-width: 1200px) {
+  .container {
+    max-width: max(1140px, min(1620px, 86%));
+  }
+}
+
 /* --- Icones recherche et compte -------------------------------------------
    Trait fin, couleur du texte du menu (#2a2a2a), gris au survol comme les
    liens du template. Deux exemplaires dans Header.js, un seul visible :
-     >= 1400 px  .aye-actions-bord, au bord droit de l'ecran (marge du
-                 .container assez large) ;
-     768-1399    li.aye-action, dans le menu apres « Contact » ;
+     >= 768      li.aye-action, dans le menu apres « Contact », donc dans la
+                 largeur du contenu (demande de la marque) ;
      <= 767      .aye-actions-bord, dans la barre a gauche du bouton menu
                  (place a right: 40px par le template, 32 px de large). */
 .header-area .main-nav .nav li.aye-action {
@@ -141,15 +153,6 @@ footer .aye-logo img[width][height] {
 
 .aye-actions-bord a:hover {
   color: #aaa;
-}
-
-@media (min-width: 1400px) {
-  .aye-actions-bord {
-    display: flex;
-  }
-  .header-area .main-nav .nav li.aye-action {
-    display: none;
-  }
 }
 
 @media (max-width: 767px) {
@@ -526,13 +529,13 @@ footer .aye-logo img[width][height] {
 }
 
 /* Texte de la banniere aligne sur la grille (logo, « Nouveautes Homme ») :
-   container de 1140 px des 1200 px, 960 px de 992 a 1199, 720 px de 768 a
+   container elargi des 1200 px (voir « Largeur du contenu »), 960 px de 992 a 1199, 720 px de 768 a
    991 (Bootstrap 4). Plafond de hauteur ordinateur : texte a droite en
    W/2 - 76 px (1200+) ou W/2 - 62 px (992-1199), d'ou H <= 54,1vw + 138 px
    ou + 96 px pour garder 30 px avant le personnage de la diapositive 2. */
 @media (min-width: 1200px) {
   .main-banner .left-content .inner-content {
-    left: calc((100% - 1140px) / 2 + 15px);
+    left: calc((100% - max(1140px, min(1620px, 86%))) / 2 + 15px);
     width: 479px;
     max-width: none;
   }
