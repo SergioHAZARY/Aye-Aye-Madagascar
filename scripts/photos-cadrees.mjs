@@ -307,6 +307,18 @@ await composer({
   source: 'DSC_1808.jpg', sortie: 'banniere/entete-face.jpg', largeur: 1600, hauteur: 520,
   echelle: 0.92, lumiere: 0.44, saturation: 0.45,
 });
+// Pages categorie : Homme (DSC_1804), Femme (Femme_3), Enfant (Enfant_2)
+await composer({
+  source: 'DSC_1804.jpg', sortie: 'banniere/entete-homme.jpg', largeur: 1600, hauteur: 520,
+  echelle: 0.92, lumiere: 0.44, saturation: 0.45,
+});
+// lumiere : gris moyen ~60 comme les autres bandeaux (texte blanc lisible)
+for (const [source, sortie, lumiere, saturation] of [['Femme/Femme_3.jpeg', 'entete-femme-cat', 0.52, 0.5], ['Enfant/Enfant_2.jpeg', 'entete-enfant', 0.5, 0.35]]) {
+  await composer({
+    source, sortie: 'banniere/' + sortie + '.jpg', largeur: 1600, hauteur: 520,
+    echelle: 0.92, lumiere, saturation, bordsPropres: true, retrait: 2, fondu: 90,
+  });
+}
 // Contact : photo de femme (exterieur : degrade lisse et fondu)
 await composer({
   source: 'Femme/Femme_2.jpeg', sortie: 'banniere/entete-femme.jpg', largeur: 1600, hauteur: 520,

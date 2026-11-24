@@ -13,9 +13,9 @@ export default function PageCategorie({ slug }) {
 
   return (
     <>
-      <Header />
+      <Header surBanniere />
 
-      <div className="page-heading" id="top">
+      <div className={'page-heading aye-entete-' + (slug === 'femme' ? 'femme-cat' : slug)} id="top">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
