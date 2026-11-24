@@ -1,6 +1,7 @@
 // Pied de page, selon la structure fournie par la marque :
-// logo (sans devise, a la demande de la marque) · Modeles · Collections (les
-// 9 dessins) · Suivez-nous · A propos · Contact, puis le copyright. Pas de credit TemplateMo / ThemeWagon : la marque a achete la
+// logo (sans devise, a la demande de la marque) · Modeles · Collections (3
+// dessins et « Voir plus ») · A propos · Contact, puis le copyright avec, a
+// cote, les logos Facebook et WhatsApp. Pas de credit TemplateMo / ThemeWagon : la marque a achete la
 // licence du template chez ThemeWagon.
 //
 // Panier et favoris ne sont plus ici : on y accede par l'icone « compte » de
@@ -39,7 +40,7 @@ export default function Footer() {
     <footer>
       <div className="container">
         <div className="row">
-          <div className="col-lg-2 col-md-6">
+          <div className="col-lg-3 col-md-6">
             <div className="first-item">
               <div className="logo aye-logo aye-logo-pied">
                 <img
@@ -84,25 +85,6 @@ export default function Footer() {
           </div>
 
           <div className="col-lg-2 col-md-6">
-            <h4>Suivez-nous</h4>
-            <ul className="aye-pied-reseaux">
-              {' '}
-              <li>
-                <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
-                  <i className="fa fa-facebook"></i>
-                </a>
-              </li>
-              {' '}
-              <li>
-                <a href={CONTACT.whatsappLien} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
-                  <i className="fa fa-whatsapp"></i>
-                </a>
-              </li>
-              {' '}
-            </ul>
-          </div>
-
-          <div className="col-lg-2 col-md-6">
             <h4>À propos</h4>
             <ul>
               {' '}
@@ -113,7 +95,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="col-lg-2 col-md-6">
+          <div className="col-lg-3 col-md-6">
             <h4><a href={chemin('/contact/')}>Contact</a></h4>
             <ul>
               {' '}
@@ -129,8 +111,25 @@ export default function Footer() {
           </div>
 
           <div className="col-lg-12">
-            <div className="under-footer">
+            {/* copyright et, a cote, Facebook et WhatsApp (la colonne
+                « Suivez-nous » a ete retiree a la demande de la marque) */}
+            <div className="under-footer aye-pied-bas">
               <p>© 2026 Aye Aye Madagascar. {MARQUE.slogan}</p>
+              <ul className="aye-pied-reseaux">
+                {' '}
+                <li>
+                  <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+                    <i className="fa fa-facebook"></i>
+                  </a>
+                </li>
+                {' '}
+                <li>
+                  <a href={CONTACT.whatsappLien} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                    <i className="fa fa-whatsapp"></i>
+                  </a>
+                </li>
+                {' '}
+              </ul>
             </div>
           </div>
         </div>

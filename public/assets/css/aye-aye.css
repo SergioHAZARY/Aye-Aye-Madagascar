@@ -738,6 +738,36 @@ footer .aye-logo img[width][height] {
 }
 
 /* --- Pied de page --------------------------------------------------------- */
+/* Bas du pied : copyright et, a sa droite, Facebook et WhatsApp (centres
+   ensemble ; sur une ligne etroite, les logos passent dessous) */
+footer .aye-pied-bas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 24px;
+}
+
+footer .aye-pied-bas p {
+  margin: 0;
+}
+
+footer .aye-pied-bas ul.aye-pied-reseaux {
+  margin: 0;
+  display: flex;
+  gap: 12px;
+}
+
+footer .aye-pied-bas ul.aye-pied-reseaux li {
+  margin: 0;
+}
+
+footer .aye-pied-bas ul.aye-pied-reseaux li a {
+  width: 38px;
+  height: 38px;
+  font-size: 17px;
+}
+
 /* logos Facebook et WhatsApp : memes cercles que l'under-footer du template */
 footer ul.aye-pied-reseaux li {
   display: inline-block;
