@@ -715,7 +715,6 @@ footer .aye-logo img[width][height] {
    moities identiques ; elle glisse de 50 % puis repart, sans raccord. A
    l'arret si le visiteur demande moins d'animations. */
 .aye-bandeau {
-  margin: 60px 0 0;
   overflow: hidden;
   padding: 18px 0;
   background-color: #2a2a2a;
