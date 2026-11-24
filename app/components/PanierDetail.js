@@ -11,10 +11,8 @@ import {
   retirerDuPanier,
   viderPanier,
 } from '../lib/panier';
-import { formaterPrix, produitParSlug, taillesDuProduit } from '../data/catalogue';
+import { produitParSlug, taillesDuProduit } from '../data/catalogue';
 import { CONTACT } from './Footer';
-
-const FRAIS_LIVRAISON = 0;
 
 export default function PanierDetail() {
   const [lignes, setLignes] = useState(null); // null = pas encore lu
@@ -42,15 +40,15 @@ export default function PanierDetail() {
     .filter((ligne) => ligne.produit)
     .map((ligne) => ({ ...ligne, tailles: taillesDuProduit(ligne.produit) }));
 
-  const total = articles.reduce((somme, l) => somme + l.produit.prix * l.quantite, 0);
+  const nombreArticles = articles.reduce((n, l) => n + l.quantite, 0);
 
   if (commande) {
     return (
       <div className="aye-confirmation">
         <h4>Merci {commande.nom} !</h4>
         <p>
-          Votre commande de {commande.articles} article{commande.articles > 1 ? 's' : ''} pour un
-          total de <strong>{formaterPrix(commande.total)}</strong> est enregistrée.
+          Votre commande de <strong>{commande.articles} article{commande.articles > 1 ? 's' : ''}</strong>{' '}
+          est enregistrée.
         </p>
         <p>
           Pour la confirmer et convenir de la livraison, contactez-nous :
@@ -97,8 +95,7 @@ export default function PanierDetail() {
     const donnees = new FormData(evenement.currentTarget);
     setCommande({
       nom: donnees.get('nom'),
-      articles: articles.reduce((n, l) => n + l.quantite, 0),
-      total,
+      articles: nombreArticles,
     });
     viderPanier();
   }
@@ -110,9 +107,7 @@ export default function PanierDetail() {
           <thead>
             <tr>
               <th colSpan="2">Produit</th>
-              <th>Prix</th>
               <th>Quantité</th>
-              <th>Total</th>
               <th></th>
             </tr>
           </thead>
@@ -151,7 +146,6 @@ export default function PanierDetail() {
                     </label>
                   )}
                 </td>
-                <td>{formaterPrix(produit.prix)}</td>
                 <td>
                   <div className="aye-quantite">
                     <button
@@ -171,7 +165,6 @@ export default function PanierDetail() {
                     </button>
                   </div>
                 </td>
-                <td>{formaterPrix(produit.prix * quantite)}</td>
                 <td>
                   <button
                     type="button"
@@ -192,16 +185,12 @@ export default function PanierDetail() {
         <div className="aye-recapitulatif">
           <h4>Récapitulatif</h4>
           <p>
-            <span>Sous-total</span>
-            <strong>{formaterPrix(total)}</strong>
+            <span>Articles</span>
+            <strong>{nombreArticles}</strong>
           </p>
           <p>
             <span>Livraison</span>
-            <strong>{FRAIS_LIVRAISON === 0 ? 'À convenir' : formaterPrix(FRAIS_LIVRAISON)}</strong>
-          </p>
-          <p className="aye-total">
-            <span>Total</span>
-            <strong>{formaterPrix(total + FRAIS_LIVRAISON)}</strong>
+            <strong>À convenir</strong>
           </p>
 
           <form onSubmit={validerCommande}>

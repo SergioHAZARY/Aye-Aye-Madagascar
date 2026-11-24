@@ -549,6 +549,15 @@ footer ul.aye-pied-reseaux li a:hover {
   color: #2a2a2a;
 }
 
+/* le titre « Contact » mene a la page Contact : meme aspect qu'un titre */
+footer h4 a {
+  color: inherit;
+}
+
+footer h4 a:hover {
+  opacity: 0.75;
+}
+
 /* colonnes empilees sur tablette et mobile : un peu d'air entre elles */
 @media (max-width: 991px) {
   footer h4 {
@@ -728,11 +737,10 @@ footer ul.aye-pied-reseaux li a:hover {
   cursor: pointer;
 }
 
-.aye-fiche-prix {
-  font-size: 22px;
-  font-weight: 700;
-  color: #2a2a2a;
-  margin: 14px 0 28px;
+/* espace sous le titre : celui qu'occupait le prix, retire a la demande de
+   la marque */
+.aye-fiche-titre {
+  margin-bottom: 28px;
 }
 
 .aye-fiche-libelle {

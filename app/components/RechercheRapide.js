@@ -15,7 +15,7 @@
 import { chemin } from '@/app/lib/chemin';
 import { useEffect, useRef, useState } from 'react';
 
-import { formaterPrix, rechercherProduits } from '../data/catalogue';
+import { rechercherProduits } from '../data/catalogue';
 
 const TRAIT = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round' };
 const MAX_SUGGESTIONS = 6;
@@ -109,9 +109,7 @@ export default function RechercheRapide() {
                         <img src={produit.image} alt="" width={899} height={1600} loading="lazy" decoding="async" />
                         <span>
                           <strong>{produit.nom}</strong>
-                          <small>
-                            {produit.couleur} · {formaterPrix(produit.prix)}
-                          </small>
+                          <small>{produit.couleur}</small>
                         </span>
                       </a>
                     </li>

@@ -44,7 +44,7 @@ Dans le code, toute adresse interne passe par `chemin('/...')`
 ## Modifier la boutique
 
 Tout le catalogue tient dans **`app/data/catalogue.js`** : catégories, produits,
-prix, photos, descriptions. Ajouter un produit = ajouter un objet dans ce
+photos, descriptions (le site n'affiche aucun prix). Ajouter un produit = ajouter un objet dans ce
 fichier ; l'accueil, la page catégorie, la fiche produit, la recherche et le
 panier se mettent à jour tout seuls.
 

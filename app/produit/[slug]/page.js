@@ -9,7 +9,6 @@ import { CONTACT } from '../../components/Footer';
 import {
   PRODUITS,
   categorieParSlug,
-  formaterPrix,
   produitParSlug,
   produitsParCategorie,
   taillesDuProduit,
@@ -90,8 +89,6 @@ export default async function PageProduit({ params }) {
                     <i className="fa fa-heart-o"></i>
                   </button>
                 </div>
-
-                <p className="aye-fiche-prix">{formaterPrix(produit.prix)}</p>
 
                 <AchatProduit slug={produit.slug} tailles={tailles}>
                   {tailles.length > 0 && (

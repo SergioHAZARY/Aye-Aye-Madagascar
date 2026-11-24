@@ -6,7 +6,6 @@
 // y compris sur les cartes dupliquees par le carrousel.
 
 import { chemin } from '@/app/lib/chemin';
-import { formaterPrix } from '../data/catalogue';
 
 export default function FicheProduit({ produit, image, differer = true }) {
   const lien = chemin('/produit/' + produit.slug + '/');
@@ -55,7 +54,6 @@ export default function FicheProduit({ produit, image, differer = true }) {
       </div>
       <div className="down-content">
         <h4><a href={lien}>{produit.nom}</a></h4>
-        <span>{formaterPrix(produit.prix)}</span>
         <ul className="stars">
           {' '}
           {Array.from({ length: produit.note }, (_, i) => (

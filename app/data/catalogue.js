@@ -4,10 +4,10 @@ import { chemin } from '@/app/lib/chemin';
 // Catalogue Aye Aye Madagascar
 //
 // C'EST LE SEUL FICHIER A MODIFIER pour faire vivre la boutique : ajouter un
-// produit, changer un prix, une photo ou une categorie se fait ici, et tout le
+// produit, changer une photo ou une categorie se fait ici, et tout le
 // site suit (accueil, pages categories, fiches produit, recherche, panier).
 //
-// Les noms et les prix des produits Femme / Enfant / Accessoires sont des
+// Les noms des produits Femme / Enfant / Accessoires sont des
 // exemples a remplacer par vos vraies references.
 // ---------------------------------------------------------------------------
 
@@ -44,7 +44,6 @@ export const PRODUITS = [
     slug: 'manches-longues-aye-aye-rouge',
     nom: 'Manches longues Aye-Aye',
     couleur: 'Rouge',
-    prix: 95000,
     categorie: 'homme',
     note: 5,
     image: chemin('/assets/images/Homme/DSC_1808.jpg'),
@@ -66,7 +65,6 @@ export const PRODUITS = [
     slug: 'manches-longues-antsatsaka-ecru',
     nom: 'Manches longues Antsatsaka',
     couleur: 'Écru',
-    prix: 95000,
     categorie: 'homme',
     note: 5,
     image: chemin('/assets/images/Homme/DSC_1795.jpg'),
@@ -87,7 +85,6 @@ export const PRODUITS = [
     slug: 'blazer-kaki',
     nom: 'Blazer kaki',
     couleur: 'Kaki',
-    prix: 150000,
     categorie: 'femme',
     note: 5,
     image: chemin('/assets/images/women-01.jpg'),
@@ -99,7 +96,6 @@ export const PRODUITS = [
     slug: 'robe-fleurie',
     nom: 'Robe fleurie',
     couleur: 'Imprimé',
-    prix: 110000,
     categorie: 'femme',
     note: 5,
     image: chemin('/assets/images/women-02.jpg'),
@@ -111,7 +107,6 @@ export const PRODUITS = [
     slug: 'pull-oversize',
     nom: 'Pull oversize',
     couleur: 'Gris',
-    prix: 130000,
     categorie: 'femme',
     note: 5,
     image: chemin('/assets/images/women-03.jpg'),
@@ -125,7 +120,6 @@ export const PRODUITS = [
     slug: 'ensemble-marin',
     nom: 'Ensemble marin',
     couleur: 'Bleu',
-    prix: 75000,
     categorie: 'enfant',
     note: 5,
     image: chemin('/assets/images/kid-01.jpg'),
@@ -137,7 +131,6 @@ export const PRODUITS = [
     slug: 'robe-a-pois',
     nom: 'Robe à pois',
     couleur: 'Bleu nuit',
-    prix: 68000,
     categorie: 'enfant',
     note: 5,
     image: chemin('/assets/images/kid-02.jpg'),
@@ -149,7 +142,6 @@ export const PRODUITS = [
     slug: 't-shirt-raye-enfant',
     nom: 'T-shirt rayé',
     couleur: 'Blanc / bleu',
-    prix: 45000,
     categorie: 'enfant',
     note: 5,
     image: chemin('/assets/images/kid-03.jpg'),
@@ -163,7 +155,6 @@ export const PRODUITS = [
     slug: 'sac-en-cuir',
     nom: 'Sac en cuir',
     couleur: 'Camel',
-    prix: 180000,
     categorie: 'accessoires',
     note: 5,
     image: chemin('/assets/images/single-product-01.jpg'),
@@ -175,7 +166,6 @@ export const PRODUITS = [
     slug: 'casquette-aye-aye',
     nom: 'Casquette Aye-Aye',
     couleur: 'Noir',
-    prix: 55000,
     categorie: 'accessoires',
     note: 5,
     image: chemin('/assets/images/baner-right-image-04.jpg'),
@@ -187,7 +177,6 @@ export const PRODUITS = [
     slug: 'tote-bag-malagasy',
     nom: 'Tote bag Malagasy',
     couleur: 'Écru',
-    prix: 38000,
     categorie: 'accessoires',
     note: 5,
     image: chemin('/assets/images/explore-image-01.jpg'),
@@ -331,8 +320,4 @@ export function rechercherProduits(requete) {
     const champs = [produit.nom, produit.couleur, produit.description, categorie.nom].join(' ');
     return normaliser(champs).includes(terme);
   });
-}
-
-export function formaterPrix(montant) {
-  return montant.toLocaleString('fr-FR').replace(/ | /g, ' ') + ' Ar';
 }

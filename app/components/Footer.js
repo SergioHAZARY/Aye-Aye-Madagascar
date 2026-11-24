@@ -1,13 +1,13 @@
 // Pied de page, selon la structure fournie par la marque :
-// logo (sans devise, a la demande de la marque) · Modeles · La marque · Suivez-nous · Contact, puis le
-// copyright. Pas de credit TemplateMo / ThemeWagon : la marque a achete la
+// logo (sans devise, a la demande de la marque) · Modeles · Collections (les
+// 9 dessins) · Suivez-nous · A propos · Contact, puis le copyright. Pas de credit TemplateMo / ThemeWagon : la marque a achete la
 // licence du template chez ThemeWagon.
 //
 // Panier et favoris ne sont plus ici : on y accede par l'icone « compte » de
 // l'en-tete (page /compte/, qui porte le compteur du panier).
 
 import { chemin } from '@/app/lib/chemin';
-import { MODELES } from '../data/catalogue';
+import { COLLECTIONS, MODELES } from '../data/catalogue';
 
 export const CONTACT = {
   whatsapp: '+261 32 53 486 85',
@@ -31,7 +31,7 @@ export default function Footer() {
     <footer>
       <div className="container">
         <div className="row">
-          <div className="col-lg-3 col-md-6">
+          <div className="col-lg-2 col-md-6">
             <div className="first-item">
               <div className="logo aye-logo aye-logo-pied">
                 <img
@@ -60,14 +60,14 @@ export default function Footer() {
           </div>
 
           <div className="col-lg-2 col-md-6">
-            <h4>La marque</h4>
+            <h4>Collections</h4>
             <ul>
               {' '}
-              <li><a href={chemin('/collections/')}>Collections</a></li>
-              {' '}
-              <li><a href={chemin('/about/')}>À propos</a></li>
-              {' '}
-              <li><a href={chemin('/contact/')}>Contact</a></li>
+              {COLLECTIONS.map((collection) => (
+                <li key={collection.slug}>
+                  <a href={chemin('/collections/#' + collection.slug)}>{collection.nom}</a>
+                </li>
+              ))}
               {' '}
             </ul>
           </div>
@@ -91,8 +91,19 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="col-lg-3 col-md-6">
-            <h4>Contact</h4>
+          <div className="col-lg-2 col-md-6">
+            <h4>À propos</h4>
+            <ul>
+              {' '}
+              <li><a href={chemin('/about/#histoire')}>Notre histoire</a></li>
+              {' '}
+              <li><a href={chemin('/about/#engagement')}>Nos engagements</a></li>
+              {' '}
+            </ul>
+          </div>
+
+          <div className="col-lg-2 col-md-6">
+            <h4><a href={chemin('/contact/')}>Contact</a></h4>
             <ul>
               {' '}
               <li><a href={CONTACT.telephoneLien}>{CONTACT.telephone}</a></li>
