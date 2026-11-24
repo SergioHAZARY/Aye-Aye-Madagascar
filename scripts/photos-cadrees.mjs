@@ -1,0 +1,164 @@
+// Fabrique toutes les images du site tirees des photos de la marque :
+// banniere d'accueil, bandeaux de titre, vignettes « Suivez-nous » et
+// « Decouvrez », piliers et image « Notre histoire » de la page A propos,
+// photos des collections.
+//
+// REGLE UNIQUE : AUCUNE PHOTO N'EST ROGNEE.
+// Les photos sont en portrait (899x1600) et les cadres en paysage ou carres.
+// La photo entiere tient dans le cadre ; le manque est comble en etirant la
+// bordure de la photo (colonne de gauche, colonne de droite, ligne du haut).
+// Le fond d'atelier etant un gris uni, il se prolonge sans raccord visible.
+// Condition : la bordure etiree doit etre du fond. DSC_1806 (bras leve qui
+// touche le bord gauche) ne s'y prete pas et n'est pas utilisee.
+//
+// Images portant du texte blanc (banniere, bandeaux) : meme tonalite sombre
+// que les images du template qu'elles remplacent, c'est ce qui rend le texte
+// lisible sans voile CSS. Les autres gardent leurs couleurs naturelles.
+//
+// Relancer avec : node scripts/photos-cadrees.mjs
+import sharp from 'sharp';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const SOURCES = 'public/assets/images/Homme';
+const IMAGES = 'public/assets/images';
+
+// voile sombre degrade : depuis la gauche (titre de la banniere ordinateur)
+// ou depuis le bas (texte en bas du hero mobile)
+function voile(largeur, hauteur, debut, fin, arret, sens = 'gauche') {
+  const axe = sens === 'bas' ? 'x1="0" y1="1" x2="0" y2="0"' : 'x1="0" y1="0" x2="1" y2="0"';
+  return Buffer.from(
+    `<svg width="${largeur}" height="${hauteur}">
+       <defs>
+         <linearGradient id="v" ${axe}>
+           <stop offset="0%" stop-color="#000" stop-opacity="${debut}"/>
+           <stop offset="${arret}%" stop-color="#000" stop-opacity="${fin}"/>
+           <stop offset="100%" stop-color="#000" stop-opacity="${fin}"/>
+         </linearGradient>
+       </defs>
+       <rect width="100%" height="100%" fill="url(#v)"/>
+     </svg>`,
+  );
+}
+
+// etire une bande de 1 px prise au bord de `image` pour couvrir largeur x hauteur.
+// 1 px et pas plus : une fois la photo reduite, une bande plus large attrape
+// le bout d une manche proche du bord et laisse une trainee de couleur.
+async function etirer(image, zone, largeur, hauteur) {
+  // flou le long de la bande : efface le grain JPEG, qui sinon devient des
+  // lignes fines une fois etire ; le degrade lent du fond est conserve
+  const bande = await sharp(image).extract(zone).blur(6).toBuffer();
+  return sharp(bande).resize(largeur, hauteur, { fit: 'fill' }).toBuffer();
+}
+
+async function composer({
+  source, sortie, largeur, hauteur,
+  echelle = 1,            // part de la hauteur occupee par la photo (marge en haut)
+  position = 'centre',    // 'centre' ou 'droite'
+  lumiere = 1, saturation = 1, gradient = null,
+}) {
+  const photo = fs.readFileSync(path.join(SOURCES, source));
+
+  // 1. la photo entiere, a la hauteur voulue
+  const hs = Math.round(hauteur * echelle);
+  const sujet = await sharp(photo)
+    .resize({ height: hs, fit: 'inside' })
+    .modulate({ brightness: lumiere, saturation })
+    .toBuffer();
+  const { width: ls } = await sharp(sujet).metadata();
+
+  // 2. marge du haut : on etire la ligne superieure (le bas de la photo reste
+  //    ancre en bas du cadre, les jambes sortent du cadre comme sur l'original)
+  let colonne = sujet;
+  const marge = hauteur - hs;
+  if (marge > 0) {
+    colonne = await sharp({ create: { width: ls, height: hauteur, channels: 3, background: '#808080' } })
+      .composite([
+        { input: await etirer(sujet, { left: 0, top: 0, width: ls, height: 1 }, ls, marge), left: 0, top: 0 },
+        { input: sujet, left: 0, top: marge },
+      ])
+      .png()
+      .toBuffer();
+  }
+
+  // 3. cotes : on etire la colonne de gauche et celle de droite
+  const gauche = position === 'droite'
+    ? Math.max(0, largeur - ls - Math.round(largeur * 0.04))
+    : Math.round((largeur - ls) / 2);
+  const droite = largeur - gauche - ls;
+
+  const calques = [];
+  if (gauche > 0) {
+    calques.push({ input: await etirer(colonne, { left: 0, top: 0, width: 1, height: hauteur }, gauche, hauteur), left: 0, top: 0 });
+  }
+  if (droite > 0) {
+    calques.push({ input: await etirer(colonne, { left: ls - 1, top: 0, width: 1, height: hauteur }, droite, hauteur), left: gauche + ls, top: 0 });
+  }
+  calques.push({ input: colonne, left: gauche, top: 0 });
+  if (gradient) calques.push({ input: voile(largeur, hauteur, ...gradient), left: 0, top: 0 });
+
+  const image = await sharp({ create: { width: largeur, height: hauteur, channels: 3, background: '#808080' } })
+    .composite(calques)
+    .jpeg({ quality: 84, mozjpeg: true })
+    .toBuffer();
+  fs.mkdirSync(path.dirname(path.join(IMAGES, sortie)), { recursive: true });
+  fs.writeFileSync(path.join(IMAGES, sortie), image);
+
+  const st = await sharp(image).stats();
+  const moy = st.channels.slice(0, 3).map((c) => Math.round(c.mean));
+  console.log(
+    sortie.padEnd(28),
+    (largeur + 'x' + hauteur).padEnd(10),
+    (image.length / 1024).toFixed(0).padStart(4) + ' Ko',
+    '  gris moyen ' + String(Math.round(moy.reduce((a, b) => a + b) / 3)).padStart(3),
+  );
+}
+
+// --- Banniere d'accueil (texte blanc : tonalite du template, 77 et ~95) ------
+await composer({
+  source: 'DSC_1793.jpg', sortie: 'banniere/principale.jpg', largeur: 790, hauteur: 680,
+  position: 'droite', lumiere: 0.93, saturation: 0.30, gradient: [0.85, 0.30, 78],
+});
+await composer({
+  source: 'DSC_1807.jpg', sortie: 'banniere/homme.jpg', largeur: 385, hauteur: 330,
+  lumiere: 0.76, saturation: 0.62,
+});
+
+// hero mobile (portrait, plein ecran) : meme photo et meme ton, personnage
+// entier avec de la marge sur les cotes (le navigateur l'affiche en cover et
+// peut rogner jusqu'a ~4 % de la largeur : seul du fond disparait), voile
+// montant du bas sous le texte
+await composer({
+  source: 'DSC_1793.jpg', sortie: 'banniere/principale-mobile.jpg', largeur: 800, hauteur: 1500,
+  echelle: 0.88, lumiere: 0.9, saturation: 0.30, gradient: [0.85, 0.12, 58, 'bas'],
+});
+
+// --- Bandeaux de titre (texte blanc : tonalite du template, 55 a 62) ---------
+// Affiches en background-size: cover : le navigateur rogne un peu le haut et
+// le bas sur grand ecran, les cotes sur mobile. Sujet centre, 8 % de marge en
+// haut : seul du fond peut disparaitre.
+await composer({
+  source: 'DSC_1807.jpg', sortie: 'banniere/entete.jpg', largeur: 1600, hauteur: 520,
+  echelle: 0.92, lumiere: 0.44, saturation: 0.45,
+});
+await composer({
+  source: 'DSC_1795.jpg', sortie: 'banniere/entete-marque.jpg', largeur: 1600, hauteur: 520,
+  echelle: 0.92, lumiere: 0.43, saturation: 0.45,
+});
+
+// --- Vignettes « Suivez-nous » (01 et 05 servent aussi a « Decouvrez ») ------
+const SOCIAL = ['DSC_1804.jpg', 'DSC_1805.jpg', 'DSC_1807.jpg', 'DSC_1809.jpg', 'DSC_1793.jpg', 'DSC_1794.jpg'];
+for (const [i, source] of SOCIAL.entries()) {
+  await composer({ source, sortie: 'social/0' + (i + 1) + '.jpg', largeur: 320, hauteur: 320 });
+}
+
+// --- Page A propos -------------------------------------------------------------
+const PILIERS = ['DSC_1795.jpg', 'DSC_1807.jpg', 'Basta Lion.jpeg'];
+for (const [i, source] of PILIERS.entries()) {
+  await composer({ source, sortie: 'piliers/0' + (i + 1) + '.jpg', largeur: 310, hauteur: 250 });
+}
+await composer({ source: 'DSC_1808.jpg', sortie: 'apropos/histoire.jpg', largeur: 570, hauteur: 422 });
+
+// --- Collections : le dessin au dos, sur la page Nos collections --------------
+await composer({ source: 'DSC_1795.jpg', sortie: 'collections/antsatsaka.jpg', largeur: 480, hauteur: 480 });
+await composer({ source: 'DSC_1807.jpg', sortie: 'collections/aye-aye-madagascar.jpg', largeur: 480, hauteur: 480 });

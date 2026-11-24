@@ -1,0 +1,21 @@
+{
+  "name": "aye-aye-madagascar",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site Aye Aye Madagascar - portage Next.js du template HexaShop",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next build",
+    "images": "node scripts/optimiser-photos.mjs"
+  },
+  "dependencies": {
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
+}

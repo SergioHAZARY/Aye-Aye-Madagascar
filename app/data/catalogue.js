@@ -1,0 +1,336 @@
+// ---------------------------------------------------------------------------
+// Catalogue Aye Aye Madagascar
+//
+// C'EST LE SEUL FICHIER A MODIFIER pour faire vivre la boutique : ajouter un
+// produit, changer un prix, une photo ou une categorie se fait ici, et tout le
+// site suit (accueil, pages categories, fiches produit, recherche, panier).
+//
+// Les noms et les prix des produits Femme / Enfant / Accessoires sont des
+// exemples a remplacer par vos vraies references.
+// ---------------------------------------------------------------------------
+
+export const CATEGORIES = [
+  {
+    slug: 'homme',
+    nom: 'Homme',
+    accroche: 'Manches longues et pièces signature pour homme.',
+    image: '/assets/images/Homme/DSC_1808.jpg',
+  },
+  {
+    slug: 'femme',
+    nom: 'Femme',
+    accroche: 'Des pièces qui portent la fierté malagasy.',
+    image: '/assets/images/women-01.jpg',
+  },
+  {
+    slug: 'enfant',
+    nom: 'Enfant',
+    accroche: 'La culture malagasy dès le plus jeune âge.',
+    image: '/assets/images/kid-01.jpg',
+  },
+  {
+    slug: 'accessoires',
+    nom: 'Accessoires',
+    accroche: 'Les détails qui complètent votre style.',
+    image: '/assets/images/baner-right-image-04.jpg',
+  },
+];
+
+export const PRODUITS = [
+  // --- Homme : les deux modeles photographies -------------------------------
+  {
+    slug: 'manches-longues-aye-aye-rouge',
+    nom: 'Manches longues Aye-Aye',
+    couleur: 'Rouge',
+    prix: 95000,
+    categorie: 'homme',
+    note: 5,
+    image: '/assets/images/Homme/DSC_1808.jpg',
+    galerie: [
+      '/assets/images/Homme/DSC_1808.jpg',
+      '/assets/images/Homme/DSC_1804.jpg',
+      '/assets/images/Homme/DSC_1805.jpg',
+      '/assets/images/Homme/DSC_1807.jpg',
+      '/assets/images/Homme/DSC_1806.jpg',
+      '/assets/images/Homme/DSC_1809.jpg',
+    ],
+    description:
+      "T-shirt manches longues en coton 100 %, rouge profond. L'aye-aye, "
+      + 'notre lémurien emblème, est imprimé dans le dos ; « Madagascar » '
+      + 'descend le long de la manche. Coupe droite, col rond.',
+    details: ['Coton 100 %', 'Impression dos et manche', 'Coupe droite', 'Lavage à 30 °C'],
+  },
+  {
+    slug: 'manches-longues-antsatsaka-ecru',
+    nom: 'Manches longues Antsatsaka',
+    couleur: 'Écru',
+    prix: 95000,
+    categorie: 'homme',
+    note: 5,
+    image: '/assets/images/Homme/DSC_1795.jpg',
+    galerie: [
+      '/assets/images/Homme/DSC_1795.jpg',
+      '/assets/images/Homme/DSC_1794.jpg',
+      '/assets/images/Homme/DSC_1793.jpg',
+    ],
+    description:
+      'T-shirt manches longues en coton 100 %, écru. Le gecko Antsatsaka '
+      + 'est imprimé dans le dos sur les couleurs du drapeau malagasy, '
+      + 'avec la signature Aye Aye sur la manche.',
+    details: ['Coton 100 %', 'Impression dos et manche', 'Coupe droite', 'Lavage à 30 °C'],
+  },
+
+  // --- Femme : exemples a remplacer ----------------------------------------
+  {
+    slug: 'blazer-kaki',
+    nom: 'Blazer kaki',
+    couleur: 'Kaki',
+    prix: 150000,
+    categorie: 'femme',
+    note: 5,
+    image: '/assets/images/women-01.jpg',
+    galerie: ['/assets/images/women-01.jpg'],
+    description: 'Blazer en coton kaki, coupe droite, à porter ouvert sur un t-shirt.',
+    details: ['Coton 100 %', 'Coupe droite'],
+  },
+  {
+    slug: 'robe-fleurie',
+    nom: 'Robe fleurie',
+    couleur: 'Imprimé',
+    prix: 110000,
+    categorie: 'femme',
+    note: 5,
+    image: '/assets/images/women-02.jpg',
+    galerie: ['/assets/images/women-02.jpg'],
+    description: 'Robe courte à imprimé floral, ceinture à la taille, manches évasées.',
+    details: ['Coton 100 %', 'Ceinture fournie'],
+  },
+  {
+    slug: 'pull-oversize',
+    nom: 'Pull oversize',
+    couleur: 'Gris',
+    prix: 130000,
+    categorie: 'femme',
+    note: 5,
+    image: '/assets/images/women-03.jpg',
+    galerie: ['/assets/images/women-03.jpg'],
+    description: 'Pull maille douce, coupe oversize, col montant.',
+    details: ['Maille douce', 'Coupe oversize'],
+  },
+
+  // --- Enfant : exemples a remplacer ---------------------------------------
+  {
+    slug: 'ensemble-marin',
+    nom: 'Ensemble marin',
+    couleur: 'Bleu',
+    prix: 75000,
+    categorie: 'enfant',
+    note: 5,
+    image: '/assets/images/kid-01.jpg',
+    galerie: ['/assets/images/kid-01.jpg'],
+    description: 'Ensemble deux pièces pour enfant, motif marin.',
+    details: ['Coton 100 %', 'Du 4 au 12 ans'],
+  },
+  {
+    slug: 'robe-a-pois',
+    nom: 'Robe à pois',
+    couleur: 'Bleu nuit',
+    prix: 68000,
+    categorie: 'enfant',
+    note: 5,
+    image: '/assets/images/kid-02.jpg',
+    galerie: ['/assets/images/kid-02.jpg'],
+    description: 'Robe à pois, coupe confortable pour tous les jours.',
+    details: ['Coton 100 %', 'Du 4 au 12 ans'],
+  },
+  {
+    slug: 't-shirt-raye-enfant',
+    nom: 'T-shirt rayé',
+    couleur: 'Blanc / bleu',
+    prix: 45000,
+    categorie: 'enfant',
+    note: 5,
+    image: '/assets/images/kid-03.jpg',
+    galerie: ['/assets/images/kid-03.jpg'],
+    description: 'T-shirt rayé en coton, facile à assortir.',
+    details: ['Coton 100 %', 'Du 4 au 12 ans'],
+  },
+
+  // --- Accessoires : exemples a remplacer ----------------------------------
+  {
+    slug: 'sac-en-cuir',
+    nom: 'Sac en cuir',
+    couleur: 'Camel',
+    prix: 180000,
+    categorie: 'accessoires',
+    note: 5,
+    image: '/assets/images/single-product-01.jpg',
+    galerie: ['/assets/images/single-product-01.jpg', '/assets/images/single-product-02.jpg'],
+    description: 'Sac en cuir souple, bandoulière réglable.',
+    details: ['Cuir véritable', 'Bandoulière réglable'],
+  },
+  {
+    slug: 'casquette-aye-aye',
+    nom: 'Casquette Aye-Aye',
+    couleur: 'Noir',
+    prix: 55000,
+    categorie: 'accessoires',
+    note: 5,
+    image: '/assets/images/baner-right-image-04.jpg',
+    galerie: ['/assets/images/baner-right-image-04.jpg'],
+    description: 'Casquette brodée à la signature Aye Aye Madagascar.',
+    details: ['Coton 100 %', 'Taille unique réglable'],
+  },
+  {
+    slug: 'tote-bag-malagasy',
+    nom: 'Tote bag Malagasy',
+    couleur: 'Écru',
+    prix: 38000,
+    categorie: 'accessoires',
+    note: 5,
+    image: '/assets/images/explore-image-01.jpg',
+    galerie: ['/assets/images/explore-image-01.jpg'],
+    description: 'Sac en toile épaisse, imprimé aux couleurs de Madagascar.',
+    details: ['Toile de coton', 'Anses renforcées'],
+  },
+];
+
+// --- Modeles et collections -------------------------------------------------
+// Textes fournis par la marque (structure du site).
+//
+// Un MODELE est une coupe, proposee pour hommes, femmes et enfants.
+// Une COLLECTION est un dessin au dos, disponible sur tous les modeles.
+// `image` (facultatif) : photo de la collection ; sans photo, la carte
+// affiche son numero. Ajouter une photo = renseigner ce champ.
+
+export const MODELES = [
+  {
+    slug: 'tee-shirt',
+    nom: 'Tee-shirt',
+    texte: 'Le classique indispensable. Coton doux et respirant, idéal au quotidien.',
+  },
+  {
+    slug: 'manches-longues',
+    nom: 'Manches longues',
+    texte: "Pour les soirées fraîches et les hauts plateaux. Confort et style toute l'année.",
+  },
+  {
+    slug: 'debardeur',
+    nom: 'Débardeur',
+    texte: 'Léger et pratique, parfait pour la chaleur de la côte et les journées actives.',
+  },
+];
+
+export const COLLECTIONS = [
+  {
+    slug: 'antsatsaka',
+    nom: 'Antsatsaka',
+    texte: 'Un hommage au nord de la Grande Île, terre de cacao, de vanille et de traditions. '
+      + 'Une collection pour ceux qui portent leurs racines avec fierté.',
+    image: '/assets/images/collections/antsatsaka.jpg',
+  },
+  {
+    slug: 'aye-aye-madagascar',
+    nom: 'Aye Aye Madagascar',
+    texte: "Notre collection emblème. L'aye-aye, animal unique au monde, est le symbole de notre marque.",
+    image: '/assets/images/collections/aye-aye-madagascar.jpg',
+  },
+  {
+    slug: 'madagascar',
+    nom: 'Madagascar',
+    texte: 'Simple et fort. Le nom de notre île, à porter fièrement partout dans le monde.',
+  },
+  {
+    slug: 'lemurs-of-madagascar',
+    nom: 'Lemurs of Madagascar',
+    texte: "Un hommage aux lémuriens, trésors vivants que l'on ne trouve nulle part ailleurs.",
+  },
+  {
+    slug: 'madagascar-roots-djembe',
+    nom: 'Madagascar Roots Djembe',
+    texte: 'Le rythme de nos racines. La musique et le tambour comme lien entre les générations.',
+  },
+  {
+    slug: 'dauphins',
+    nom: 'Dauphins',
+    texte: 'La beauté de nos océans et la liberté des eaux qui entourent la Grande Île.',
+  },
+  {
+    slug: 'tortue',
+    nom: 'Tortue',
+    texte: 'La sagesse et la patience. Un symbole de la richesse marine malagasy à protéger.',
+  },
+  {
+    slug: 'tarondro',
+    nom: 'Tarondro',
+    texte: 'Le caméléon de Madagascar, maître des couleurs et symbole de patience. '
+      + 'Un animal respecté et parfois sacré dans nos traditions.',
+  },
+  {
+    slug: 'lakana',
+    nom: 'Lakana',
+    texte: "La pirogue traditionnelle, symbole du savoir-faire des pêcheurs et du lien entre l'homme et la mer.",
+  },
+];
+
+// --- Tailles ----------------------------------------------------------------
+// Proposees par categorie ; un produit peut definir sa propre liste avec un
+// champ `tailles`. Liste vide = pas de choix de taille (accessoires).
+// A CONFIRMER avec la marque : ce sont des valeurs de depart.
+export const TAILLES_PAR_CATEGORIE = {
+  homme: ['S', 'M', 'L', 'XL', 'XXL'],
+  femme: ['S', 'M', 'L', 'XL', 'XXL'],
+  enfant: ['4 ans', '6 ans', '8 ans', '10 ans', '12 ans'],
+  accessoires: [],
+};
+
+export function taillesDuProduit(produit) {
+  return produit.tailles || TAILLES_PAR_CATEGORIE[produit.categorie] || [];
+}
+
+// --- Aides ------------------------------------------------------------------
+
+export function categorieParSlug(slug) {
+  return CATEGORIES.find((c) => c.slug === slug);
+}
+
+export function produitParSlug(slug) {
+  return PRODUITS.find((p) => p.slug === slug);
+}
+
+export function produitsParCategorie(slug) {
+  return PRODUITS.filter((p) => p.categorie === slug);
+}
+
+// Vignettes affichees dans un carrousel.
+// Quand une categorie compte peu de references (c'est le cas de Homme, avec
+// deux modeles photographies sous plusieurs angles), on deroule les galeries
+// pour que le carrousel montre toutes les photos plutot que deux cartes.
+export function vignettes(categorieSlug) {
+  const produits = produitsParCategorie(categorieSlug);
+  if (produits.length >= 4) {
+    return produits.map((p) => ({ produit: p, image: p.image }));
+  }
+  return produits.flatMap((p) => p.galerie.map((image) => ({ produit: p, image })));
+}
+
+// Recherche dans le catalogue : nom, couleur, description et categorie, sans
+// tenir compte des accents ni des majuscules. Deux lettres au minimum.
+// Partagee par la page /recherche/ et la barre de recherche de l'en-tete.
+export function normaliser(texte) {
+  return texte.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
+export function rechercherProduits(requete) {
+  const terme = normaliser(requete.trim());
+  if (terme.length < 2) return [];
+  return PRODUITS.filter((produit) => {
+    const categorie = categorieParSlug(produit.categorie);
+    const champs = [produit.nom, produit.couleur, produit.description, categorie.nom].join(' ');
+    return normaliser(champs).includes(terme);
+  });
+}
+
+export function formaterPrix(montant) {
+  return montant.toLocaleString('fr-FR').replace(/ | /g, ' ') + ' Ar';
+}

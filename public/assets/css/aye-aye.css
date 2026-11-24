@@ -1,0 +1,2021 @@
+/* ---------------------------------------------------------------------------
+   Feuille de style du projet Aye Aye Madagascar.
+
+   Les feuilles du template (bootstrap, font-awesome, templatemo-hexashop,
+   owl-carousel, lightbox) restent strictement inchangees : tout ajout va ici.
+   On reprend la palette du template (#2a2a2a, #f7f7f7, #eee) et la police
+   Poppins deja chargee : aucune nouvelle police, aucune nouvelle couleur.
+   --------------------------------------------------------------------------- */
+
+/* --- Images ---------------------------------------------------------------
+   Les <img> portent leurs dimensions intrinseques (width/height) : le
+   navigateur reserve la place exacte avant chargement, donc aucune image
+   differee ne fait sauter la page. Sans cette regle, l'attribut height
+   s'appliquerait comme une hauteur fixe et etirerait l'image. */
+img[width][height] {
+  height: auto;
+}
+
+/* --- En-tete et logo -------------------------------------------------------
+   Le logo officiel tel quel : la tete d'aye-aye et, dans l'image, le nom
+   « AYE-AYE Madagascar » en dessous. Ni texte a droite, ni devise dessous :
+   le logo seul, aussi grand que l'en-tete le permet.
+
+   Pour que le nom reste lisible, l'en-tete passe de 100 a 120 px sur
+   ordinateur ; les trois blocs du template qui se calent sous l'en-tete
+   (.main-banner, .page-heading, .about-page-heading) descendent d'autant.
+   En-tete collant (80 px) et mobile (100 px) : hauteurs du template.
+
+   La taille de police du menu reste celle du template (15 px).
+   Rappel de specificite : img[width][height] vaut (0,2,1), les selecteurs
+   ci-dessous doivent la depasser pour imposer une hauteur. */
+.aye-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+.header-area .aye-logo {
+  height: 100px;
+  transition: height 0.3s ease;
+}
+
+.header-area .aye-logo img[width][height] {
+  height: 84px; /* mobile : en-tete de 100 px */
+  width: auto;
+  transition: height 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .header-area {
+    height: 120px;
+  }
+  .header-area .aye-logo {
+    height: 120px;
+  }
+  .header-area .aye-logo img[width][height] {
+    height: 100px;
+  }
+  .header-area .main-nav .nav {
+    margin-top: 40px;
+  }
+  .main-banner {
+    padding-top: 180px;
+  }
+  .page-heading,
+  .about-page-heading {
+    margin-top: 180px;
+  }
+
+  /* en-tete collant : hauteur du template */
+  .header-area.background-header .aye-logo {
+    height: 80px;
+  }
+  .header-area.background-header .aye-logo img[width][height] {
+    height: 70px;
+  }
+}
+
+footer .aye-logo {
+  align-items: flex-start;
+}
+
+footer .aye-logo img[width][height] {
+  height: 110px;
+  width: auto;
+}
+
+.aye-logo-pied {
+  margin-bottom: 18px;
+}
+
+/* --- Icones recherche et compte -------------------------------------------
+   Trait fin, couleur du texte du menu (#2a2a2a), gris au survol comme les
+   liens du template. Deux exemplaires dans Header.js, un seul visible :
+     >= 1400 px  .aye-actions-bord, au bord droit de l'ecran (marge du
+                 .container assez large) ;
+     768-1399    li.aye-action, dans le menu apres « Contact » ;
+     <= 767      .aye-actions-bord, dans la barre a gauche du bouton menu
+                 (place a right: 40px par le template, 32 px de large). */
+.header-area .main-nav .nav li.aye-action {
+  padding-left: 9px;
+  padding-right: 9px;
+}
+
+.header-area .main-nav .nav li.aye-action a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aye-action svg,
+.aye-actions-bord svg {
+  width: 21px;
+  height: 21px;
+}
+
+.aye-action-texte {
+  display: none;
+}
+
+.aye-actions-bord {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 40px;
+  height: 100%; /* centre sur la ligne du menu, en-tete normal ou collant */
+  align-items: center;
+  gap: 24px;
+  z-index: 100;
+}
+
+.aye-actions-bord a {
+  display: flex;
+  color: #2a2a2a;
+  transition: color 0.3s ease;
+}
+
+.aye-actions-bord a:hover {
+  color: #aaa;
+}
+
+@media (min-width: 1400px) {
+  .aye-actions-bord {
+    display: flex;
+  }
+  .header-area .main-nav .nav li.aye-action {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .aye-actions-bord {
+    display: flex;
+  }
+}
+
+@media (max-width: 767px) {
+  .header-area .main-nav .nav li.aye-action {
+    display: none;
+  }
+}
+
+/* --- Menu sur tablette (768-992 px) ---------------------------------------
+   Le template y reduit l'espace entre les liens a 5 px ; les mots se
+   touchent presque. La place existe : on la leur rend. Tailles de texte
+   inchangees. */
+@media (min-width: 768px) and (max-width: 992px) {
+  .header-area .main-nav .nav li {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+}
+
+/* --- Compteur du panier ----------------------------------------------------
+   Affiche sur la page Mon compte, a cote de « Mon panier ». */
+.aye-pastille {
+  display: inline-block;
+  min-width: 18px;
+  height: 18px;
+  margin-left: 8px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background-color: #2a2a2a;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Coeur rempli quand le produit est en favori */
+[data-favori].est-favori i::before {
+  content: '\f004'; /* fa-heart */
+}
+
+/* --- Bouton « Voir tout » (page Tous les produits) ------------------------ */
+.aye-voir-tout {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.aye-voir-tout .main-border-button {
+  display: inline-block;
+}
+
+/* --- Boutons sur fond clair ---------------------------------------------------
+   .main-border-button est blanc dans le template (fait pour les photos
+   sombres) : sur fond blanc il devenait invisible. Variante sombre, reprise
+   telle quelle de la section Explore du template. .aye-plein : bouton
+   principal, plein. */
+.aye-voir-tout .main-border-button a,
+.aye-panier-vide .main-border-button a,
+.aye-confirmation .main-border-button a,
+.aye-signature .main-border-button a,
+.aye-boutons-contact .main-border-button a,
+.aye-communaute .main-border-button a,
+#compte .main-border-button a {
+  color: #2a2a2a;
+  border-color: #2a2a2a;
+}
+
+.aye-voir-tout .main-border-button a:hover,
+.aye-panier-vide .main-border-button a:hover,
+.aye-confirmation .main-border-button a:hover,
+.aye-signature .main-border-button a:hover,
+.aye-boutons-contact .main-border-button a:hover,
+.aye-communaute .main-border-button a:hover,
+#compte .main-border-button a:hover,
+.main-border-button.aye-plein a {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.main-border-button.aye-plein a:hover {
+  background-color: #fff;
+  color: #2a2a2a;
+}
+
+/* --- Section Accessoires ---------------------------------------------------
+   Les sections Homme, Femme et Enfant reprennent les ids du template (#men,
+   #women, #kids) et en heritent tout le style. Accessoires n'existe pas dans
+   le template : on lui recopie a l'identique les regles de #men. */
+#accessoires {
+  padding-top: 90px;
+  padding-bottom: 90px;
+  border-bottom: 3px dotted #eee;
+}
+
+#accessoires .section-heading {
+  margin-bottom: 60px;
+}
+
+.owl-aye-carousel .owl-nav {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  top: 40%;
+  transform: translateY(-25px);
+}
+
+.owl-aye-carousel .owl-dots {
+  display: none;
+}
+
+.owl-aye-carousel .owl-nav .owl-prev,
+.owl-aye-carousel .owl-nav .owl-next {
+  position: absolute;
+  outline: none;
+  opacity: 0.75;
+  transition: all 0.5s;
+}
+
+.owl-aye-carousel .owl-nav .owl-prev {
+  left: -80px;
+}
+
+.owl-aye-carousel .owl-nav .owl-next {
+  right: -85px;
+}
+
+.owl-aye-carousel .owl-nav .owl-prev:hover,
+.owl-aye-carousel .owl-nav .owl-next:hover {
+  opacity: 1;
+}
+
+.owl-aye-carousel .owl-nav .owl-prev span,
+.owl-aye-carousel .owl-nav .owl-next span {
+  opacity: 0;
+}
+
+.owl-aye-carousel .owl-nav .owl-prev::before,
+.owl-aye-carousel .owl-nav .owl-next::before {
+  display: inline-block;
+  font-family: 'FontAwesome';
+  color: #2a2a2a;
+  font-size: 25px;
+  font-weight: 700;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  line-height: 48px;
+  border: 1px solid #2a2a2a;
+}
+
+.owl-aye-carousel .owl-nav .owl-prev::before {
+  content: '\f104';
+}
+
+.owl-aye-carousel .owl-nav .owl-next::before {
+  content: '\f105';
+}
+
+/* --- Fleches des carrousels sur ecran moyen --------------------------------
+   Le template les place a 80-85 px hors du .container. Sous 1300 px, la marge
+   laissee par le conteneur est plus etroite et la page deborde (defilement
+   horizontal). On les ramene sur le bord des photos, fond blanc pour rester
+   lisibles. Au-dela de 1300 px : position du template, inchangee. */
+@media (max-width: 1299px) {
+  #men .owl-nav .owl-prev,
+  #women .owl-nav .owl-prev,
+  #kids .owl-nav .owl-prev,
+  .owl-aye-carousel .owl-nav .owl-prev {
+    left: 10px;
+  }
+  #men .owl-nav .owl-next,
+  #women .owl-nav .owl-next,
+  #kids .owl-nav .owl-next,
+  .owl-aye-carousel .owl-nav .owl-next {
+    right: 10px;
+  }
+  #men .owl-nav .owl-prev:before,
+  #men .owl-nav .owl-next:before,
+  #women .owl-nav .owl-prev:before,
+  #women .owl-nav .owl-next:before,
+  #kids .owl-nav .owl-prev:before,
+  #kids .owl-nav .owl-next:before,
+  .owl-aye-carousel .owl-nav .owl-prev::before,
+  .owl-aye-carousel .owl-nav .owl-next::before {
+    background-color: #fff;
+  }
+}
+
+/* --- Coordonnees du bloc newsletter -----------------------------------------
+   Une grille de deux colonnes : WhatsApp | Telephone, puis l'e-mail et la
+   boutique sur toute la largeur. Les lignes restent alignees et l'adresse
+   e-mail (un seul mot de 24 caracteres) a la place de tenir sans etre coupee.
+   Styles des libelles et des valeurs : ceux du template (.subscribe ul li). */
+.subscribe .aye-coordonnees {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subscribe .aye-coordonnees li {
+  margin-bottom: 24px;
+}
+
+.subscribe .aye-coordonnees .aye-coordonnee-large {
+  grid-column: 1 / -1;
+}
+
+/* filet de securite, seulement si un mot ne tient pas sur une ligne entiere */
+.subscribe .aye-coordonnees span {
+  overflow-wrap: break-word;
+}
+
+/* --- Vignettes « Suivez-nous » sur mobile ----------------------------------
+   Le template garde six vignettes par ligne (col-2) a toutes les largeurs :
+   sur telephone elles ne font plus que 60 px. Sous 768 px, trois par ligne.
+   Le balisage reste celui du template (col-2 et sa regle #social .col-2). */
+@media (max-width: 767px) {
+  #social .images .col-2 {
+    flex: 0 0 33.3333%;
+    max-width: 33.3333%;
+  }
+}
+
+/* --- Banniere : accroche longue ------------------------------------------------
+   Le template n'y mettait qu'un titre court et une ligne. La marque y place
+   son slogan et une phrase : on borne la largeur du bloc pour que le texte
+   reste sur la partie sombre (le personnage est a droite), et sur mobile on
+   donne au cadre la hauteur du texte. Les tailles de police restent celles du
+   template. */
+@media (min-width: 992px) {
+  .main-banner .left-content .inner-content {
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 991px) {
+  .main-banner .left-content .inner-content {
+    width: 82%;
+  }
+}
+
+/* --- Section « Rejoignez la communauté » --------------------------------------- */
+.aye-communaute {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.aye-communaute .main-border-button {
+  display: inline-block;
+}
+
+.aye-communaute .main-border-button a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Logo Facebook : rond bleu Facebook, a la demande de la marque, pour qu'on le
+   reconnaisse au premier coup d'oeil. Seule couleur hors palette du template. */
+.aye-icone-facebook {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #1877f2;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* --- Cartes Modeles et Collections ---------------------------------------------- */
+.aye-grille-section {
+  padding-top: 30px;
+  padding-bottom: 90px;
+}
+
+.aye-carte {
+  margin-bottom: 40px;
+  scroll-margin-top: 100px; /* ancres du pied de page, sous l'en-tete collant */
+}
+
+.aye-carte-visuel {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f7f7;
+  margin-bottom: 22px;
+  overflow: hidden;
+  color: #2a2a2a;
+}
+
+.aye-carte-visuel svg {
+  width: 62%;
+  height: 62%;
+}
+
+.aye-carte-visuel img[width][height] {
+  width: 100%;
+  height: 100%;
+}
+
+.aye-carte-numero {
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #2a2a2a;
+  opacity: 0.12;
+}
+
+.aye-carte h4 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2a2a2a;
+  margin-bottom: 10px;
+}
+
+.aye-carte p {
+  font-size: 14px;
+  line-height: 25px;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.aye-carte .aye-carte-liens {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.aye-carte .aye-carte-liens a {
+  color: #2a2a2a;
+  font-weight: 600;
+}
+
+.aye-carte .aye-carte-liens a:hover {
+  color: #aaa;
+}
+
+/* --- Page Contact : boutons ------------------------------------------------------ */
+.aye-boutons-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.aye-boutons-contact .main-border-button a i {
+  margin-right: 6px;
+}
+
+/* --- Lien couvrant une tuile entiere -------------------------------------- */
+.aye-lien-couvrant {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+}
+
+/* --- Pied de page --------------------------------------------------------- */
+/* logos Facebook et WhatsApp : memes cercles que l'under-footer du template */
+footer ul.aye-pied-reseaux li {
+  display: inline-block;
+  margin: 0 10px 0 0;
+}
+
+footer ul.aye-pied-reseaux li a {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 18px;
+  transition: all 0.3s;
+}
+
+footer ul.aye-pied-reseaux li a:hover {
+  background-color: #fff;
+  color: #2a2a2a;
+}
+
+/* colonnes empilees sur tablette et mobile : un peu d'air entre elles */
+@media (max-width: 991px) {
+  footer h4 {
+    margin-top: 30px;
+  }
+}
+
+/* --- Fiche produit ----------------------------------------------------------
+   Mise en page d'une boutique de mode : grande photo et vignettes a gauche,
+   informations d'achat a droite. Police Poppins et palette du template
+   uniquement ; les tailles de texte reprennent l'echelle du template
+   (12 / 13 / 14 / 15 / 22 / 24 px). */
+.aye-fiche {
+  padding-top: 150px; /* en-tete de 120 px + respiration */
+  padding-bottom: 60px;
+  border-bottom: 3px dotted #eee;
+}
+
+.aye-fil {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 25px;
+}
+
+.aye-fil a {
+  color: #aaa;
+}
+
+.aye-fil a:hover,
+.aye-fil span {
+  color: #2a2a2a;
+}
+
+/* Galerie : photo entiere, jamais rognee */
+.aye-galerie {
+  display: flex;
+  gap: 20px;
+}
+
+.aye-galerie-principale {
+  position: relative;
+  flex: 1;
+  height: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aye-galerie-principale img[width][height] {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.aye-galerie-zoom {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  color: #2a2a2a;
+}
+
+.aye-galerie-zoom svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.aye-galerie-vignettes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 84px;
+  max-height: 640px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.aye-galerie-vignettes li + li {
+  margin-top: 10px;
+}
+
+.aye-galerie-vignettes button {
+  display: block;
+  width: 84px;
+  height: 98px; /* six vignettes tiennent dans les 640 px de la photo */
+  padding: 4px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  cursor: pointer;
+}
+
+.aye-galerie-vignettes button.actif {
+  border-color: #2a2a2a;
+}
+
+.aye-galerie-vignettes img[width][height] {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Informations */
+.aye-fiche-marque {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #2a2a2a;
+  margin-bottom: 6px;
+}
+
+.aye-fiche-titre {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.aye-fiche-titre h1 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #2a2a2a;
+  margin: 0;
+}
+
+.aye-fiche-titre h1 span {
+  font-weight: 400;
+}
+
+/* mots composes (« Aye-Aye », « Aye Aye », « avant-première ») : jamais coupes
+   en fin de ligne. Dans un titre de section, le template stylise tout <span>
+   comme un sous-titre (gris, italique, 14 px, en bloc) : on l'annule ici. */
+.aye-insecable {
+  font-weight: inherit;
+  white-space: nowrap;
+}
+
+.section-heading h2 .aye-insecable,
+#explore .left-content h2 .aye-insecable {
+  display: inline;
+  margin: 0;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.aye-fiche-favori:focus {
+  outline: none;
+}
+
+.aye-fiche-favori:focus-visible {
+  outline: 1px dotted #2a2a2a;
+  outline-offset: 3px;
+}
+
+.aye-fiche-favori {
+  flex-shrink: 0;
+  margin-top: 2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 22px;
+  color: #2a2a2a;
+  cursor: pointer;
+}
+
+.aye-fiche-prix {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2a2a2a;
+  margin: 14px 0 28px;
+}
+
+.aye-fiche-libelle {
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #2a2a2a;
+  margin-bottom: 12px;
+}
+
+.aye-fiche-libelle span {
+  font-weight: 400;
+  text-transform: none;
+}
+
+.aye-tailles-choix {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* les cases se partagent la ligne a parts egales, comme sur la capture */
+.aye-tailles-choix button {
+  flex: 1 1 0;
+  min-width: 52px;
+  height: 46px;
+  padding: 0 6px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  font-family: inherit;
+  font-size: 14px;
+  color: #2a2a2a;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.aye-tailles-choix button:hover {
+  border-color: #aaa;
+}
+
+.aye-tailles-choix button.actif {
+  border-color: #2a2a2a;
+  box-shadow: inset 0 0 0 1px #2a2a2a;
+}
+
+.aye-guide {
+  margin: 16px 0 0;
+}
+
+.aye-guide summary {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #2a2a2a;
+  cursor: pointer;
+  list-style: none;
+}
+
+.aye-guide summary::-webkit-details-marker {
+  display: none;
+}
+
+.aye-guide summary i {
+  margin-right: 6px;
+}
+
+.aye-guide p {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.aye-fiche-ajout {
+  display: block;
+  width: 100%;
+  height: 50px;
+  margin-top: 22px;
+  border: 0;
+  background-color: #eee;
+  color: #aaa;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.aye-fiche-ajout.pret {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.aye-fiche-ajout.pret:hover {
+  background-color: #fff;
+  color: #2a2a2a;
+  box-shadow: inset 0 0 0 1px #2a2a2a;
+}
+
+.aye-erreur {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #2a2a2a;
+}
+
+.aye-erreur::before {
+  content: '\f071'; /* fa-warning */
+  font-family: FontAwesome;
+  margin-right: 6px;
+}
+
+.aye-livraison {
+  margin: 14px 0 22px;
+  font-size: 13px;
+  color: #2a2a2a;
+}
+
+.aye-livraison i {
+  margin-right: 6px;
+}
+
+.aye-livraison strong {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+.aye-fiche-atouts {
+  list-style: none;
+  margin: 0 0 25px;
+  padding: 18px 20px;
+  background-color: #f7f7f7;
+}
+
+.aye-fiche-atouts li {
+  display: flex;
+  align-items: baseline;
+  padding: 5px 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: #2a2a2a;
+}
+
+.aye-fiche-atouts i {
+  flex: 0 0 22px;
+  text-align: center;
+  margin-right: 8px;
+  opacity: 0.75;
+}
+
+.aye-fiche-atouts strong {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-right: 6px;
+}
+
+/* Accordeons : <details> natif, aucun script */
+.aye-accordeons details {
+  border-bottom: 1px solid #eee;
+}
+
+.aye-accordeons summary {
+  position: relative;
+  padding: 14px 30px 14px 0;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #2a2a2a;
+  cursor: pointer;
+  list-style: none;
+}
+
+.aye-accordeons summary::-webkit-details-marker {
+  display: none;
+}
+
+.aye-accordeons summary::after {
+  content: '\f107'; /* fa-angle-down */
+  font-family: FontAwesome;
+  font-size: 20px;
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.2s;
+}
+
+.aye-accordeons details[open] summary::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.aye-accordeons p,
+.aye-accordeons ul {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.aye-accordeons ul {
+  padding-left: 18px;
+  list-style: disc;
+}
+
+/* Panier : choix de la taille par ligne */
+.aye-panier-taille {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #a1a1a1;
+}
+
+.aye-panier-taille select {
+  margin-left: 6px;
+  padding: 2px 4px;
+  border: 1px solid #eee;
+  font-family: inherit;
+  font-size: 13px;
+  color: #2a2a2a;
+  background-color: #fff;
+}
+
+.aye-panier-taille.aye-manquante select {
+  border-color: #2a2a2a;
+}
+
+.aye-autres-categories {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.aye-autres-categories ul {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+
+.aye-autres-categories li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+/* --- Panier et commande --------------------------------------------------- */
+.aye-panier-attente,
+.aye-recherche-aide {
+  text-align: center;
+  padding: 40px 0;
+  color: #666;
+}
+
+.aye-panier-vide {
+  text-align: center;
+  padding: 40px 0 20px;
+}
+
+.aye-panier-vide .main-border-button {
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.aye-panier-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.aye-panier-table th {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #666;
+  font-weight: 600;
+  padding: 0 10px 14px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.aye-panier-table td {
+  padding: 18px 10px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+  font-size: 15px;
+}
+
+.aye-panier-table td a {
+  color: #2a2a2a;
+  font-weight: 600;
+}
+
+.aye-panier-table td small {
+  display: block;
+  color: #888;
+  font-weight: 400;
+}
+
+.aye-panier-image img {
+  width: 80px;
+  border-radius: 3px;
+}
+
+.aye-quantite {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #eee;
+}
+
+.aye-quantite button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f7f7f7;
+  color: #2a2a2a;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.aye-quantite button:hover {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.aye-quantite span {
+  min-width: 38px;
+  text-align: center;
+}
+
+.aye-retirer {
+  border: none;
+  background: transparent;
+  color: #aaa;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.aye-retirer:hover {
+  color: #2a2a2a;
+}
+
+.aye-recapitulatif {
+  background: #f7f7f7;
+  padding: 30px;
+}
+
+.aye-recapitulatif h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.aye-recapitulatif p {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.aye-recapitulatif .aye-total {
+  padding-top: 12px;
+  margin-top: 12px;
+  border-top: 1px solid #e2e2e2;
+  font-size: 17px;
+}
+
+.aye-recapitulatif form {
+  margin-top: 24px;
+}
+
+.aye-recapitulatif fieldset {
+  margin-bottom: 12px;
+}
+
+.aye-recapitulatif input,
+.aye-recapitulatif textarea {
+  width: 100%;
+  border: 1px solid #e2e2e2;
+  background: #fff;
+  padding: 12px 15px;
+  font-size: 14px;
+  outline: none;
+}
+
+.aye-bouton-large {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+}
+
+.aye-confirmation {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.aye-confirmation h4 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.aye-confirmation ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 30px;
+}
+
+.aye-confirmation li {
+  line-height: 30px;
+}
+
+.aye-confirmation .main-border-button {
+  display: inline-block;
+}
+
+/* --- Recherche ------------------------------------------------------------ */
+.aye-recherche {
+  max-width: 640px;
+  margin: 0 auto 40px;
+}
+
+.aye-recherche input {
+  width: 100%;
+  border: 1px solid #e2e2e2;
+  padding: 16px 20px;
+  font-size: 16px;
+  outline: none;
+}
+
+.aye-recherche input:focus {
+  border-color: #2a2a2a;
+}
+
+/* --- Barre de recherche de l'en-tete (RechercheRapide) ---------------------
+   Descend du haut de l'ecran quand on touche la loupe, par-dessus l'en-tete ;
+   un voile gris couvre la page. Fermee, elle reste dans le DOM, transparente
+   et inerte (pointer-events: none) pour que le champ puisse recevoir le focus
+   pendant le clic. */
+.aye-sans-defilement,
+.aye-sans-defilement body {
+  overflow: hidden;
+}
+
+.aye-recherche-rapide {
+  text-align: left; /* le template centre tout l'en-tete sur mobile */
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.aye-recherche-rapide.ouverte {
+  pointer-events: auto;
+}
+
+.aye-recherche-voile {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(42, 42, 42, 0.45);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.aye-recherche-panneau {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 28px 20px;
+  background-color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease, opacity 0.2s ease;
+}
+
+.aye-recherche-rapide.ouverte .aye-recherche-voile,
+.aye-recherche-rapide.ouverte .aye-recherche-panneau {
+  opacity: 1;
+}
+
+.aye-recherche-rapide.ouverte .aye-recherche-panneau {
+  transform: translateY(0);
+}
+
+.aye-recherche-barre,
+.aye-recherche-suggestions {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.aye-recherche-barre {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 2px solid #2a2a2a;
+  padding-bottom: 8px;
+  color: #2a2a2a;
+}
+
+.aye-recherche-barre > svg {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.aye-recherche-barre input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  padding: 8px 0;
+  font-family: inherit;
+  font-size: 18px;
+  color: #2a2a2a;
+  background: transparent;
+}
+
+.aye-recherche-barre input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.aye-recherche-fermer {
+  flex: 0 0 auto;
+  display: flex;
+  padding: 6px;
+  border: 0;
+  background: none;
+  color: #2a2a2a;
+  cursor: pointer;
+}
+
+.aye-recherche-fermer:hover {
+  color: #aaa;
+}
+
+.aye-recherche-fermer svg {
+  width: 24px;
+  height: 24px;
+}
+
+.aye-recherche-suggestions ul {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.aye-recherche-suggestions li a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  color: #2a2a2a;
+}
+
+.aye-recherche-suggestions li a:hover strong {
+  color: #aaa;
+}
+
+.aye-recherche-suggestions li img[width][height] {
+  flex: 0 0 48px;
+  width: 48px;
+  height: 64px;
+  object-fit: cover;
+  object-position: center top;
+  background-color: #f7f7f7;
+}
+
+.aye-recherche-suggestions li span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.aye-recherche-suggestions li strong {
+  font-size: 15px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.aye-recherche-suggestions li small {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.aye-recherche-tout {
+  display: block;
+  margin-top: 16px;
+  padding: 13px 20px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #2a2a2a;
+  border: 1px solid #2a2a2a;
+  transition: all 0.3s;
+}
+
+.aye-recherche-tout:hover {
+  background-color: #fff;
+  color: #2a2a2a;
+}
+
+.aye-recherche-vide {
+  margin: 18px 0 4px;
+  font-size: 14px;
+  color: #777;
+}
+
+@media (max-width: 767px) {
+  .aye-recherche-panneau {
+    padding: 12px 16px 16px;
+  }
+  .aye-recherche-barre input {
+    font-size: 16px; /* 16 px : evite le zoom automatique de Safari iOS */
+  }
+}
+
+/* --- Contact -------------------------------------------------------------- */
+/* Coordonnees : icone dans un rond gris clair, libelle au-dessus de la
+   valeur. Les valeurs s'alignent toutes, une adresse longue passe a la ligne
+   sous elle-meme, et toute la ligne est la zone a toucher. */
+.aye-moyens-contact {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+
+.aye-moyens-contact li {
+  border-bottom: 1px solid #eee;
+}
+
+.aye-moyen {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  color: #2a2a2a;
+}
+
+a.aye-moyen:hover .aye-moyen-valeur {
+  color: #aaa;
+}
+
+.aye-moyen i {
+  flex: 0 0 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #f7f7f7;
+  font-size: 16px;
+  color: #2a2a2a;
+}
+
+.aye-moyen-texte {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.aye-moyen-libelle {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-bottom: 2px;
+}
+
+.aye-moyen-valeur {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #2a2a2a;
+  overflow-wrap: break-word;
+  transition: color 0.3s ease;
+}
+
+/* --- A propos : icones Facebook / WhatsApp / e-mail ---------------------------
+   Le template met 30 px au-dessus (sous ses pointilles) et rien en dessous :
+   la section suivante, et ses pointilles, collaient aux icones. Meme espace
+   en dessous : les icones sont centrees entre les deux lignes. */
+.about-us .right-content ul {
+  padding-bottom: 33px;
+}
+
+/* --- Mon compte : acces au panier et aux favoris ------------------------------ */
+.aye-espace-liens {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 40px;
+}
+
+.aye-espace-liens li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2a2a2a;
+}
+
+.aye-espace-liens li a:hover {
+  color: #aaa;
+}
+
+.aye-espace-liens li i {
+  width: 20px;
+  text-align: center;
+}
+
+#compte .left-content h2 {
+  font-size: 34px;
+  font-weight: 700;
+  color: #2a2a2a;
+  margin-bottom: 10px;
+}
+
+.aye-recapitulatif a {
+  color: #2a2a2a;
+}
+
+.aye-recapitulatif a:hover {
+  color: #aaa;
+}
+
+/* bloc « Pas encore de compte client » : un seul style de texte, aere */
+.aye-compte-info p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #777;
+  margin-bottom: 14px;
+}
+
+.aye-compte-info .main-border-button {
+  display: inline-block;
+  margin-top: 12px;
+}
+
+.aye-compte-info .main-border-button a {
+  padding: 13px 30px;
+}
+
+#compte .left-content h4 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2a2a2a;
+  margin-bottom: 15px;
+}
+
+/* --- Signature de la page Notre histoire ---------------------------------- */
+.aye-signature {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.aye-signature h4 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 10px 0 25px;
+}
+
+.aye-signature .main-border-button {
+  display: inline-block;
+}
+
+
+
+/* --- Cartes produit hors des sections du template -------------------------
+   Le template ne stylait ses cartes que sous #products, #men, #women et
+   #kids. Les sections du projet portent d'autres identifiants (homme, femme,
+   enfant, accessoires, similaires, recherche, favoris) : on reprend ici
+   exactement les memes regles, sans identifiant, pour qu'elles s'appliquent
+   partout. */
+.item .thumb {
+  position: relative;
+}
+
+.item .thumb img {
+  width: 100%;
+  overflow: hidden;
+}
+
+.item .down-content {
+  padding-top: 30px;
+  position: relative;
+  z-index: 3;
+  background-color: #fff;
+}
+
+.item .down-content h4 {
+  font-size: 22px;
+  color: #2a2a2a;
+  font-weight: 700;
+  margin-bottom: 8px;
+  /* Les noms de produits sont plus longs que ceux du template : on reserve
+     la place des etoiles, posees en absolu a droite. */
+  padding-right: 92px;
+}
+
+.item .down-content h4 a {
+  color: inherit;
+}
+
+.item .down-content h4 a:hover {
+  opacity: 0.7;
+}
+
+.item .down-content span {
+  font-size: 18px;
+  color: #a1a1a1;
+  font-weight: 500;
+  display: block;
+}
+
+.item .down-content ul.stars {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.item .down-content ul.stars li {
+  display: inline;
+  font-size: 13px;
+}
+
+.item .thumb .hover-content {
+  position: absolute;
+  z-index: 2;
+  text-align: center;
+  bottom: -60px;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s;
+}
+
+.item .thumb:hover .hover-content {
+  bottom: 30px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.item .thumb .hover-content ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item .thumb .hover-content ul li {
+  display: inline;
+  margin: 0 10px;
+}
+
+.item .thumb .hover-content ul li a {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  display: inline-block;
+  color: #2a2a2a;
+  background-color: #fff;
+}
+
+.item .thumb .hover-content ul li a:hover {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+#produits .item,
+#similaires .item,
+#favoris .item,
+#recherche .item,
+#products .item {
+  margin-bottom: 30px;
+}
+
+/* --- Bandeaux de titre ----------------------------------------------------
+   Le template pointait vers ses propres photos (products-page-heading.jpg,
+   about-us-page-heading.jpg). On garde exactement la meme mise en page et on
+   change uniquement l'image de fond pour une photo de la marque. */
+.page-heading {
+  background-image: url(../images/banniere/entete.jpg);
+}
+
+.about-page-heading {
+  background-image: url(../images/banniere/entete-marque.jpg);
+}
+
+/* --- Responsive ----------------------------------------------------------- */
+@media (max-width: 991px) {
+  .aye-galerie {
+    flex-direction: column;
+  }
+  .aye-galerie-principale {
+    height: 520px;
+  }
+  .aye-galerie-vignettes {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .aye-galerie-vignettes li + li {
+    margin-top: 0;
+  }
+  .aye-galerie-vignettes button {
+    width: 70px;
+    height: 92px;
+  }
+  .aye-fiche-infos {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Banniere : la taille du titre reste celle du template (52 px) et le
+     template recentre deja .inner-content sur mobile. Une seule exception :
+     sous ~450 px de large, le mot « MADAGASCAR » mesure plus que l'ecran et
+     serait coupe aux deux bords. On prend alors la plus grande taille qui
+     entre — jamais plus que les 52 px du template. */
+  .main-banner .left-content .inner-content h4 {
+    font-size: min(52px, 11.5vw);
+  }
+  .aye-galerie-principale {
+    height: 440px;
+  }
+
+  /* Panier : le tableau passe en liste */
+  .aye-panier-table thead {
+    display: none;
+  }
+  .aye-panier-table,
+  .aye-panier-table tbody,
+  .aye-panier-table tr,
+  .aye-panier-table td {
+    display: block;
+    width: 100%;
+  }
+  .aye-panier-table tr {
+    position: relative;
+    padding: 16px 0 16px 100px;
+    border-bottom: 1px solid #eee;
+  }
+  .aye-panier-table td {
+    border: none;
+    padding: 2px 0;
+  }
+  .aye-panier-image {
+    position: absolute;
+    left: 0;
+    top: 16px;
+    width: 80px !important;
+  }
+  .aye-recapitulatif {
+    margin-top: 30px;
+  }
+}
+
+/* =============================================================================
+   VERSION MOBILE (moins de 768 px), sur le modele de BazarChic
+   - en-tete compact de 64 px, toujours visible, fond blanc : le logo a
+     gauche ; a droite, recherche, compte puis le bouton menu, a sa place
+     d'origine. Le bouton ouvre le menu deroulant du template (Accueil ·
+     Modeles · Collections · A propos · Contact) ;
+   - accueil : en-tete transparent sur un hero plein ecran bord a bord (image
+     portrait dediee), texte et bouton blanc pleine largeur en bas du hero ;
+     l'en-tete redevient blanc des la fin du hero (aye-aye.js) ou quand le
+     menu est ouvert ;
+   - sous le hero : titre centre et onglets centres, sur deux lignes si besoin ;
+   - tuiles en cartes pleine largeur, gouttiere de 10 px.
+   Les tailles de police du template ne changent pas.
+   ============================================================================= */
+.aye-logo-clair,
+.aye-onglets-mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  /* --- En-tete : 64 px, fixe, fond blanc ------------------------------------ */
+  .header-area,
+  .header-area.background-header {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px !important;
+    padding: 0 16px;
+    background-color: #fff;
+    border-bottom: 1px solid #eee !important;
+    box-shadow: none !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  .header-area .main-nav,
+  .header-area.header-sticky {
+    min-height: 64px; /* le template impose 80 px a .header-area.header-sticky */
+  }
+  .header-area .aye-logo,
+  .header-area.background-header .aye-logo {
+    height: 64px;
+  }
+  .header-area .aye-logo img[width][height],
+  .header-area.background-header .aye-logo img[width][height] {
+    height: 54px;
+  }
+  .header-area .logo {
+    margin-left: 0 !important; /* logo colle a gauche */
+  }
+  /* entre 576 et 767 px, Bootstrap limite le .container a 540 px centres : le
+     logo partait vers le milieu de la barre */
+  .header-area .container {
+    max-width: none;
+  }
+
+  /* bouton menu (burger) tout a droite, comme dans le template, aligne sur la
+     marge de 16 px de l'en-tete et centre dans la barre de 64 px */
+  .header-area .main-nav .menu-trigger,
+  .background-header .main-nav .menu-trigger {
+    left: auto;
+    right: 15px;
+    top: 12px;
+  }
+
+  /* le menu deroulant du template s'ouvre sous l'en-tete de 64 px */
+  .header-area.header-sticky .nav {
+    margin-top: 64px !important;
+  }
+
+  /* --- Recherche et compte, a gauche du bouton menu ---------------------------
+     16 px de marge + 32 px de bouton + 16 px d'ecart = 64 px */
+  .aye-actions-bord {
+    right: 64px;
+    gap: 18px;
+  }
+  .aye-actions-bord a {
+    display: flex;
+    padding: 6px 1px;
+    color: #2a2a2a;
+    transition: color 0.3s ease;
+  }
+  .aye-actions-bord a:hover,
+  .aye-actions-bord a:active {
+    color: #aaa;
+  }
+  .aye-actions-bord svg {
+    width: 24px; /* lisibles au pouce, a l'echelle de la barre de 64 px */
+    height: 24px;
+  }
+
+  /* contenus decales sous l'en-tete */
+  .page-heading,
+  .about-page-heading {
+    margin-top: 64px;
+  }
+  .aye-fiche {
+    padding-top: 88px;
+  }
+
+  /* tres petits ecrans (< 375 px) : logo un peu plus petit, ecart resserre */
+  @media (max-width: 374px) {
+    .header-area .aye-logo img[width][height],
+    .header-area.background-header .aye-logo img[width][height] {
+      height: 50px;
+    }
+    .aye-actions-bord {
+      gap: 12px;
+    }
+  }
+
+  /* --- Accueil : en-tete transparent sur le hero (menu ferme) ---------------- */
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(:has(.menu-trigger.active)) {
+    background-color: transparent;
+    border-bottom-color: transparent !important;
+  }
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(:has(.menu-trigger.active)) .aye-logo-sombre {
+    display: none;
+  }
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(:has(.menu-trigger.active)) .aye-logo-clair {
+    display: block;
+  }
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(:has(.menu-trigger.active)) .aye-actions-bord a {
+    color: #fff;
+  }
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(:has(.menu-trigger.active)) .main-nav .menu-trigger span,
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(:has(.menu-trigger.active)) .main-nav .menu-trigger span::before,
+  .header-area.aye-entete-sur-hero:not(.aye-entete-opaque):not(:has(.menu-trigger.active)) .main-nav .menu-trigger span::after {
+    background-color: #fff;
+  }
+
+  /* --- Hero plein ecran, bord a bord ---------------------------------------- */
+  .main-banner {
+    padding-top: 0;
+    padding-bottom: 20px;
+  }
+  .main-banner > .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .main-banner > .container-fluid > .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .main-banner > .container-fluid > .row > [class*='col-'] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .main-banner .left-content {
+    margin-bottom: 0;
+  }
+  .main-banner .left-content .thumb {
+    position: relative;
+    height: 88vh;
+    min-height: 560px;
+    max-height: 780px;
+    overflow: hidden;
+  }
+  /* image portrait en cover : le personnage a de la marge sur les cotes, seul
+     du fond peut sortir du cadre ; ancree en haut (les jambes sortent deja du
+     cadre sur la photo d'origine) */
+  .main-banner .left-content .thumb img[width][height] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  /* texte en bas du hero, centre */
+  .main-banner .left-content .thumb .inner-content {
+    z-index: 2;
+    top: auto;
+    bottom: 36px;
+    left: 50%;
+    width: calc(100% - 40px);
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  /* bouton blanc pleine largeur */
+  .main-banner .left-content .main-border-button a {
+    display: block;
+    padding: 14px 20px;
+    background-color: #fff;
+    border-color: #fff;
+    color: #2a2a2a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .main-banner .left-content .main-border-button a:hover {
+    background-color: transparent;
+    color: #fff;
+  }
+
+  /* --- Titre et onglets sous le hero ------------------------------------------- */
+  .aye-onglets-mobile {
+    display: block;
+    padding: 34px 0 14px;
+    text-align: center;
+  }
+  .aye-onglets-mobile h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2a2a2a;
+    margin-bottom: 18px;
+  }
+  /* les onglets passent a la ligne et restent centres : aucun mot coupe au
+     bord de l'ecran (un defilement horizontal laissait « ACCESSOIR… ») */
+  .aye-onglets-mobile ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 22px;
+    margin: 0;
+    padding: 0 16px 6px;
+    list-style: none;
+  }
+  .aye-onglets-mobile li {
+    white-space: nowrap;
+  }
+  .aye-onglets-mobile li a {
+    display: inline-block;
+    padding-bottom: 6px;
+    border-bottom: 2px solid transparent;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #aaa;
+  }
+  .aye-onglets-mobile li:first-child a,
+  .aye-onglets-mobile li a:hover {
+    color: #2a2a2a;
+    border-bottom-color: #2a2a2a;
+  }
+
+  /* --- Pied de page : logo centre ---------------------------------------------- */
+  footer .aye-logo-pied {
+    align-items: center;
+    margin-bottom: 0;
+  }
+
+  /* --- Titres de section : centres, taille moyenne ---------------------------
+     A la demande de la marque : 34 px (template) est trop grand sur telephone.
+     Meme police (Poppins, gras), seule la taille du titre change ; le
+     sous-titre garde ses 14 px. Le texte courant reste aligne a gauche. */
+  .section-heading,
+  #explore .left-content h2,
+  .about-us .right-content h4 {
+    text-align: center;
+  }
+  .section-heading h2,
+  #explore .left-content h2,
+  .subscribe .section-heading h2,
+  .about-us .right-content h4 {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+  /* section Decouvrez : bouton « Notre histoire » centre. La marge droite de
+     30 px du template (ecart entre les colonnes sur ordinateur) decalait
+     titre et bouton de 15 px vers la gauche sur mobile. */
+  #explore .left-content {
+    margin-right: 0;
+  }
+  #explore .left-content .main-border-button {
+    text-align: center;
+  }
+  /* icones Facebook / WhatsApp / e-mail sous le texte A propos : centrees
+     (marge symetrique : le template ne met qu'une marge a droite) */
+  .about-us .right-content ul {
+    text-align: center;
+  }
+  .about-us .right-content ul li {
+    margin: 0 4px;
+  }
+
+  /* --- Page Contact : boutons pleine largeur, air avant le formulaire --------- */
+  .aye-boutons-contact {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .aye-boutons-contact .main-border-button a {
+    display: block;
+    text-align: center;
+    padding: 14px 20px;
+  }
+  .contact-us .col-lg-7 {
+    margin-top: 50px;
+  }
+
+  /* --- Mon compte : bloc d'information centre, avec son bouton ---------------- */
+  .aye-compte-info {
+    text-align: center;
+    padding: 0 6px;
+  }
+  .aye-compte-info h4 {
+    font-size: 22px;
+  }
+
+  /* --- Tuiles : cartes pleine largeur, gouttiere de 10 px ---------------------- */
+  .main-banner .right-content {
+    padding: 0 10px;
+  }
+  .main-banner .right-content .right-first-image {
+    margin-bottom: 10px;
+  }
+}
