@@ -106,6 +106,51 @@ footer .aye-logo img[width][height] {
   }
 }
 
+/* --- Liens du menu -----------------------------------------------------------
+   Demande de la marque : en majuscules et en trait fin (400 au lieu de 600),
+   meme police, meme taille et meme espacement que le template. A partir de
+   768 px, ils sont centres dans l'en-tete ; le logo reste a gauche et les
+   icones recherche et compte a droite. Le menu couvre toute la largeur :
+   pointer-events laisse passer les clics vers le logo dessous. */
+.header-area .main-nav .nav li a {
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+@media (min-width: 768px) {
+  .header-area .main-nav {
+    position: relative;
+  }
+  .header-area .main-nav .nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    float: none;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .header-area .main-nav .nav li {
+    pointer-events: auto;
+  }
+  .header-area .main-nav .nav li:last-child {
+    padding-right: 15px;
+  }
+  /* icones : au bord droit du contenu, comme avant */
+  .header-area .main-nav .nav li.aye-action {
+    position: absolute;
+    top: 0;
+  }
+  .header-area .main-nav .nav li.aye-action:last-child {
+    right: 0;
+    padding-right: 0;
+  }
+  .header-area .main-nav .nav li.aye-action:nth-last-child(2) {
+    right: 39px;
+  }
+}
+
 /* --- Icones recherche et compte -------------------------------------------
    Trait fin, couleur du texte du menu (#2a2a2a), gris au survol comme les
    liens du template. Deux exemplaires dans Header.js, un seul visible :
