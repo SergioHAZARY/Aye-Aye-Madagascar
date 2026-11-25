@@ -197,18 +197,14 @@ export default function PageAccueil() {
         </div>
       </section>
 
-      {/* ***** Rejoignez la communaute : titre centre, 4 photos, bouton ***** */}
+      {/* ***** Communaute : titre centre, 4 photos, bouton Facebook ***** */}
       <section className="section aye-communaute-section" id="social">
         <div className="container">
           <div className="section-heading">
             <h2>
-              Rejoignez la communauté <span className="aye-insecable">Aye Aye</span>
+              Ils portent fièrement leur <span className="aye-insecable">Aye-Aye</span>
             </h2>
-            <span>
-              Plus de 11 000 personnes nous suivent déjà sur Facebook. Découvrez nos
-              nouveautés, nos vidéos et les photos de nos clients qui portent fièrement
-              leur Aye Aye.
-            </span>
+            <span>Plus de 11{' '}000 personnes nous suivent déjà sur Facebook.</span>
           </div>
           {/* photos de clients (images/Clients), entieres dans un cadre 3:4 */}
           <ul className="aye-communaute-photos">

@@ -330,18 +330,6 @@ await composer({
   echelle: 0.92, lumiere: LUMIERE_ENTETE_FEMME, saturation: 0.5, bordsPropres: true, retrait: 2, fondu: 90,
 });
 
-// --- « Nos collections » (accueil) : photos paysage 4:3, une demi-ligne -----
-// Les trois premieres collections avec photo (studio) ; SectionHistoire.js
-// prend histoire/<nom>.jpg quand il existe, sinon la carte 3:4.
-for (const { source, ...options } of [
-  { source: 'DSC_1795.jpg' },
-  { source: 'DSC_1807.jpg' },
-  { source: 'Homme/Homme_1.jpeg', bordsPropres: true, retrait: 2 },
-]) {
-  const nom = source.split('/').pop().replace(/\.jpe?g$/i, '.jpg');
-  await composer({ source, sortie: 'histoire/' + nom, largeur: 1200, hauteur: 900, ...options });
-}
-
 // --- Page A propos -------------------------------------------------------------
 const PILIERS = ['DSC_1795.jpg', 'DSC_1807.jpg', 'Basta Lion.jpeg'];
 for (const [i, source] of PILIERS.entries()) {
@@ -362,6 +350,14 @@ const CARTES = [
   { source: 'Femme/Femme_1.jpeg', bordsPropres: true, retrait: 2 }, // manche contre le bord droit
   { source: 'Homme/Homme_1.jpeg', bordsPropres: true, retrait: 2 },
 ];
+// Versions larges 4:3 (section « Nos collections » de l'accueil, photo a
+// moitie de largeur) : meme principe, fond de studio prolonge sur les cotes.
+// seulement les photos des collections montrees sur l'accueil
+const LARGES = ['DSC_1795.jpg', 'DSC_1807.jpg', 'Homme_1.jpeg'];
+for (const carte of CARTES.filter((c) => LARGES.includes(path.basename(c.source)))) {
+  const nom = path.basename(carte.source).replace(/\.jpe?g$/i, '.jpg');
+  await composer({ ...carte, sortie: 'cartes/large/' + nom, largeur: 1200, hauteur: 900 });
+}
 for (const carte of CARTES) {
   const nom = path.basename(carte.source).replace(/\.jpe?g$/i, '.jpg');
   for (const [largeur, hauteur] of [[480, 640], [720, 960]]) {

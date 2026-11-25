@@ -393,6 +393,15 @@ export function imageCarte(source) {
   return { src: photoReduite(source, 480), srcSet: srcsetPhoto(source), width, height };
 }
 
+// Version large 4:3 (cartes/large/) d'une photo de studio, pour une photo
+// affichee en grand ; les autres photos gardent imageCarte (entieres, 3:4).
+export function imageLarge(source) {
+  const nom = source.split('/').pop();
+  if (!CARTES_STUDIO.test(nom)) return { ...imageCarte(source), large: false };
+  const dossier = source.slice(0, source.indexOf('/assets/images/')) + '/assets/images/cartes/large/';
+  return { src: dossier + nom.replace(/\.jpe?g$/i, '.jpg'), srcSet: undefined, width: 1200, height: 900, large: true };
+}
+
 // Recherche dans le catalogue : nom, couleur, description et categorie, sans
 // tenir compte des accents ni des majuscules. Deux lettres au minimum.
 // Partagee par la page /recherche/ et la barre de recherche de l'en-tete.
