@@ -200,12 +200,13 @@ export const MODELES = [
   {
     slug: 'manches-longues',
     nom: 'Manches longues',
-    image: chemin('/assets/images/Homme/DSC_1808.jpg'),
+    image: chemin('/assets/images/Homme/Homme_2.jpeg'), // ecru, vue de face
     texte: "Pour les soirées fraîches et les hauts plateaux. Confort et style toute l'année.",
   },
   {
     slug: 'debardeur',
     nom: 'Débardeur',
+    image: chemin('/assets/images/Clients/Client_4.jpeg'), // debardeur rouge, de face (photo client)
     texte: 'Léger et pratique, parfait pour la chaleur de la côte et les journées actives.',
   },
 ];
@@ -323,6 +324,7 @@ const DIMENSIONS_PHOTOS = {
   'Enfant_3.jpeg': [1049, 1280],
   'Enfant_4.jpeg': [960, 1280],
   'Homme_1.jpeg': [720, 1280],
+  'Homme_2.jpeg': [899, 1600],
   // photos de clients (accueil, « Rejoignez la communaute »)
   'Client_1.jpeg': [1091, 1442],
   'Client_2.jpeg': [1086, 1448],
@@ -375,7 +377,7 @@ export function srcsetPhoto(source) {
 // (scripts/photos-cadrees.mjs, cartes/480|720/). Autres photos : la photo
 // entiere, reduite, centree sur le fond clair de la carte (object-fit:
 // contain dans aye-aye.css). Jamais de flou ni de rognage.
-const CARTES_STUDIO = /^(DSC_\d+\.jpg|Femme_1\.jpeg|Homme_1\.jpeg)$/;
+const CARTES_STUDIO = /^(DSC_\d+\.jpg|Femme_1\.jpeg|Homme_[12]\.jpeg)$/;
 
 export function imageCarte(source) {
   const nom = source.split('/').pop();

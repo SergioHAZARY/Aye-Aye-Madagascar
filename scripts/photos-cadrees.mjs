@@ -349,6 +349,7 @@ const CARTES = [
   { source: 'DSC_1806.jpg', bordsPropres: true, retrait: 2 }, // bras leve contre le bord gauche
   { source: 'Femme/Femme_1.jpeg', bordsPropres: true, retrait: 2 }, // manche contre le bord droit
   { source: 'Homme/Homme_1.jpeg', bordsPropres: true, retrait: 2 },
+  { source: 'Homme/Homme_2.jpeg', bordsPropres: true, retrait: 2 }, // manche gauche pres du bord (carte Manches longues)
 ];
 // Versions larges 4:3 (section « Nos collections » de l'accueil, photo a
 // moitie de largeur) : meme principe, fond de studio prolonge sur les cotes.

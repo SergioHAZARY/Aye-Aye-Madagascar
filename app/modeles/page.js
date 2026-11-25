@@ -1,7 +1,7 @@
 import { chemin } from '@/app/lib/chemin';
 import Header from '../components/Header';
 import SilhouetteModele from '../components/SilhouetteModele';
-import { CATEGORIES, MODELES, imageCarte } from '../data/catalogue';
+import { CATEGORIES, MODELES, TAILLES_PAR_CATEGORIE, imageCarte } from '../data/catalogue';
 
 export const metadata = {
   title: 'Nos modèles — Aye-Aye Madagascar',
@@ -10,6 +10,13 @@ export const metadata = {
 
 // Les publics proposes pour chaque coupe : les pages categorie.
 const PUBLICS = CATEGORIES;
+
+// Tailles affichees sous chaque coupe (TAILLES_PAR_CATEGORIE, valeurs de
+// depart a confirmer par la marque) : adulte (homme et femme) et enfant.
+const TAILLES = [
+  ['Adulte', TAILLES_PAR_CATEGORIE.homme.join(' · ')],
+  ['Enfant', TAILLES_PAR_CATEGORIE.enfant.map((t) => t.replace(' ans', '')).join(' · ') + ' ans'],
+];
 
 export default function PageModeles() {
   return (
@@ -50,15 +57,27 @@ export default function PageModeles() {
                   </div>
                   <h4>{modele.nom}</h4>
                   <p>{modele.texte}</p>
-                  <p className="aye-carte-liens">
-                    Disponible pour{' '}
-                    {PUBLICS.map((c, i) => (
-                      <span key={c.slug}>
-                        {i > 0 && ' · '}
-                        <a href={chemin('/' + c.slug + '/')}>{c.nom}</a>
-                      </span>
+                  {/* infos alignees en bas de la carte, quelle que soit la
+                      longueur du texte au-dessus */}
+                  <dl className="aye-modele-infos">
+                    <div className="aye-modele-ligne">
+                      <dt>Disponible pour</dt>
+                      <dd>
+                        {PUBLICS.map((c, i) => (
+                          <span key={c.slug}>
+                            {i > 0 && ' · '}
+                            <a href={chemin('/' + c.slug + '/')}>{c.nom}</a>
+                          </span>
+                        ))}
+                      </dd>
+                    </div>
+                    {TAILLES.map(([public_, liste]) => (
+                      <div key={public_} className="aye-modele-ligne">
+                        <dt>Tailles {public_.toLowerCase()}</dt>
+                        <dd>{liste}</dd>
+                      </div>
                     ))}
-                  </p>
+                  </dl>
                 </article>
               </div>
             ))}

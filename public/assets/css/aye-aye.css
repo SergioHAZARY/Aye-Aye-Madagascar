@@ -610,6 +610,53 @@ footer .aye-logo img[width][height] {
   color: #aaa;
 }
 
+/* Page Modeles : cartes de meme hauteur (les colonnes de la rangee Bootstrap
+   s'etirent), bloc d'infos pousse en bas pour que « Disponible pour » et les
+   tailles soient alignes d'une carte a l'autre ; libelle gris a gauche,
+   valeur a droite, sur des lignes separees par un filet. */
+#modeles .row > [class*='col-'] {
+  display: flex;
+}
+
+.aye-carte.aye-modele {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.aye-modele-infos {
+  margin: auto 0 0;
+  padding-top: 6px;
+  font-size: 13px;
+}
+
+.aye-modele-ligne {
+  display: flex;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid #eee;
+}
+
+.aye-modele-infos dt {
+  flex: 0 0 120px;
+  font-weight: 400;
+  color: #aaa;
+}
+
+.aye-modele-infos dd {
+  margin: 0;
+  font-weight: 600;
+  color: #2a2a2a;
+}
+
+.aye-modele-infos a {
+  color: #2a2a2a;
+}
+
+.aye-modele-infos a:hover {
+  color: #aaa;
+}
+
 /* --- Page Contact : boutons ------------------------------------------------------ */
 .aye-boutons-contact {
   display: flex;
