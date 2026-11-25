@@ -995,10 +995,22 @@ footer .aye-logo img[width][height] {
 
 .aye-histoire-ligne {
   display: grid;
-  /* photo jusqu'au centre de la page (demande de la marque) */
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  /* deux moities egales, sans espace entre elles : le bord interieur de
+     chaque photo tombe exactement au centre de la page (meme ligne pour
+     toutes les photos et pour celle de « Decouvrez ») ; l'ecart est porte
+     par le texte */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
-  gap: 30px 70px;
+  gap: 30px 0;
+}
+
+.aye-histoire-texte {
+  padding-left: 70px;
+}
+
+.aye-histoire-ligne:nth-of-type(even) .aye-histoire-texte {
+  padding-left: 0;
+  padding-right: 70px;
 }
 
 .aye-histoire-ligne + .aye-histoire-ligne {
@@ -1006,10 +1018,6 @@ footer .aye-logo img[width][height] {
 }
 
 /* une ligne sur deux : photo a droite */
-.aye-histoire-ligne:nth-of-type(even) {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-}
-
 .aye-histoire-ligne:nth-of-type(even) .aye-histoire-photo {
   order: 2;
 }
@@ -1077,6 +1085,10 @@ footer .aye-logo img[width][height] {
   .aye-histoire-ligne:nth-of-type(even) .aye-histoire-photo {
     order: 0;
   }
+  .aye-histoire-texte,
+  .aye-histoire-ligne:nth-of-type(even) .aye-histoire-texte {
+    padding: 0;
+  }
   .aye-histoire-ligne + .aye-histoire-ligne {
     margin-top: 50px;
   }
@@ -1096,7 +1108,14 @@ footer .aye-logo img[width][height] {
 
 #explore.aye-decouvrez .left-content {
   margin-right: 0;
-  padding-left: 30px;
+  padding-left: 55px; /* + 15 px de colonne : texte a 70 px du centre, comme « Nos collections » */
+}
+
+/* ordinateur : la photo de « Decouvrez » s'arrete aussi au centre */
+@media (min-width: 992px) {
+  .aye-decouvrez .row > .col-lg-6:first-child {
+    padding-right: 0;
+  }
 }
 
 @media (max-width: 991px) {
