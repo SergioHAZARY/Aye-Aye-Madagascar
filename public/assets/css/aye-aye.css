@@ -2329,6 +2329,28 @@ a.aye-moyen:hover .aye-moyen-valeur {
   margin-bottom: 15px;
 }
 
+/* --- « Nos engagements » (A propos) : cartes de meme hauteur, photos alignees
+   en bas, meme quand un texte tient sur deux lignes ------------------------- */
+#engagement .row > .col-lg-4 {
+  display: flex;
+}
+
+#engagement .service-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#engagement .service-item img {
+  margin-top: auto;
+}
+
+/* cartes empilees (mobile, tablette) : chaque texte reserve deux lignes, les
+   trois cartes ont la meme hauteur et la photo au meme endroit */
+#engagement .service-item p {
+  min-height: 50px;
+}
+
 /* --- Signature de la page Notre histoire ---------------------------------- */
 .aye-signature {
   text-align: center;
