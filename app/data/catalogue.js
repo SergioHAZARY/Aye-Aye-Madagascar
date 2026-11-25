@@ -308,7 +308,7 @@ export function vignettes(categorieSlug) {
   return produits.flatMap((p) => p.galerie.map((image) => ({ produit: p, image })));
 }
 
-// Photos de la marque (dossiers Homme, Femme, Enfant) et dimensions de leurs
+// Photos de la marque (dossiers Homme, Femme, Enfant, Clients) et dimensions de leurs
 // originaux. Les DSC_xxxx.jpg font toutes 899x1600 ; les autres sont listees
 // ici. AJOUTER une ligne pour toute nouvelle photo utilisee dans le site.
 const DIMENSIONS_PHOTOS = {
@@ -323,10 +323,15 @@ const DIMENSIONS_PHOTOS = {
   'Enfant_3.jpeg': [1049, 1280],
   'Enfant_4.jpeg': [960, 1280],
   'Homme_1.jpeg': [720, 1280],
+  // photos de clients (accueil, « Rejoignez la communaute »)
+  'Client_1.jpeg': [1091, 1442],
+  'Client_2.jpeg': [1086, 1448],
+  'Client_3.jpeg': [1536, 2048],
+  'Client_4.jpeg': [1366, 2048],
 };
 
 function photoMarque(source) {
-  const morceaux = source.match(/(\/assets\/images\/(?:Homme|Femme|Enfant)\/)([^/]+)$/);
+  const morceaux = source.match(/(\/assets\/images\/(?:Homme|Femme|Enfant|Clients)\/)([^/]+)$/);
   if (!morceaux) return null;
   const [, dossier, nom] = morceaux;
   const dimensions = /^DSC_\d+\.jpg$/.test(nom) ? [899, 1600] : DIMENSIONS_PHOTOS[nom];

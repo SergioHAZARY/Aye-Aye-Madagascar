@@ -1,10 +1,22 @@
 // « Nos collections » (accueil) : titre centre sous un surtitre, puis une
-// ligne par collection (dessin au dos), photo 3:4 et texte alternant de cote,
+// ligne par collection (dessin au dos), grande photo 4:3 (une demi-ligne) et
+// texte alternant de cote,
 // grand numero, nom, histoire du motif et lien. Les trois premieres
 // collections, puis un bouton vers la page Collections. Sans JavaScript.
 
 import { chemin } from '@/app/lib/chemin';
 import { COLLECTIONS, imageCarte } from '../data/catalogue';
+
+// Versions paysage 4:3 (scripts/photos-cadrees.mjs, histoire/) des photos de
+// studio ; une autre photo est montree entiere (carte 3:4, contain).
+const PAYSAGE = /^(DSC_1795\.jpg|DSC_1807\.jpg|Homme_1\.jpeg)$/;
+
+function imageLigne(source) {
+  const nom = source.split('/').pop();
+  if (!PAYSAGE.test(nom)) return imageCarte(source);
+  const dossier = source.slice(0, source.indexOf('/assets/images/')) + '/assets/images/histoire/';
+  return { src: dossier + nom.replace(/\.jpe?g$/i, '.jpg'), width: 1200, height: 900 };
+}
 
 export default function SectionHistoire({ nombre = 3 }) {
   const collections = COLLECTIONS.filter((c) => c.image).slice(0, nombre);
@@ -18,7 +30,7 @@ export default function SectionHistoire({ nombre = 3 }) {
         </div>
 
         {collections.map((collection, index) => {
-          const photo = imageCarte(collection.image);
+          const photo = imageLigne(collection.image);
           const lien = chemin('/collections/#' + collection.slug);
           return (
             <article className="aye-histoire-ligne" key={collection.slug}>
@@ -26,7 +38,7 @@ export default function SectionHistoire({ nombre = 3 }) {
                 <img
                   src={photo.src}
                   srcSet={photo.srcSet}
-                  sizes="(max-width: 767px) 100vw, 420px"
+                  sizes="(max-width: 767px) 100vw, 50vw"
                   alt={'Collection ' + collection.nom + ', dessin au dos'}
                   width={photo.width}
                   height={photo.height}

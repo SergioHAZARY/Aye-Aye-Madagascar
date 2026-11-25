@@ -1,11 +1,10 @@
 import { chemin } from '@/app/lib/chemin';
-import { Fragment } from 'react';
 import CarrouselBanniere from './components/CarrouselBanniere';
 import Header from './components/Header';
 import SectionHistoire from './components/SectionHistoire';
 import SectionUnivers from './components/SectionUnivers';
-import SectionVedette from './components/SectionVedette';
 import { CONTACT } from './components/Footer';
+import { dimensionsImage, photoReduite, srcsetPhoto } from './data/catalogue';
 
 export const metadata = {
   title: 'Aye-Aye Madagascar',
@@ -70,8 +69,6 @@ const ATOUTS = [
   },
 ];
 
-// Mots du bandeau defilant, sous « Nos univers ».
-const BANDEAU = ['Authentique', 'Nature', 'Qualité', '100\u00a0% coton', 'Imprimé à Madagascar'];
 
 // Onglets sous le hero, sur mobile.
 const ONGLETS = [
@@ -135,59 +132,37 @@ export default function PageAccueil() {
         </div>
       </div>
 
-      {/* ***** Nos univers, bandeau, Nouveautés, Nos collections ***** */}
+      {/* ***** Nos univers, Nos collections ***** */}
       <SectionUnivers />
-
-      {/* Bandeau defilant (CSS seul) : deux moities identiques, la piste glisse
-          de la moitie de sa largeur puis recommence, sans raccord visible */}
-      <div className="aye-bandeau">
-        <div className="aye-bandeau-piste">
-          {[0, 1].map((moitie) => (
-            <span key={moitie} aria-hidden={moitie === 1 ? 'true' : undefined}>
-              {[0, 1, 2].map((tour) => (
-                <Fragment key={tour}>
-                  {BANDEAU.map((mot) => (
-                    <Fragment key={mot}>
-                      <b>{mot}</b>
-                      <i aria-hidden="true">✦</i>
-                    </Fragment>
-                  ))}
-                </Fragment>
-              ))}
-            </span>
-          ))}
-        </div>
-      </div>
-      <SectionVedette
-        surtitre="Arrivées récentes"
-        titre="Nouveautés"
-        produits={[
-          'manches-longues-aye-aye-rouge',
-          'tee-shirt-dauphins-rouge',
-          'tee-shirt-tortue-moutarde',
-          'tee-shirt-djembe-noir',
-          'manches-longues-antsatsaka-ecru',
-        ]}
-      />
       <SectionHistoire />
 
+      {/* ***** Nos points forts (entre « Nos collections » et « Decouvrez ») ***** */}
+      <section className="aye-atouts">
+        <div className="container">
+          <ul>
+            {ATOUTS.map((atout) => (
+              <li key={atout.titre}>
+                <span className="aye-atout-icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">{atout.icone}</svg>
+                </span>
+                <h4>{atout.titre}</h4>
+                <p>{atout.texte}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* ***** Notre histoire et notre engagement ***** */}
-      {/* Forme demandee par la marque : grande photo a gauche, textes du
+      {/* Forme demandee par la marque : grand cadre a gauche (vide pour l'instant), textes du
           template a droite (titre, accroche, citation, paragraphes, bouton) */}
       <section className="section aye-decouvrez" id="explore">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6">
-              <div className="aye-decouvrez-photo">
-                <img
-                  src={chemin('/assets/images/apropos/decouvrez.jpg')}
-                  alt="Manches longues Aye-Aye rouge"
-                  width={1100}
-                  height={900}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
+              {/* cadre vide (photo retiree a la demande du proprietaire, en
+                  attente de la nouvelle) */}
+              <div className="aye-decouvrez-photo" aria-hidden="true"></div>
             </div>
             <div className="col-lg-6">
               <div className="left-content">
@@ -222,23 +197,6 @@ export default function PageAccueil() {
         </div>
       </section>
 
-      {/* ***** Nos points forts ***** */}
-      <section className="aye-atouts">
-        <div className="container">
-          <ul>
-            {ATOUTS.map((atout) => (
-              <li key={atout.titre}>
-                <span className="aye-atout-icone" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">{atout.icone}</svg>
-                </span>
-                <h4>{atout.titre}</h4>
-                <p>{atout.texte}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
       {/* ***** Rejoignez la communaute : titre centre, 4 photos, bouton ***** */}
       <section className="section aye-communaute-section" id="social">
         <div className="container">
@@ -252,28 +210,32 @@ export default function PageAccueil() {
               leur Aye Aye.
             </span>
           </div>
+          {/* photos de clients (images/Clients), entieres dans un cadre 3:4 */}
           <ul className="aye-communaute-photos">
-            {[1, 2, 3, 4].map((numero) => (
-              <li key={numero}>
-                <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer" aria-label="Aye-Aye Madagascar sur Facebook">
-                  <img
-                    src={chemin('/assets/images/social/0' + numero + '.jpg')}
-                    alt=""
-                    width={320}
-                    height={320}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </a>
-              </li>
-            ))}
+            {[1, 2, 3, 4].map((numero) => {
+              const source = chemin('/assets/images/Clients/Client_' + numero + '.jpeg');
+              const [largeur, hauteur] = dimensionsImage(source);
+              return (
+                <li key={numero}>
+                  <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer" aria-label="Aye-Aye Madagascar sur Facebook">
+                    <img
+                      src={photoReduite(source, 480)}
+                      srcSet={srcsetPhoto(source)}
+                      sizes="(max-width: 767px) 50vw, 25vw"
+                      alt="Un client porte son Aye Aye"
+                      width={largeur}
+                      height={hauteur}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                </li>
+              );
+            })}
           </ul>
           <div className="aye-communaute">
-            <div className="main-border-button aye-plein">
+            <div className="main-border-button">
               <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer">
-                <span className="aye-icone-facebook" aria-hidden="true">
-                  <i className="fa fa-facebook"></i>
-                </span>
                 Nous suivre sur Facebook
               </a>
             </div>

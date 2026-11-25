@@ -1,6 +1,6 @@
 // Fabrique toutes les images du site tirees des photos de la marque :
-// banniere d'accueil, bandeaux de titre, vignettes « Suivez-nous » et
-// « Decouvrez », piliers et image « Notre histoire » de la page A propos,
+// banniere d'accueil, bandeaux de titre,
+// piliers et image « Notre histoire » de la page A propos,
 // photos des collections.
 //
 // REGLE UNIQUE : AUCUNE PHOTO N'EST ROGNEE.
@@ -330,10 +330,16 @@ await composer({
   echelle: 0.92, lumiere: LUMIERE_ENTETE_FEMME, saturation: 0.5, bordsPropres: true, retrait: 2, fondu: 90,
 });
 
-// --- Vignettes « Suivez-nous » (01 et 05 servent aussi a « Decouvrez ») ------
-const SOCIAL = ['DSC_1804.jpg', 'DSC_1805.jpg', 'DSC_1807.jpg', 'DSC_1809.jpg', 'DSC_1793.jpg', 'DSC_1794.jpg'];
-for (const [i, source] of SOCIAL.entries()) {
-  await composer({ source, sortie: 'social/0' + (i + 1) + '.jpg', largeur: 320, hauteur: 320 });
+// --- « Nos collections » (accueil) : photos paysage 4:3, une demi-ligne -----
+// Les trois premieres collections avec photo (studio) ; SectionHistoire.js
+// prend histoire/<nom>.jpg quand il existe, sinon la carte 3:4.
+for (const { source, ...options } of [
+  { source: 'DSC_1795.jpg' },
+  { source: 'DSC_1807.jpg' },
+  { source: 'Homme/Homme_1.jpeg', bordsPropres: true, retrait: 2 },
+]) {
+  const nom = source.split('/').pop().replace(/\.jpe?g$/i, '.jpg');
+  await composer({ source, sortie: 'histoire/' + nom, largeur: 1200, hauteur: 900, ...options });
 }
 
 // --- Page A propos -------------------------------------------------------------
@@ -342,8 +348,6 @@ for (const [i, source] of PILIERS.entries()) {
   await composer({ source, sortie: 'piliers/0' + (i + 1) + '.jpg', largeur: 310, hauteur: 250 });
 }
 await composer({ source: 'DSC_1808.jpg', sortie: 'apropos/histoire.jpg', largeur: 570, hauteur: 422 });
-// grande photo de la section « Decouvrez Aye-Aye Madagascar » (accueil)
-await composer({ source: 'DSC_1808.jpg', sortie: 'apropos/decouvrez.jpg', largeur: 1100, hauteur: 900 });
 
 // --- Cartes 3:4 : cartes produit, page Collections, page Modeles ------------
 // Un seul format de carte pour tout le site, pour que les photos s'alignent.

@@ -37,4 +37,28 @@
     $(window).on('scroll resize', majEntete);
     majEntete();
   }
+
+  /* « Nos collections » (accueil) : chaque ligne glisse en place chaque fois
+     qu'elle entre a l'ecran (demande du proprietaire), en alternant le sens
+     (gauche -> droite, droite -> gauche, ...). Elle apparait quand 30 % sont
+     a l'ecran et se rearme sous 10 % : sur un grand ecran la ligne du milieu
+     ne sort presque jamais entierement, elle doit pourtant rejouer. La classe aye-anim n'est posee qu'ici : sans JavaScript ou
+     sans IntersectionObserver, les lignes restent simplement visibles. */
+  var lignes = document.querySelectorAll('.aye-histoire-ligne');
+  var calme = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (lignes.length && 'IntersectionObserver' in window && !calme) {
+    var observateur = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (entree) {
+        if (entree.intersectionRatio >= 0.3) entree.target.classList.add('aye-visible');
+        else if (entree.intersectionRatio < 0.1) entree.target.classList.remove('aye-visible');
+      });
+    }, { threshold: [0, 0.1, 0.3] });
+    Array.prototype.forEach.call(lignes, function (ligne) {
+      // deja a l'ecran au chargement : visible tout de suite, sans glisser
+      var r = ligne.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) ligne.classList.add('aye-visible');
+      ligne.classList.add('aye-anim');
+      observateur.observe(ligne);
+    });
+  }
 })(window.jQuery);
