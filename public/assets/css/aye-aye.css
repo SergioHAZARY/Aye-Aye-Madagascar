@@ -1231,6 +1231,20 @@ footer .aye-logo img[width][height] {
   cursor: pointer;
 }
 
+/* Contact : bouton d'envoi elargi pour afficher « Envoyer » a cote de l'icone
+   (le template en fait un carre de 44 px, icone seule) */
+.contact-us form#contact button {
+  width: auto;
+  padding: 0 28px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.contact-us form#contact button i {
+  margin-right: 6px;
+}
+
 /* Contact : confirmation d'envoi et message de secours */
 .aye-contact-merci {
   padding: 30px;
@@ -2883,6 +2897,9 @@ a.aye-moyen:hover .aye-moyen-valeur {
   }
   .contact-us .col-lg-7 {
     margin-top: 50px;
+  }
+  .contact-us form#contact button {
+    width: 100%;
   }
 
   /* --- Mon compte : bloc d'information centre, avec son bouton ---------------- */
