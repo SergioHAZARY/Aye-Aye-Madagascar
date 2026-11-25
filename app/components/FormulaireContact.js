@@ -14,15 +14,17 @@ import { useState } from 'react';
 
 import { CONTACT } from './Footer';
 
-// TEMPORAIRE (test d'envoi, demande du proprietaire) : les messages partent
-// vers harold.josoa@gmail.com. Remettre CONTACT.email une fois le test fait.
-const DESTINATAIRE = 'harold.josoa@gmail.com';
+// Chaque message part vers l'adresse de la marque, avec l'administrateur du
+// site en copie (demande du proprietaire).
+const DESTINATAIRE = CONTACT.email;
+const COPIE = 'harold.josoa@gmail.com';
 const ADRESSE_ENVOI = 'https://formsubmit.co/ajax/' + DESTINATAIRE;
 
 function ouvrirMessagerie({ nom, email, message }) {
   const corps = message + '\n\n' + nom + ' — ' + email;
   window.location.href = 'mailto:' + DESTINATAIRE
-    + '?subject=' + encodeURIComponent('Message de ' + nom + ' (site Aye-Aye Madagascar)')
+    + '?cc=' + encodeURIComponent(COPIE)
+    + '&subject=' + encodeURIComponent('Message de ' + nom + ' (site Aye-Aye Madagascar)')
     + '&body=' + encodeURIComponent(corps);
 }
 
@@ -47,6 +49,7 @@ export default function FormulaireContact() {
           email: champs.email,
           message: champs.message,
           _replyto: champs.email,
+          _cc: COPIE,
           _subject: 'Nouveau message de ' + champs.nom + ' (site Aye-Aye Madagascar)',
           _template: 'table',
           _captcha: 'false',
