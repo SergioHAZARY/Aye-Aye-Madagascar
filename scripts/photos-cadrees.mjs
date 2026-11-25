@@ -358,6 +358,14 @@ const CARTES = [
   { source: 'Femme/Femme_1.jpeg', bordsPropres: true, retrait: 2 }, // manche contre le bord droit
   { source: 'Homme/Homme_1.jpeg', bordsPropres: true, retrait: 2 },
 ];
+// Versions larges 4:3 (section « Nos collections » de l'accueil, photo a
+// moitie de largeur) : meme principe, fond de studio prolonge sur les cotes.
+// seulement les photos des collections montrees sur l'accueil
+const LARGES = ['DSC_1795.jpg', 'DSC_1807.jpg', 'Homme_1.jpeg'];
+for (const carte of CARTES.filter((c) => LARGES.includes(path.basename(c.source)))) {
+  const nom = path.basename(carte.source).replace(/\.jpe?g$/i, '.jpg');
+  await composer({ ...carte, sortie: 'cartes/large/' + nom, largeur: 1200, hauteur: 900 });
+}
 for (const carte of CARTES) {
   const nom = path.basename(carte.source).replace(/\.jpe?g$/i, '.jpg');
   for (const [largeur, hauteur] of [[480, 640], [720, 960]]) {

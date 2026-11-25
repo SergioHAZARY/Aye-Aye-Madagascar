@@ -4,7 +4,7 @@
 // collections, puis un bouton vers la page Collections. Sans JavaScript.
 
 import { chemin } from '@/app/lib/chemin';
-import { COLLECTIONS, imageCarte } from '../data/catalogue';
+import { COLLECTIONS, imageLarge } from '../data/catalogue';
 
 export default function SectionHistoire({ nombre = 3 }) {
   const collections = COLLECTIONS.filter((c) => c.image).slice(0, nombre);
@@ -18,15 +18,15 @@ export default function SectionHistoire({ nombre = 3 }) {
         </div>
 
         {collections.map((collection, index) => {
-          const photo = imageCarte(collection.image);
+          const { large, ...photo } = imageLarge(collection.image);
           const lien = chemin('/collections/#' + collection.slug);
           return (
             <article className="aye-histoire-ligne" key={collection.slug}>
-              <a href={lien} className="aye-histoire-photo">
+              <a href={lien} className={'aye-histoire-photo' + (large ? ' aye-histoire-large' : '')}>
                 <img
                   src={photo.src}
                   srcSet={photo.srcSet}
-                  sizes="(max-width: 767px) 100vw, 420px"
+                  sizes="(max-width: 767px) 100vw, 55vw"
                   alt={'Collection ' + collection.nom + ', dessin au dos'}
                   width={photo.width}
                   height={photo.height}

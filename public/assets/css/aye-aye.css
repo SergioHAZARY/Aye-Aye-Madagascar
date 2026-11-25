@@ -995,9 +995,10 @@ footer .aye-logo img[width][height] {
 
 .aye-histoire-ligne {
   display: grid;
-  grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+  /* photo jusqu'au centre de la page (demande de la marque) */
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   align-items: center;
-  gap: 30px 80px;
+  gap: 30px 70px;
 }
 
 .aye-histoire-ligne + .aye-histoire-ligne {
@@ -1006,7 +1007,7 @@ footer .aye-logo img[width][height] {
 
 /* une ligne sur deux : photo a droite */
 .aye-histoire-ligne:nth-of-type(even) {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
 }
 
 .aye-histoire-ligne:nth-of-type(even) .aye-histoire-photo {
@@ -1019,6 +1020,10 @@ footer .aye-logo img[width][height] {
   border-radius: 6px;
   overflow: hidden;
   background-color: #f7f7f7;
+}
+
+.aye-histoire-photo.aye-histoire-large {
+  aspect-ratio: 4 / 3;
 }
 
 .aye-histoire-photo img[width][height] {
