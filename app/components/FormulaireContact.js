@@ -14,11 +14,14 @@ import { useState } from 'react';
 
 import { CONTACT } from './Footer';
 
-const ADRESSE_ENVOI = 'https://formsubmit.co/ajax/' + CONTACT.email;
+// TEMPORAIRE (test d'envoi, demande du proprietaire) : les messages partent
+// vers harold.josoa@gmail.com. Remettre CONTACT.email une fois le test fait.
+const DESTINATAIRE = 'harold.josoa@gmail.com';
+const ADRESSE_ENVOI = 'https://formsubmit.co/ajax/' + DESTINATAIRE;
 
 function ouvrirMessagerie({ nom, email, message }) {
   const corps = message + '\n\n' + nom + ' — ' + email;
-  window.location.href = 'mailto:' + CONTACT.email
+  window.location.href = 'mailto:' + DESTINATAIRE
     + '?subject=' + encodeURIComponent('Message de ' + nom + ' (site Aye-Aye Madagascar)')
     + '&body=' + encodeURIComponent(corps);
 }
