@@ -2401,6 +2401,36 @@ a.aye-moyen:hover .aye-moyen-valeur {
   background-image: url(../images/banniere/entete.jpg);
 }
 
+.page-heading.aye-entete-diapos {
+  position: relative;
+  overflow: hidden;
+  background-image: none;
+}
+
+/* carrousel en fond (BandeauDiapos) : toutes les diapositives remplissent le
+   bandeau ; le titre passe devant, sans capter le doigt (glissement) */
+.aye-entete-diapos .aye-diapos,
+.aye-entete-diapos .aye-diapo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.aye-entete-diapos .aye-diapo img[width][height] {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.aye-entete-diapos > .container {
+  position: relative;
+  z-index: 3;
+  pointer-events: none;
+}
+
 .page-heading.aye-entete-homme {
   background-image: url(../images/banniere/entete-homme.jpg);
 }

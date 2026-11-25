@@ -1,4 +1,5 @@
 import { chemin } from '@/app/lib/chemin';
+import BandeauDiapos from '../components/BandeauDiapos';
 import Header from '../components/Header';
 import { CONTACT, MARQUE } from '../components/Footer';
 
@@ -33,7 +34,17 @@ export default function PageAPropos() {
     <>
       <Header actif="apropos" surBanniere />
 
-      <div className="page-heading about-page-heading" id="top">
+      {/* bandeau : carrousel des photos de la page */}
+      <div className="page-heading about-page-heading aye-entete-diapos" id="top">
+        <BandeauDiapos
+          images={[
+            ['entete-apropos.jpg', 'Tee-shirt Djembe noir'],
+            ['diapos/apropos/histoire.jpg', 'Manches longues Aye-Aye rouge'],
+            ['diapos/apropos/antsatsaka.jpg', 'Manches longues Antsatsaka, dessin au dos'],
+            ['diapos/apropos/aye-aye.jpg', 'Manches longues Aye-Aye, dessin au dos'],
+            ['diapos/apropos/basta-lion.jpg', 'Manches longues Antsatsaka, vu de trois quarts'],
+          ]}
+        />
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
