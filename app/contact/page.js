@@ -1,3 +1,4 @@
+import FormulaireContact from '../components/FormulaireContact';
 import Header from '../components/Header';
 import { CONTACT } from '../components/Footer';
 
@@ -93,46 +94,9 @@ export default function PageContact() {
             <div className="col-lg-7">
               <div className="section-heading">
                 <h2>Écrivez-nous</h2>
-                <span>Votre message s’ouvre dans votre messagerie, prêt à nous être envoyé.</span>
+                <span>Votre message nous est envoyé directement par e-mail.</span>
               </div>
-              <form id="contact" action={'mailto:' + CONTACT.email} method="post" encType="text/plain">
-                <div className="row">
-                  <div className="col-lg-6">
-                    <fieldset>
-                      <input name="nom" type="text" id="contact-nom" placeholder="Votre nom" required={true} />
-                    </fieldset>
-                  </div>
-                  <div className="col-lg-6">
-                    <fieldset>
-                      <input
-                        name="email"
-                        type="email"
-                        id="contact-email"
-                        placeholder="Votre adresse e-mail"
-                        required={true}
-                      />
-                    </fieldset>
-                  </div>
-                  <div className="col-lg-12">
-                    <fieldset>
-                      <textarea
-                        name="message"
-                        rows="6"
-                        id="contact-message"
-                        placeholder="Votre message"
-                        required={true}
-                      ></textarea>
-                    </fieldset>
-                  </div>
-                  <div className="col-lg-12">
-                    <fieldset>
-                      <button type="submit" className="main-dark-button">
-                        <i className="fa fa-paper-plane"></i> Envoyer
-                      </button>
-                    </fieldset>
-                  </div>
-                </div>
-              </form>
+              <FormulaireContact />
             </div>
           </div>
         </div>

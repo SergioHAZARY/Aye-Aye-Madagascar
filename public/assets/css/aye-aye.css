@@ -1215,6 +1215,45 @@ footer .aye-logo img[width][height] {
   background-color: #eee;
 }
 
+.aye-connexion-bascule {
+  margin: 16px 0 0;
+  font-size: 14px;
+  text-align: center;
+}
+
+.aye-connexion-bascule button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: #2a2a2a;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Contact : confirmation d'envoi et message de secours */
+.aye-contact-merci {
+  padding: 30px;
+  background-color: #f7f7f7;
+}
+
+.aye-contact-merci h4 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2a2a2a;
+}
+
+.aye-contact-secours {
+  margin-top: 14px;
+  font-size: 14px;
+}
+
+.aye-contact-secours a {
+  color: #2a2a2a;
+  text-decoration: underline;
+}
+
 /* Mon compte : « Bonjour … » ou lien de connexion */
 .aye-compte-statut {
   margin: -10px 0 24px;

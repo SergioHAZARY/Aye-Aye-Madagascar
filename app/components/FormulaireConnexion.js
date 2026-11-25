@@ -1,9 +1,9 @@
 'use client';
 
-// Connexion et creation de compte avec Google ou Facebook (Firebase
-// Authentication, voir app/lib/firebase-config.js), ou par e-mail.
-// Le SDK Firebase n'est charge qu'au clic, depuis le CDN de Google : aucune
-// page du site ne s'alourdit.
+// Connexion et creation de compte : Google, Facebook ou e-mail et mot de
+// passe, par Firebase Authentication (voir app/lib/firebase-config.js).
+// Le SDK Firebase n'est charge qu'a la premiere action, depuis le CDN de
+// Google : aucune page du site ne s'alourdit.
 
 import { chemin } from '@/app/lib/chemin';
 import { enregistrerCompte } from '@/app/lib/compte';
@@ -15,14 +15,32 @@ import { CONTACT } from './Footer';
 const VERSION_FIREBASE = '10.12.2';
 const cdn = (module) => 'https://www.gstatic.com/firebasejs/' + VERSION_FIREBASE + '/firebase-' + module + '.js';
 
-async function connecterAvec(fournisseur) {
-  const app = await import(/* webpackIgnore: true */ /* turbopackIgnore: true */ cdn('app'));
-  const auth = await import(/* webpackIgnore: true */ /* turbopackIgnore: true */ cdn('auth'));
-  const instance = auth.getAuth(app.initializeApp(FIREBASE));
-  const source = fournisseur === 'google' ? new auth.GoogleAuthProvider() : new auth.FacebookAuthProvider();
-  const { user } = await auth.signInWithPopup(instance, source);
+let firebase = null; // { auth, instance }, charge une seule fois
+async function chargerFirebase() {
+  if (!firebase) {
+    const app = await import(/* webpackIgnore: true */ /* turbopackIgnore: true */ cdn('app'));
+    const auth = await import(/* webpackIgnore: true */ /* turbopackIgnore: true */ cdn('auth'));
+    firebase = { auth, instance: auth.getAuth(app.initializeApp(FIREBASE)) };
+  }
+  return firebase;
+}
+
+function retenir(user, fournisseur) {
   enregistrerCompte({ nom: user.displayName, email: user.email, photo: user.photoURL, fournisseur });
 }
+
+// messages Firebase (codes auth/...) en francais
+const ERREURS = {
+  'auth/invalid-credential': 'Adresse e-mail ou mot de passe incorrect.',
+  'auth/wrong-password': 'Adresse e-mail ou mot de passe incorrect.',
+  'auth/user-not-found': 'Aucun compte avec cette adresse : créez-en un.',
+  'auth/email-already-in-use': 'Un compte existe déjà avec cette adresse : connectez-vous.',
+  'auth/weak-password': 'Le mot de passe doit faire au moins 6 caractères.',
+  'auth/invalid-email': 'Cette adresse e-mail n’est pas valide.',
+  'auth/too-many-requests': 'Trop d’essais. Réessayez dans quelques minutes.',
+  'auth/account-exists-with-different-credential': 'Cette adresse est déjà liée à une autre méthode de connexion.',
+  'auth/network-request-failed': 'Connexion internet interrompue. Réessayez.',
+};
 
 function LogoGoogle() {
   return (
@@ -36,25 +54,71 @@ function LogoGoogle() {
 }
 
 export default function FormulaireConnexion() {
+  const [mode, setMode] = useState('connexion'); // 'connexion' | 'creation'
   const [message, setMessage] = useState(null);
   const [attente, setAttente] = useState(null);
 
-  async function social(fournisseur) {
-    if (!FIREBASE_ACTIF) {
-      setMessage('La connexion avec ' + (fournisseur === 'google' ? 'Google' : 'Facebook') + ' arrive très bientôt.');
-      return;
-    }
-    setAttente(fournisseur);
+  function pasEncore() {
+    setMessage('La connexion aux comptes clients arrive très bientôt.');
+  }
+
+  async function agir(nom, action) {
+    if (!FIREBASE_ACTIF) return pasEncore();
+    setAttente(nom);
     setMessage(null);
     try {
-      await connecterAvec(fournisseur);
-      window.location.href = chemin('/compte/');
+      const { auth, instance } = await chargerFirebase();
+      const fini = await action(auth, instance);
+      if (fini !== false) window.location.href = chemin('/compte/');
+      else setAttente(null);
     } catch (erreur) {
       setAttente(null);
-      if (erreur && /popup-closed|cancelled-popup/.test(erreur.code || '')) return;
-      setMessage('La connexion n’a pas abouti. Réessayez dans un instant.');
+      const code = (erreur && erreur.code) || '';
+      if (/popup-closed|cancelled-popup/.test(code)) return undefined;
+      setMessage(ERREURS[code] || 'La connexion n’a pas abouti. Réessayez dans un instant.');
     }
+    return undefined;
   }
+
+  const social = (fournisseur) => agir(fournisseur, async (auth, instance) => {
+    const source = fournisseur === 'google' ? new auth.GoogleAuthProvider() : new auth.FacebookAuthProvider();
+    const { user } = await auth.signInWithPopup(instance, source);
+    retenir(user, fournisseur);
+  });
+
+  function envoyer(e) {
+    e.preventDefault();
+    const donnees = new FormData(e.currentTarget);
+    const email = String(donnees.get('email')).trim();
+    const motdepasse = String(donnees.get('motdepasse'));
+    agir('email', async (auth, instance) => {
+      if (mode === 'creation') {
+        const { user } = await auth.createUserWithEmailAndPassword(instance, email, motdepasse);
+        const nom = String(donnees.get('nom') || '').trim();
+        if (nom) await auth.updateProfile(user, { displayName: nom });
+        retenir({ ...user, displayName: nom || user.displayName, email: user.email, photoURL: user.photoURL }, 'email');
+      } else {
+        const { user } = await auth.signInWithEmailAndPassword(instance, email, motdepasse);
+        retenir(user, 'email');
+      }
+    });
+  }
+
+  function oubli(e) {
+    const formulaire = e.currentTarget.closest('.aye-connexion-formulaire').querySelector('form');
+    const email = formulaire.email.value.trim();
+    if (!email) {
+      setMessage('Saisissez d’abord votre adresse e-mail, puis cliquez à nouveau sur « Mot de passe oublié ».');
+      return;
+    }
+    agir('oubli', async (auth, instance) => {
+      await auth.sendPasswordResetEmail(instance, email);
+      setMessage('Un e-mail pour choisir un nouveau mot de passe vient d’être envoyé à ' + email + '.');
+      return false;
+    });
+  }
+
+  const creation = mode === 'creation';
 
   return (
     <div className="aye-connexion-formulaire">
@@ -70,22 +134,44 @@ export default function FormulaireConnexion() {
 
       <div className="aye-connexion-ou"><span>ou</span></div>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setMessage('La connexion par e-mail arrive bientôt. En attendant, utilisez Google ou Facebook, ou continuez sans compte.');
-        }}
-      >
+      <form onSubmit={envoyer}>
+        {creation && (
+          <label>
+            Prénom et nom
+            <input name="nom" type="text" autoComplete="name" />
+          </label>
+        )}
         <label>
           Adresse e-mail
           <input name="email" type="email" autoComplete="email" required />
         </label>
         <label>
           Mot de passe
-          <input name="motdepasse" type="password" autoComplete="current-password" required />
+          <input
+            name="motdepasse"
+            type="password"
+            autoComplete={creation ? 'new-password' : 'current-password'}
+            minLength={6}
+            required
+          />
         </label>
-        <button type="submit" className="aye-bouton-noir">Se connecter</button>
+        <button type="submit" className="aye-bouton-noir" disabled={attente !== null}>
+          {attente === 'email' ? 'Un instant…' : creation ? 'Créer mon compte' : 'Se connecter'}
+        </button>
       </form>
+
+      <p className="aye-connexion-bascule">
+        {creation ? 'Déjà un compte ? ' : 'Pas encore de compte ? '}
+        <button type="button" onClick={() => { setMode(creation ? 'connexion' : 'creation'); setMessage(null); }}>
+          {creation ? 'Se connecter' : 'Créer un compte'}
+        </button>
+        {!creation && (
+          <>
+            {' · '}
+            <button type="button" onClick={oubli} disabled={attente !== null}>Mot de passe oublié</button>
+          </>
+        )}
+      </p>
 
       {message && (
         <p className="aye-connexion-message" role="status">

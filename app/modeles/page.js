@@ -28,10 +28,10 @@ export default function PageModeles() {
       <div className="page-heading aye-entete-diapos" id="top">
         <BandeauDiapos
           images={[
-            ['diapos/modeles/tee-shirt.jpg', 'Tee-shirt Dauphins rouge, vu de face'],
-            ['diapos/modeles/manches-longues.jpg', 'Manches longues Aye-Aye rouge, vu de face'],
-            ['diapos/modeles/manches-longues-ecru.jpg', 'Manches longues Antsatsaka écru, vu de face'],
-            ['diapos/modeles/tee-shirt-noir.jpg', 'Tee-shirt Djembe noir, vu de face'],
+            ['diapos/modeles/tee-shirt.jpg', 'Tee-shirt, vu de face'],
+            ['diapos/modeles/manches-longues.jpg', 'Manches longues écru, vu de face'],
+            ['diapos/modeles/debardeur.jpg', 'Débardeur rouge, vu de face'],
+            ['diapos/modeles/manches-longues-rouge.jpg', 'Manches longues rouge, vu de face'],
           ]}
         />
         <div className="container">
