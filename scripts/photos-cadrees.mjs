@@ -357,6 +357,17 @@ for (const [i, source] of PILIERS.entries()) {
 }
 await composer({ source: 'DSC_1808.jpg', sortie: 'apropos/histoire.jpg', largeur: 570, hauteur: 422 });
 
+// --- Accueil, « Decouvrez Aye-Aye Madagascar » sur tablette et telephone ------
+// Comme sur ordinateur, la photo de groupe passe en fond, sous le texte. En
+// portrait : la photo entiere, pleine largeur, ancree en bas (le bas coupe les
+// jambes comme l'original), et au-dessus le fond gris du studio prolonge, ou
+// se pose le texte. Image tres haute (1:3) : affichee en cover ancree en bas,
+// seul ce fond prolonge est coupe, jamais les personnes sur les cotes.
+await composer({
+  source: 'Groupe/Groupe_1.jpeg', sortie: 'banniere/decouvrez-mobile.jpg', largeur: 1000, hauteur: 3000,
+  echelle: 562 / 3000, fondu: 90, // le haut de la photo se fond dans le fond prolonge, sans raccord
+});
+
 // --- Cartes 3:4 : cartes produit, page Collections, page Modeles ------------
 // Un seul format de carte pour tout le site, pour que les photos s'alignent.
 // Photos de studio seulement (fond uni, prolonge sans raccord) ; les photos

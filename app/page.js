@@ -160,20 +160,29 @@ export default function PageAccueil() {
       {/* ***** Decouvrez Aye-Aye Madagascar ***** */}
       {/* Photo de groupe en arriere-plan, pleine largeur, voile sombre degrade
           (plus fonce a gauche, sous le texte) et textes de la marque en blanc ;
-          lien « Notre histoire » en bas a droite. Sous 992 px : photo entiere
-          puis texte sur fond sombre. */}
+          lien « Notre histoire » en bas a droite. Sous 992 px, meme principe
+          (demande du proprietaire) avec une version en hauteur de la photo
+          (photo entiere en bas, fond du studio prolonge au-dessus). */}
       <section className="aye-decouvrez" id="decouvrez">
-        <img
-          className="aye-decouvrez-fond"
-          src={GROUPE}
-          srcSet={srcsetPhoto(GROUPE)}
-          sizes="100vw"
-          alt="Cinq personnes en tee-shirts, débardeur et manches longues Aye-Aye Madagascar"
-          width={dimensionsImage(GROUPE)[0]}
-          height={dimensionsImage(GROUPE)[1]}
-          loading="lazy"
-          decoding="async"
-        />
+        <picture>
+          <source
+            media="(max-width: 991px)"
+            srcSet={chemin('/assets/images/banniere/decouvrez-mobile.jpg')}
+            width={1000}
+            height={3000}
+          />
+          <img
+            className="aye-decouvrez-fond"
+            src={GROUPE}
+            srcSet={srcsetPhoto(GROUPE)}
+            sizes="100vw"
+            alt="Cinq personnes en tee-shirts, débardeur et manches longues Aye-Aye Madagascar"
+            width={dimensionsImage(GROUPE)[0]}
+            height={dimensionsImage(GROUPE)[1]}
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
         <div className="aye-decouvrez-contenu">
           <div className="container">
             <div className="aye-decouvrez-ligne">

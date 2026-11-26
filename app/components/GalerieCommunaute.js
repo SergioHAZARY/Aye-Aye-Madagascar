@@ -3,8 +3,9 @@
 // « Ils portent fierement leur Aye-Aye » (accueil) : toutes les photos de
 // clients, pleine largeur, en carrousel qui glisse vers la gauche d'une photo
 // toutes les 3 s, en boucle (demande du proprietaire : plus de fleches). Au
-// doigt, on avance ou on recule. Chaque photo est entiere, a la meme hauteur
-// (largeur selon son format) : aucune n'est rognee.
+// doigt, on avance ou on recule. Toutes les photos ont la meme forme, un
+// cadre 3:4 (demande du proprietaire : les photos en largeur etaient trop
+// larges) ; celles en largeur y sont recadrees sur les personnes (POSITIONS).
 //
 // La liste est rendue deux fois : arrive au debut de la seconde copie (meme
 // vue que le depart), le carrousel revient sans animation au debut de la
@@ -12,7 +13,7 @@
 // quelques photos en avance sur celle affichee.
 //
 // AJOUTER UNE PHOTO : la deposer dans public/assets/images/Clients/
-// (Client_14.jpeg, ...), augmenter NOMBRE ci-dessous, ajouter sa ligne dans
+// (Client_14.jpeg, ...), ajouter son numero a NUMEROS ci-dessous, sa ligne dans
 // DIMENSIONS_PHOTOS (catalogue.js), puis node scripts/photos-reduites.mjs.
 // Les photos de clients ne vont que dans cette section (ni pages modele, ni
 // pages collection, ni fiches produit : demande du proprietaire).
@@ -21,10 +22,15 @@ import { useEffect, useRef, useState } from 'react';
 import { chemin } from '@/app/lib/chemin';
 import { dimensionsImage, photoReduite, srcsetPhoto } from '../data/catalogue';
 
-const NOMBRE = 13;
-const PHOTOS = Array.from({ length: NOMBRE }, (_, i) => chemin('/assets/images/Clients/Client_' + (i + 1) + '.jpeg'));
+// Client_4 n'y est pas : c'est un mannequin, pas un client (demande du
+// proprietaire) ; sa photo reste celle de la carte « Debardeur » (Modeles).
+const NUMEROS = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+const PHOTOS = NUMEROS.map((n) => chemin('/assets/images/Clients/Client_' + n + '.jpeg'));
+const NOMBRE = PHOTOS.length;
 const DUREE = 3000;
 const AVANCE = 5; // photos chargees au-dela de celle affichee
+// photos en largeur (aeroport de La Reunion) : centre de la famille dans le cadre
+const POSITIONS = { 9: '72% 50%', 10: '55% 50%', 11: '80% 50%' };
 const TRANSITION = 'transform 0.8s cubic-bezier(0.65, 0, 0.35, 1)';
 
 export default function GalerieCommunaute({ facebook }) {
@@ -155,13 +161,13 @@ export default function GalerieCommunaute({ facebook }) {
               >
                 <img
                   {...(charge ? { src: photoReduite(source, 480), srcSet: srcsetPhoto(source) } : {})}
-                  sizes={'(max-width: 767px) ' + Math.round(62 * largeur / hauteur) + 'vw, ' + Math.round(32 * largeur / hauteur) + 'vw'}
+                  sizes="(max-width: 767px) 180px, 24vw"
                   alt={k >= NOMBRE ? '' : 'Un client porte son Aye Aye'}
                   width={largeur}
                   height={hauteur}
                   decoding="async"
                   draggable="false"
-                  style={{ aspectRatio: largeur + ' / ' + hauteur }}
+                  style={POSITIONS[NUMEROS[numero]] ? { objectPosition: POSITIONS[NUMEROS[numero]] } : undefined}
                 />
               </a>
             </li>
