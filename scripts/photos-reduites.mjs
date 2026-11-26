@@ -1,6 +1,6 @@
 // Versions reduites des photos de la marque (public/assets/images/Homme,
-// Femme, Enfant) et des photos de clients (Clients, section « Rejoignez la
-// communaute »).
+// Femme, Enfant), des photos de clients (Clients, section communaute) et de
+// la photo de groupe (Groupe, section « Decouvrez »).
 //
 // Les photos font 899x1600 ou 720x1280 (~100 Ko). Une carte produit les affiche en
 // ~370 px de large, une vignette en 80 px : charger l'original y est du poids
@@ -20,7 +20,7 @@ import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const DOSSIERS = ['public/assets/images/Homme', 'public/assets/images/Femme', 'public/assets/images/Enfant', 'public/assets/images/Clients'];
+const DOSSIERS = ['public/assets/images/Homme', 'public/assets/images/Femme', 'public/assets/images/Enfant', 'public/assets/images/Clients', 'public/assets/images/Groupe'];
 const LARGEURS = [160, 480, 720];
 
 let avant = 0;
@@ -29,7 +29,7 @@ let apres = 0;
 for (const SOURCES of DOSSIERS) for (const largeur of LARGEURS) {
   // photos de la marque seulement (DSC_xxxx, Homme_n, Femme_n, Enfant_n) : ces dossiers rangent
   // aussi des images d'exemple du template, qui n'ont pas besoin de copies
-  const photos = fs.readdirSync(SOURCES).filter((f) => /^(DSC_\d+|(Homme|Femme|Enfant|Client)_\d+)\.jpe?g$/i.test(f));
+  const photos = fs.readdirSync(SOURCES).filter((f) => /^(DSC_\d+|(Homme|Femme|Enfant|Client|Groupe)_\d+)\.jpe?g$/i.test(f));
   const dossier = path.join(SOURCES, 'reduites', String(largeur));
   for (const photo of photos) {
     const source = path.join(SOURCES, photo);

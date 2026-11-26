@@ -70,6 +70,9 @@ const ATOUTS = [
 ];
 
 
+// Photo de « Decouvrez Aye-Aye Madagascar »
+const GROUPE = chemin('/assets/images/Groupe/Groupe_1.jpeg');
+
 // Onglets sous le hero, sur mobile.
 const ONGLETS = [
   { href: chemin('/produits/'), libelle: 'Tout' },
@@ -154,15 +157,25 @@ export default function PageAccueil() {
       </section>
 
       {/* ***** Notre histoire et notre engagement ***** */}
-      {/* Forme demandee par la marque : grand cadre a gauche (vide pour l'instant), textes du
+      {/* Forme demandee par la marque : grande photo a gauche, textes du
           template a droite (titre, accroche, citation, paragraphes, bouton) */}
       <section className="section aye-decouvrez" id="explore">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6">
-              {/* cadre vide (photo retiree a la demande du proprietaire, en
-                  attente de la nouvelle) */}
-              <div className="aye-decouvrez-photo" aria-hidden="true"></div>
+              {/* photo de groupe, entiere (format 16:9 d'origine) */}
+              <div className="aye-decouvrez-photo">
+                <img
+                  src={photoReduite(GROUPE, 720)}
+                  srcSet={srcsetPhoto(GROUPE)}
+                  sizes="(max-width: 991px) 100vw, 50vw"
+                  alt="Cinq personnes en tee-shirts, débardeur et manches longues Aye-Aye Madagascar"
+                  width={dimensionsImage(GROUPE)[0]}
+                  height={dimensionsImage(GROUPE)[1]}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
             </div>
             <div className="col-lg-6">
               <div className="left-content">

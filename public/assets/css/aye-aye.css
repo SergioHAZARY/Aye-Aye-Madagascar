@@ -107,14 +107,15 @@ footer .aye-logo img[width][height] {
 }
 
 /* --- Liens du menu -----------------------------------------------------------
-   Demande de la marque : en majuscules et en trait fin (400 au lieu de 600),
+   Demande de la marque : en majuscules, en trait moyen (500 ; 400 etait trop
+   fin, 600 celui du template),
    meme police, meme taille et meme espacement que le template. A partir de
    768 px, ils sont centres dans l'en-tete ; le logo reste a gauche et les
    icones recherche et compte a droite. Le menu couvre toute la largeur :
    pointer-events laisse passer les clics vers le logo dessous. */
 .header-area .main-nav .nav li a {
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 @media (min-width: 768px) {
@@ -897,13 +898,14 @@ footer .aye-logo img[width][height] {
 /* cadre au format de l'ancienne photo (1100x900), vide en attendant la
    nouvelle : fond gris clair du template */
 .aye-decouvrez-photo {
-  aspect-ratio: 1100 / 900;
+  aspect-ratio: 1600 / 899; /* la photo de groupe, entiere */
   border-radius: 6px;
   overflow: hidden;
   background-color: #f7f7f7;
 }
 
 .aye-decouvrez-photo img[width][height] {
+  display: block;
   width: 100%;
 }
 

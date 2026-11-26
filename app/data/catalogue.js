@@ -276,7 +276,7 @@ export const COLLECTIONS = [
 export const TAILLES_PAR_CATEGORIE = {
   homme: ['S', 'M', 'L', 'XL', 'XXL'],
   femme: ['S', 'M', 'L', 'XL', 'XXL'],
-  enfant: ['4 ans', '6 ans', '8 ans', '10 ans', '12 ans'],
+  enfant: ['2 ans', '4 ans', '6 ans', '8 ans', '10 ans', '12 ans'],
 };
 
 export function taillesDuProduit(produit) {
@@ -309,7 +309,7 @@ export function vignettes(categorieSlug) {
   return produits.flatMap((p) => p.galerie.map((image) => ({ produit: p, image })));
 }
 
-// Photos de la marque (dossiers Homme, Femme, Enfant, Clients) et dimensions de leurs
+// Photos de la marque (dossiers Homme, Femme, Enfant, Clients, Groupe) et dimensions de leurs
 // originaux. Les DSC_xxxx.jpg font toutes 899x1600 ; les autres sont listees
 // ici. AJOUTER une ligne pour toute nouvelle photo utilisee dans le site.
 const DIMENSIONS_PHOTOS = {
@@ -330,10 +330,12 @@ const DIMENSIONS_PHOTOS = {
   'Client_2.jpeg': [1086, 1448],
   'Client_3.jpeg': [1536, 2048],
   'Client_4.jpeg': [1366, 2048],
+  // photo de groupe (accueil, « Decouvrez Aye-Aye Madagascar »)
+  'Groupe_1.jpeg': [1600, 899],
 };
 
 function photoMarque(source) {
-  const morceaux = source.match(/(\/assets\/images\/(?:Homme|Femme|Enfant|Clients)\/)([^/]+)$/);
+  const morceaux = source.match(/(\/assets\/images\/(?:Homme|Femme|Enfant|Clients|Groupe)\/)([^/]+)$/);
   if (!morceaux) return null;
   const [, dossier, nom] = morceaux;
   const dimensions = /^DSC_\d+\.jpg$/.test(nom) ? [899, 1600] : DIMENSIONS_PHOTOS[nom];
