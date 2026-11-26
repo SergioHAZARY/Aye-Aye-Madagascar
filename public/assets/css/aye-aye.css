@@ -779,7 +779,7 @@ a.aye-galerie-photo:hover img {
    droits sans voile, puis dessous le nom en petites capitales grises,
    l'accroche en titre et « Decouvrir » souligne. Police et palette du template. */
 .aye-univers {
-  padding: 90px 0 40px; /* bas resserre : trop d'espace avant « Nos collections » (demande du proprietaire) */
+  padding: 55px 0 40px; /* haut et bas resserres (demandes du proprietaire : 90 px etait trop) */ /* bas resserre : trop d'espace avant « Nos collections » (demande du proprietaire) */
   background-color: #f7f7f7;
 }
 
@@ -1193,13 +1193,13 @@ a.aye-galerie-photo:hover img {
    autres blocs (demande du proprietaire : « plus mature ») */
 .aye-atouts {
   padding: 36px 0;
-  background-color: #eee;
+  background-color: #fff; /* fond blanc (demande du proprietaire ; etait #eee) */
 }
 
 /* espace sous le bouton « Voir toutes les collections » (la section
    precedente n'a pas de marge basse) */
 .aye-histoire + .aye-atouts {
-  margin-top: 40px; /* etait 70 px : trop d'espace (demande du proprietaire) */
+  margin-top: 10px; /* sur fond blanc, le padding de 36 px s'ajoute : ~46 px sous le bouton */
 }
 
 .aye-atouts ul {
@@ -1220,7 +1220,7 @@ a.aye-galerie-photo:hover img {
   height: 46px;
   margin-bottom: 10px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: #f7f7f7; /* rond gris clair : visible sur le fond blanc */
   color: #d97757; /* orange terre cuite, demande du proprietaire */
 }
 
@@ -1272,79 +1272,42 @@ a.aye-galerie-photo:hover img {
   padding-bottom: 50px;
 }
 
+/* carrousel des photos de clients (GalerieCommunaute) : pleine largeur, une
+   photo de plus toutes les 3 s vers la gauche, en boucle ; toutes a la meme
+   hauteur, chacune entiere a son format (aucune n'est rognee) */
+.aye-communaute-defile {
+  overflow: hidden;
+  touch-action: pan-y; /* glissement horizontal pour le carrousel, vertical pour la page */
+}
+
 .aye-communaute-photos {
-  /* rangee qui defile de cote (fleches de GalerieCommunaute, doigt sur
-     mobile) : 4 photos visibles sur ordinateur, 2 sur telephone */
   display: flex;
   gap: 16px;
   margin: 0;
   padding: 0;
   list-style: none;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-
-.aye-communaute-photos::-webkit-scrollbar {
-  display: none;
 }
 
 .aye-communaute-photos li {
-  flex: 0 0 calc((100% - 48px) / 4);
-  scroll-snap-align: start;
-}
-
-/* fleches en haut a droite, au bord du contenu */
-.aye-communaute-fleches {
-  display: flex;
-  justify-content: flex-end;
-  gap: 24px;
-  margin-bottom: 16px;
-}
-
-.aye-communaute-fleches button {
-  padding: 4px;
-  border: 0;
-  background: none;
-  color: #2a2a2a;
-  line-height: 0;
-  cursor: pointer;
-}
-
-.aye-communaute-fleches button:disabled {
-  color: #aaa;
-  cursor: default;
+  flex: 0 0 auto;
 }
 
 .aye-communaute-photos a {
   display: block;
-  aspect-ratio: 3 / 4; /* pleine largeur, angles droits, comme « Nos univers » */
+  height: clamp(240px, 32vw, 480px);
   overflow: hidden;
   background-color: #f7f7f7;
 }
 
 .aye-communaute-photos img[width][height] {
   display: block;
-  width: 100%;
+  width: auto;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s;
-}
-
-/* Client_4 (2:3, plus haute que le cadre) : calee en haut, rien n'est coupe
-   au-dessus de la tete (demande du proprietaire), seul le bas est rogne */
-.aye-communaute-photos li:nth-child(4) img[width][height] {
-  object-position: center top;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .aye-communaute-photos a:hover img {
   transform: scale(1.04);
-}
-
-@media (max-width: 767px) {
-  .aye-communaute-photos li {
-    flex-basis: calc((100% - 16px) / 2);
-  }
 }
 
 /* --- Page Connexion ---------------------------------------------------------------

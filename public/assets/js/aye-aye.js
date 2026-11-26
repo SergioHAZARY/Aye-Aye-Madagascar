@@ -93,7 +93,7 @@
      (une rangee de cartes). Ce qui est deja a l'ecran au chargement ne bouge
      pas : rien ne clignote, la premiere vue s'affiche aussi vite qu'avant. */
   var blocs = tous('.section-heading, .item, .aye-carte, .service-item, .aye-univers-cartes > li, '
-    + '.aye-atouts li, .aye-decouvrez-texte, .aye-communaute-photos, '
+    + '.aye-atouts li, .aye-decouvrez-texte, .aye-communaute-defile, '
     + '.about-us .left-image, .about-us .right-content, .aye-signature, .aye-moyens-contact > li, '
     + '.aye-galerie-autres, .aye-espace-liens > li, .aye-recapitulatif')
     .filter(function (bloc) { return !dansEcran(bloc) && bloc.getBoundingClientRect().top > 0; });

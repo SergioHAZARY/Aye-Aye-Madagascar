@@ -214,7 +214,7 @@ export default function PageAccueil() {
             <span>Plus de 11{' '}000 personnes nous suivent déjà sur Facebook.</span>
           </div>
         </div>
-        {/* photos de clients, pleine largeur, defilantes avec fleches */}
+        {/* toutes les photos de clients, pleine largeur, en carrousel */}
         <GalerieCommunaute facebook={CONTACT.facebook} />
         <div className="container">
           <div className="aye-communaute">
