@@ -1,4 +1,5 @@
 import { chemin } from '@/app/lib/chemin';
+import BandeauDiapos from '../components/BandeauDiapos';
 import Header from '../components/Header';
 import { COLLECTIONS, imageCarte } from '../data/catalogue';
 
@@ -14,7 +15,14 @@ export default function PageCollections() {
     <>
       <Header actif="collections" surBanniere />
 
-      <div className="page-heading" id="top">
+      {/* bandeau : carrousel des collections, vues de dos (le dessin) */}
+      <div className="page-heading aye-entete-diapos" id="top">
+        <BandeauDiapos
+          images={COLLECTIONS.filter((c) => c.image).map((c) => [
+            'diapos/collections/' + c.slug + '.jpg',
+            'Collection ' + c.nom + ', dessin au dos',
+          ])}
+        />
         <div className="container">
           <div className="row">
             <div className="col-lg-12">

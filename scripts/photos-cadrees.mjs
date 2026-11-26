@@ -324,6 +324,33 @@ await composer({
   source: 'Femme/Femme_2.jpeg', sortie: 'banniere/entete-femme.jpg', largeur: 1600, hauteur: 520,
   echelle: 0.92, lumiere: LUMIERE_ENTETE_FEMME, saturation: 0.5, bordsPropres: true, retrait: 2, fondu: 90,
 });
+// Carrousels des bandeaux de page (Collections, A propos) : une image par
+// photo, au format et au ton des bandeaux (gris moyen ~60). Photos de studio :
+// fond etire ; photos d'exterieur : degrade lisse et fondu.
+const STUDIO = { lumiere: 0.44, saturation: 0.45 };
+const STUDIO_BORD = { ...STUDIO, bordsPropres: true, retrait: 2 };
+const DEHORS = { lumiere: 0.5, saturation: 0.4, bordsPropres: true, retrait: 2, fondu: 90 };
+const BANDEAUX = [
+  ['collections/antsatsaka', 'DSC_1795.jpg', STUDIO],
+  ['collections/aye-aye-madagascar', 'DSC_1807.jpg', STUDIO],
+  ['collections/lemurs-of-madagascar', 'Homme/Homme_1.jpeg', { ...STUDIO_BORD, lumiere: 0.4 }],
+  ['collections/madagascar-roots-djembe', 'Enfant/Enfant_4.jpeg', { ...DEHORS, lumiere: 0.6 }],
+  ['collections/dauphins', 'Femme/Femme_4.jpeg', { ...DEHORS, lumiere: 0.64 }],
+  ['collections/tortue', 'Enfant/Enfant_3.jpeg', { ...DEHORS, lumiere: 0.8 }],
+  ['collections/tarondro', 'Femme/Femme_1.jpeg', { ...STUDIO_BORD, lumiere: 0.36 }],
+  ['collections/lakana', 'Enfant/Enfant_1.jpeg', { ...DEHORS, lumiere: 0.66 }],
+  ['modeles/tee-shirt', 'Femme/Femme_2.jpeg', { ...DEHORS, lumiere: 0.62 }],
+  ['modeles/manches-longues', 'Homme/Homme_2.jpeg', STUDIO_BORD],
+  ['modeles/debardeur', 'Clients/Client_4.jpeg', { ...DEHORS, lumiere: 0.72 }],
+  ['modeles/manches-longues-rouge', 'DSC_1808.jpg', STUDIO],
+  ['apropos/histoire', 'DSC_1808.jpg', STUDIO],
+  ['apropos/antsatsaka', 'DSC_1795.jpg', STUDIO],
+  ['apropos/aye-aye', 'DSC_1807.jpg', STUDIO],
+  ['apropos/basta-lion', 'Basta Lion.jpeg', STUDIO],
+];
+for (const [nom, source, reglage] of BANDEAUX) {
+  await composer({ source, sortie: 'banniere/diapos/' + nom + '.jpg', largeur: 1600, hauteur: 520, echelle: 0.92, ...reglage });
+}
 // A propos : une autre femme (Femme_5)
 await composer({
   source: 'Femme/Femme_5.jpeg', sortie: 'banniere/entete-apropos.jpg', largeur: 1600, hauteur: 520,

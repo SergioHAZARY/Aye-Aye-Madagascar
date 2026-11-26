@@ -4,7 +4,8 @@
 // A REMPLIR une fois le projet Firebase cree (console.firebase.google.com) :
 //   1. Projet > Parametres > Vos applications > Web : copier ici l'objet
 //      firebaseConfig (ces valeurs sont publiques par conception) ;
-//   2. Authentication > Methode de connexion : activer Google, et Facebook
+//   2. Authentication > Methode de connexion : activer « Adresse e-mail/Mot de
+//      passe », Google, et Facebook
 //      (avec l'identifiant et le secret d'une application Meta for Developers,
 //      dont l'URL de redirection est celle indiquee par Firebase) ;
 //   3. Authentication > Parametres > Domaines autorises : ajouter

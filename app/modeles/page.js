@@ -1,4 +1,5 @@
 import { chemin } from '@/app/lib/chemin';
+import BandeauDiapos from '../components/BandeauDiapos';
 import Header from '../components/Header';
 import SilhouetteModele from '../components/SilhouetteModele';
 import { CATEGORIES, MODELES, TAILLES_PAR_CATEGORIE, imageCarte } from '../data/catalogue';
@@ -23,7 +24,16 @@ export default function PageModeles() {
     <>
       <Header actif="modeles" surBanniere />
 
-      <div className="page-heading aye-entete-face" id="top">
+      {/* bandeau : carrousel des modeles, vus de face */}
+      <div className="page-heading aye-entete-diapos" id="top">
+        <BandeauDiapos
+          images={[
+            ['diapos/modeles/tee-shirt.jpg', 'Tee-shirt, vu de face'],
+            ['diapos/modeles/manches-longues.jpg', 'Manches longues écru, vu de face'],
+            ['diapos/modeles/debardeur.jpg', 'Débardeur rouge, vu de face'],
+            ['diapos/modeles/manches-longues-rouge.jpg', 'Manches longues rouge, vu de face'],
+          ]}
+        />
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
