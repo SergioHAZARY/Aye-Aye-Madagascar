@@ -154,7 +154,7 @@ function trier(lignes, slug, champ) {
 // Photos retirees d'une page modele seulement, a la demande du proprietaire
 // (elles restent sur les pages collection et les fiches produit).
 const RETIREES_DU_MODELE = {
-  'tee-shirt': ['img-1616', 'dsc-1838-copy', 'homme-1', 'dsc-1845-copy', 'dsc-1846-copy', 'dsc-1833-copy'],
+  'tee-shirt': ['img-1616', 'dsc-1838-copy', 'homme-1', 'dsc-1845-copy', 'dsc-1846-copy', 'dsc-1833-copy', 'img-1634', 'dsc-1834-copy'],
   'manches-longues': ['dsc-1808', 'dsc-1806', 'dsc-1809', 'dsc-1795'],
   debardeur: ['dsc-1802'],
 };
