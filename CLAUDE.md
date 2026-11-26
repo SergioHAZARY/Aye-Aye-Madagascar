@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code); on top of that `RETIREES_DU_MODELE` lists photos the owner had removed from one model page only (Tee-shirt: IMG_1616, DSC_1838, Homme_1, DSC_1845, DSC_1846, DSC_1833), still on collection and product pages when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code); on top of that `RETIREES_DU_MODELE` lists photos the owner had removed from one model page only (Tee-shirt: IMG_1616, DSC_1838, Homme_1, DSC_1845, DSC_1846, DSC_1833; Manches longues: DSC_1808, DSC_1806, DSC_1809, DSC_1795), still on collection and product pages when working with code in this repository.
 
 ## What this project is
 
