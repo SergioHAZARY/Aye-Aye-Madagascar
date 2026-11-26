@@ -151,9 +151,15 @@ function trier(lignes, slug, champ) {
   return lignes.filter((l) => l[champ].includes(slug)).sort((a, b) => rang(a) - rang(b)).map(photo);
 }
 
+// Photos retirees d'une page modele seulement, a la demande du proprietaire
+// (elles restent sur les pages collection et les fiches produit).
+const RETIREES_DU_MODELE = {
+  'tee-shirt': ['img-1616', 'dsc-1838-copy', 'homme-1', 'dsc-1845-copy', 'dsc-1846-copy', 'dsc-1833-copy'],
+};
+
 // page d'un modele : seulement les photos de mannequins ou l'on ne voit que ce modele
 export const photosDuModele = (slug) => trier(PHOTOS_GALERIE.filter((l) => l[1].length === 1), slug, 1)
-  .filter((p) => !p.client);
+  .filter((p) => !p.client && !(RETIREES_DU_MODELE[slug] || []).includes(p.id));
 export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2).filter((p) => !p.client);
 
 // Photos des dossiers du site (Homme, Femme, Clients…) qui sont aussi dans
