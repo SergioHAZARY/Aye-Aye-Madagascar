@@ -135,6 +135,15 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
+      {/* retour en haut de page : apparait apres un ecran et demi (aye-aye.js).
+          Dans le pied : rien ne doit s'intercaler entre la derniere section et
+          lui (regle :has(+ footer) d'aye-aye.css). */}
+      <button type="button" className="aye-haut" aria-label="Haut de la page" title="Haut de la page">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 14.5 12 8.5l6 6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
     </footer>
   );
 }

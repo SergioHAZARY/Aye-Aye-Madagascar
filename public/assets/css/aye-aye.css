@@ -597,20 +597,6 @@ footer .aye-logo img[width][height] {
   margin-bottom: 10px;
 }
 
-.aye-carte .aye-carte-liens {
-  font-size: 13px;
-  color: #aaa;
-}
-
-.aye-carte .aye-carte-liens a {
-  color: #2a2a2a;
-  font-weight: 600;
-}
-
-.aye-carte .aye-carte-liens a:hover {
-  color: #aaa;
-}
-
 /* Cartes Modeles et Collections : photo et nom cliquables vers la page du
    modele ou de la collection (toutes ses photos) */
 a.aye-carte-visuel img {
@@ -2476,13 +2462,13 @@ a.aye-moyen:hover .aye-moyen-valeur {
    template en paysage). Photos de studio : version 3:4 au fond prolonge
    (imageCarte) ; les autres tiennent entieres dans le cadre, sur le fond clair
    du template. Ni flou ni rognage, et des cartes toutes de meme hauteur. */
-.item .thumb > a:not(.aye-carte-titre) {
+.item .thumb > a {
   display: block;
   aspect-ratio: 3 / 4;
   background-color: #f7f7f7;
 }
 
-.item .thumb > a:not(.aye-carte-titre) img[width][height] {
+.item .thumb > a img[width][height] {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -2500,17 +2486,10 @@ a.aye-moyen:hover .aye-moyen-valeur {
   color: #2a2a2a;
   font-weight: 700;
   margin-bottom: 8px;
-  /* Les noms de produits sont plus longs que ceux du template : on reserve
-     la place des etoiles, posees en absolu a droite. */
-  padding-right: 92px;
 }
 
 .item .down-content h4 a {
   color: inherit;
-}
-
-.item .down-content h4 a:hover {
-  opacity: 0.7;
 }
 
 .item .down-content span {
@@ -2576,10 +2555,6 @@ a.aye-moyen:hover .aye-moyen-valeur {
 
 .page-heading.aye-entete-enfant {
   background-image: url(../images/banniere/entete-enfant.jpg);
-}
-
-.page-heading.aye-entete-face {
-  background-image: url(../images/banniere/entete-face.jpg);
 }
 
 .page-heading.aye-entete-femme {
@@ -2969,5 +2944,285 @@ a.aye-moyen:hover .aye-moyen-valeur {
   }
   .aye-compte-info h4 {
     font-size: 22px;
+  }
+}
+
+/* =============================================================================
+   MOUVEMENT ET FINITIONS
+   Une seule grammaire d'animation pour tout le site : les blocs montent en
+   place en apparaissant, les photos grossissent a peine au survol, les liens
+   se soulignent. Police, tailles et palette du template inchangees ; seules
+   opacity et transform bougent (aucun saut de mise en page, rien a recalculer).
+   Les classes sont posees par aye-aye.js ; sans script, tout reste visible.
+   Mesure sur telephone, cache vide, 5 essais avec et sans l'entree des titres
+   de banniere : meme delai d'affichage principal (LCP), meme stabilite (CLS).
+   ============================================================================= */
+
+/* ancres (liens du pied vers #tee-shirt, …) : defilement doux, sous l'en-tete collant */
+html {
+  scroll-behavior: smooth;
+}
+
+[id] {
+  scroll-margin-top: 100px;
+}
+
+/* clavier : un contour net et identique partout */
+a:focus-visible,
+button:focus-visible,
+[role='button']:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #2a2a2a;
+  outline-offset: 3px;
+}
+
+footer a:focus-visible {
+  outline-color: #fff;
+}
+
+/* --- Apparition des blocs (aye-apparait, puis aye-vu) ------------------------
+   --aye-delai : decalage entre les blocs arrives ensemble (rangee de cartes). */
+.aye-apparait {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease var(--aye-delai, 0ms),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--aye-delai, 0ms);
+}
+
+.aye-apparait.aye-vu {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Titres des bannieres : ils montent en place a l'ouverture de la page ---- */
+@keyframes aye-entree {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+}
+
+.main-banner .inner-content > *,
+.page-heading .inner-content > * {
+  animation: aye-entree 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.main-banner .inner-content > :nth-child(2),
+.page-heading .inner-content > :nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.main-banner .inner-content > :nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+/* --- Menu : un trait fin se deploie sous le lien survole ou actif ------------- */
+@media (min-width: 768px) {
+  .header-area .main-nav .nav li:not(.aye-action) a {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position: 50% calc(100% - 7px);
+    background-size: 0 1px;
+  }
+  .header-area .main-nav .nav li:not(.aye-action):hover a,
+  .header-area .main-nav .nav li:not(.aye-action) a.active {
+    background-size: 100% 1px;
+  }
+}
+
+/* menu du telephone : il descend en s'ouvrant (aye-aye.js pose aye-menu-ouvert) */
+@keyframes aye-menu {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 767px) {
+  .header-area .main-nav .nav.aye-menu-ouvert {
+    display: block;
+    animation: aye-menu 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* --- Cartes : la photo grossit a peine, le nom se souligne --------------------- */
+.item .thumb > a,
+.aye-carte-visuel {
+  overflow: hidden;
+}
+
+.item .thumb > a img[width][height] {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.item:hover .thumb > a img[width][height] {
+  transform: scale(1.04);
+}
+
+a.aye-carte-visuel img {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.item .down-content h4 a,
+.aye-carte h4 a {
+  padding-bottom: 2px;
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px;
+  transition: background-size 0.4s ease, color 0.3s;
+}
+
+.item:hover .down-content h4 a,
+.aye-carte:hover h4 a {
+  background-size: 100% 1px;
+}
+
+/* « Nos univers » : le lien « Decouvrir » s'ecarte au survol de la carte */
+.aye-univers-lien {
+  transition: letter-spacing 0.4s ease, color 0.3s, border-color 0.3s;
+}
+
+.aye-univers-cartes a:hover .aye-univers-lien {
+  letter-spacing: 2px;
+}
+
+/* points forts : l'icone se souleve */
+.aye-atout-icone {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.aye-atouts li:hover .aye-atout-icone {
+  transform: translateY(-5px);
+}
+
+/* photos des galeries qui menent a une fiche : une fleche apparait au survol */
+a.aye-galerie-photo {
+  position: relative;
+}
+
+a.aye-galerie-photo::after {
+  content: '\2192';
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #2a2a2a;
+  font-size: 16px;
+  line-height: 38px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+a.aye-galerie-photo:hover::after,
+a.aye-galerie-photo:focus-visible::after {
+  opacity: 1;
+  transform: none;
+}
+
+/* boutons : un leger enfoncement au clic */
+.main-border-button a:active {
+  transform: translateY(1px);
+}
+
+/* pied de page : le lien avance d'un pas au survol */
+footer .row ul:not(.aye-pied-reseaux) li a {
+  display: inline-block;
+}
+
+footer .row ul:not(.aye-pied-reseaux) li a:hover {
+  transform: translateX(4px);
+}
+
+/* --- Fiche produit ------------------------------------------------------------- */
+@keyframes aye-fondu {
+  from {
+    opacity: 0;
+  }
+}
+
+.aye-galerie-principale img {
+  animation: aye-fondu 0.4s ease;
+}
+
+.aye-galerie-vignettes button {
+  transition: border-color 0.25s ease;
+}
+
+.aye-galerie-vignettes button:hover {
+  border-color: #aaa;
+}
+
+.aye-galerie-vignettes button.actif {
+  border-color: #2a2a2a;
+}
+
+/* « Dans la meme categorie » : le titre respire (le template ne donnait ses
+   marges qu'aux sections #men, #women, #kids et #products) */
+#similaires {
+  padding-top: 70px;
+}
+
+#similaires .section-heading {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+/* --- Retour en haut de page (aye-aye.js pose aye-visible) ---------------------- */
+.aye-haut {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid #2a2a2a;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #2a2a2a;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s, background-color 0.3s, color 0.3s;
+}
+
+.aye-haut.aye-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.aye-haut:hover {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.aye-haut svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* --- Moins d'animations (reglage du systeme) : tout s'affiche sans bouger ------ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
 }

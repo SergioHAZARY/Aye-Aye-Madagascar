@@ -119,7 +119,6 @@ export const PHOTOS_GALERIE = [
   ['n:IMG_1568.JPG', [D], [], 'Débardeur rouge, de face'],
   ['n:IMG_1017.PNG', [T], [], 'Tee-shirt rouge, de face'],
   ['Clients/Client_3.jpeg', [ML], [], 'Manches longues blanc, en boutique'],
-  ['n:DSC_1872 copy.jpg', [T, D, ML], [], 'Tee-shirts, débardeur et manches longues Aye-Aye Madagascar, photo de groupe'],
 ];
 
 // identifiant d'une photo = nom de son fichier, en minuscules et sans espaces
@@ -130,7 +129,9 @@ export function idPhoto(source) {
 
 // Photos de clients (pas de mannequins) : ni sur les pages modele, ni sur
 // les pages collection, ni sur les fiches produit (demande du proprietaire).
-const CLIENTS = new Set([
+// Elles restent classees ci-dessus, mais leurs fichiers ne sont plus generes
+// (scripts/galerie.mjs) : retirer une photo de cette liste la remet en ligne.
+export const CLIENTS = new Set([
   'client-2', 'img-0747', 'img-0522', 'img-1657', 'img-1658', 'img-0233',
   'img-0235', 'img-0236', 'img-0237', 'img-0640', 'img-0211', 'client-3',
 ]);
@@ -162,7 +163,7 @@ const DOUBLES = {
   'img-1630': 'femme-4', 'img-1616': 'femme-2', 'img-1634': 'femme-3', 'img-1625': 'femme-6',
   'dsc-1848-copy-2': 'femme-1', 'dsc-1845-copy': 'femme-7', 'dsc-1836-copy-2': 'dsc-1836',
   'dsc-1842-copy': 'dsc-1842', 'img-1565': 'homme-3', 'img-1623': 'homme-5',
-  'img-1658': 'client-1', 'img-1568': 'client-4', 'dsc-1872-copy': 'groupe-1',
+  'img-1658': 'client-1', 'img-1568': 'client-4',
 };
 
 // `source` (chemin d'une photo du site) est-elle la photo `id` de la galerie ?

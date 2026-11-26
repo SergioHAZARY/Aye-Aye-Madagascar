@@ -7,7 +7,7 @@
 // Menu : Accueil · Modeles · Collections · A propos · Contact, les liens texte
 // du template (ul.nav). Sur mobile, c'est le menu deroulant du template : le
 // bouton menu (a.menu-trigger, tout a droite de la barre) l'ouvre et le ferme,
-// via custom.js.
+// via aye-aye.js.
 //
 // Icones recherche et compte : deux exemplaires, un seul visible (aye-aye.css) :
 //   - .aye-actions-bord, au bord droit de l'ecran : grands ecrans (>= 1400 px)
@@ -135,8 +135,8 @@ export default function Header({ actif = '', surBanniere = false }) {
                 ))}
               </ul>
 
-              {/* bouton du menu deroulant (mobile), gere par custom.js */}
-              <a className="menu-trigger">
+              {/* bouton du menu deroulant (mobile), gere par aye-aye.js */}
+              <a className="menu-trigger" role="button" tabIndex={0} aria-label="Menu" aria-expanded="false">
                 <span>Menu</span>
               </a>
             </nav>
