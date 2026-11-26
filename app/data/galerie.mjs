@@ -128,10 +128,18 @@ export function idPhoto(source) {
     .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
+// Photos de clients (pas de mannequins) : elles restent sur les pages
+// collection et les fiches produit, mais pas sur les pages modele (demande
+// du proprietaire).
+const CLIENTS = new Set([
+  'client-2', 'img-0747', 'img-0522', 'img-1657', 'img-1658', 'img-0233',
+  'img-0235', 'img-0236', 'img-0237', 'img-0640', 'img-0211',
+]);
+
 function photo([source, modeles, collections, alt]) {
   const id = idPhoto(source);
   const [width, height] = TAILLES[id] || [480, 853];
-  return { id, modeles, collections, alt, width, height };
+  return { id, modeles, collections, alt, width, height, client: CLIENTS.has(id) };
 }
 
 // Ordre d'une page : d'abord les photos de ce seul modele (ou de cette seule
@@ -143,8 +151,9 @@ function trier(lignes, slug, champ) {
   return lignes.filter((l) => l[champ].includes(slug)).sort((a, b) => rang(a) - rang(b)).map(photo);
 }
 
-// page d'un modele : seulement les photos ou l'on ne voit que ce modele
-export const photosDuModele = (slug) => trier(PHOTOS_GALERIE.filter((l) => l[1].length === 1), slug, 1);
+// page d'un modele : seulement les photos de mannequins ou l'on ne voit que ce modele
+export const photosDuModele = (slug) => trier(PHOTOS_GALERIE.filter((l) => l[1].length === 1), slug, 1)
+  .filter((p) => !p.client);
 export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2);
 
 // Photos des dossiers du site (Homme, Femme, Clients…) qui sont aussi dans
