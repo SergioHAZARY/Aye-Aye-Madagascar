@@ -1000,6 +1000,54 @@ a.aye-galerie-photo:hover img {
   overflow-x: hidden;
 }
 
+/* --- Galerie en grille reguliere (GaleriePhotos, grille) ----------------------
+   Page modele Manches longues (demande du proprietaire) : trois photos par
+   rangee (deux sur telephone), rangees alignees, chaque photo entiere a son
+   format. A chaque passage a l'ecran, les photos d'une rangee montent en
+   place l'une apres l'autre, de gauche a droite. */
+.aye-grille {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.aye-grille .aye-galerie-photo {
+  margin-bottom: 0;
+}
+
+.aye-grille-anime > .aye-anim {
+  opacity: 0;
+  transform: translateY(50px) scale(0.96);
+  transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.aye-grille-anime > .aye-anim:nth-child(3n + 2) {
+  transition-delay: 0.12s;
+}
+
+.aye-grille-anime > .aye-anim:nth-child(3n) {
+  transition-delay: 0.24s;
+}
+
+.aye-grille-anime > .aye-anim.aye-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 767px) {
+  .aye-grille {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .aye-grille-anime > .aye-anim:nth-child(n) {
+    transition-delay: 0s;
+  }
+  .aye-grille-anime > .aye-anim:nth-child(2n) {
+    transition-delay: 0.12s;
+  }
+}
+
 /* Pages modele et collection : chaque photo glisse en place comme les lignes de « Nos
    collections » (accueil) : les colonnes de gauche arrivent de la gauche,
    celles de droite de la droite (aye-droite, pose par aye-aye.js), pour

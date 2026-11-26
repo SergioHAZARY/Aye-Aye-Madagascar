@@ -119,7 +119,7 @@
      du proprietaire), en alternant le sens. Elle apparait quand 30 % sont a
      l'ecran et se rearme sous 10 % : sur un grand ecran la ligne du milieu ne
      sort presque jamais entierement, elle doit pourtant rejouer. */
-  var lignes = tous('.aye-histoire-ligne, .aye-mur-anime > *');
+  var lignes = tous('.aye-histoire-ligne, .aye-mur-anime > *, .aye-grille-anime > *');
   // photos des pages modele et collection : celles de la moitie droite arrivent
   // de la droite (position a l'ecran, moins le decalage en cours de
   // l'animation ; offsetLeft ne donne pas la colonne dans des colonnes CSS)

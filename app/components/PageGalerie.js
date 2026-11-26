@@ -21,7 +21,7 @@ function produitDeLaPhoto(photo, page) {
     .sort((a, b) => rang(a) - rang(b))[0];
 }
 
-export default function PageGalerie({ actif, diapos, titre, texte, page, photos: liste, autres, retour }) {
+export default function PageGalerie({ actif, diapos, grille, titre, texte, page, photos: liste, autres, retour }) {
   const photos = liste.map((photo) => {
     const produit = produitDeLaPhoto(photo, page);
     return { ...photo, lien: produit && chemin('/produit/' + produit.slug + '/') };
@@ -51,7 +51,7 @@ export default function PageGalerie({ actif, diapos, titre, texte, page, photos:
             <a href={retour.lien}>← {retour.texte}</a>
             <span>{photos.length} photo{photos.length > 1 ? 's' : ''}</span>
           </p>
-          <GaleriePhotos photos={photos} />
+          <GaleriePhotos photos={photos} grille={grille} />
 
           <nav className="aye-galerie-autres" aria-label={retour.texte}>
             {autres.map((a) => (
