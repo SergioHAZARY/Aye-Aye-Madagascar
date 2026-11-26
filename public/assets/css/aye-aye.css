@@ -1032,11 +1032,6 @@ a.aye-galerie-photo:hover img {
   transition-delay: 0.12s;
 }
 
-.aye-brique-anime .aye-anim.aye-visible {
-  opacity: 1;
-  transform: none;
-}
-
 @media (max-width: 767px) {
   .aye-brique {
     --aye-ecart: 6px;
@@ -1047,6 +1042,14 @@ a.aye-galerie-photo:hover img {
   .aye-brique-anime .aye-anim:nth-child(2) {
     transform: translateX(50px);
   }
+}
+
+/* arrivee : apres les regles de depart, et plus precise que :nth-child(2),
+   sinon la photo de droite restait decalee de 50 px sur telephone */
+.aye-brique-anime .aye-anim.aye-visible,
+.aye-brique-anime .aye-anim.aye-visible:nth-child(2) {
+  opacity: 1;
+  transform: none;
 }
 
 
