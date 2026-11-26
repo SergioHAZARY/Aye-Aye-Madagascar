@@ -128,12 +128,12 @@ export function idPhoto(source) {
     .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
-// Photos de clients (pas de mannequins) : elles restent sur les pages
-// collection et les fiches produit, mais pas sur les pages modele (demande
-// du proprietaire).
+// Photos de clients (pas de mannequins) : ni sur les pages modele ni sur les
+// pages collection (demande du proprietaire) ; elles restent sur les fiches
+// produit.
 const CLIENTS = new Set([
   'client-2', 'img-0747', 'img-0522', 'img-1657', 'img-1658', 'img-0233',
-  'img-0235', 'img-0236', 'img-0237', 'img-0640', 'img-0211',
+  'img-0235', 'img-0236', 'img-0237', 'img-0640', 'img-0211', 'client-3',
 ]);
 
 function photo([source, modeles, collections, alt]) {
@@ -154,7 +154,7 @@ function trier(lignes, slug, champ) {
 // page d'un modele : seulement les photos de mannequins ou l'on ne voit que ce modele
 export const photosDuModele = (slug) => trier(PHOTOS_GALERIE.filter((l) => l[1].length === 1), slug, 1)
   .filter((p) => !p.client);
-export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2);
+export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2).filter((p) => !p.client);
 
 // Photos des dossiers du site (Homme, Femme, Clients…) qui sont aussi dans
 // cette liste sous un autre nom (meme photo, autre fichier).
@@ -175,6 +175,6 @@ export function memePhoto(source, id) {
 // Fiche produit : les photos du meme modele et de la meme collection, sauf
 // celles que le produit montre deja (`images` : sa galerie).
 export function autresPhotosDuProduit(images, modele, collection) {
-  return photosDeLaCollection(collection)
+  return trier(PHOTOS_GALERIE, collection, 2)
     .filter((p) => p.modeles.length === 1 && p.modeles[0] === modele && !images.some((s) => memePhoto(s, p.id)));
 }

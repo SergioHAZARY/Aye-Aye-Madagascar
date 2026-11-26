@@ -17,6 +17,9 @@
 // - glissement du doigt (tactile) ; vers la droite, l'image precedente revient
 //   par la gauche.
 // Ni fleches ni points, a la demande de la marque.
+// Une image n'est chargee qu'a l'approche de son tour (la diapositive
+// affichee et ses deux voisines) : un carrousel de 38 photos (page modele
+// Tee-shirt) ne telecharge pas tout a l'ouverture.
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -31,6 +34,12 @@ export default function CarrouselBanniere({ diapos, children }) {
   const [cache, setCache] = useState(false);
   const depart = useRef(null);
   const nombre = diapos.length;
+  const voisines = (i) => [i, (i + 1) % nombre, (i - 1 + nombre) % nombre];
+  const [chargees, setChargees] = useState(() => new Set(voisines(0)));
+
+  useEffect(() => {
+    setChargees((avant) => (voisines(actif).every((i) => avant.has(i)) ? avant : new Set([...avant, ...voisines(actif)])));
+  }, [actif]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // 1er temps : la diapositive cible se place, sans animation, du cote d'ou
   // elle va entrer ; 2e temps (deux images plus tard) : elle glisse.
@@ -102,6 +111,8 @@ export default function CarrouselBanniere({ diapos, children }) {
           aria-hidden={index === actif ? undefined : 'true'}
           style={{ '--aye-position': diapo.position, ...placement(index) }}
         >
+          {chargees.has(index) && (
+          <>
           {/* portrait plein ecran : telephone, et tablette tenue verticalement */}
           <source
             media="(max-width: 767px), (max-width: 991px) and (orientation: portrait)"
@@ -117,6 +128,8 @@ export default function CarrouselBanniere({ diapos, children }) {
             height={700}
             {...(index === 0 ? { fetchPriority: 'high' } : { loading: 'lazy', decoding: 'async' })}
           />
+          </>
+          )}
         </picture>
       ))}
 

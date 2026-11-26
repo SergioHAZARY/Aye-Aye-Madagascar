@@ -5,6 +5,7 @@
 import { chemin } from '@/app/lib/chemin';
 import { PRODUITS } from '../data/catalogue';
 import { memePhoto } from '../data/galerie.mjs';
+import BandeauDiapos from './BandeauDiapos';
 import GaleriePhotos from './GaleriePhotos';
 import Header from './Header';
 
@@ -20,7 +21,7 @@ function produitDeLaPhoto(photo, page) {
     .sort((a, b) => rang(a) - rang(b))[0];
 }
 
-export default function PageGalerie({ actif, classeEntete, fond, titre, texte, page, photos: liste, autres, retour }) {
+export default function PageGalerie({ actif, diapos, titre, texte, page, photos: liste, autres, retour }) {
   const photos = liste.map((photo) => {
     const produit = produitDeLaPhoto(photo, page);
     return { ...photo, lien: produit && chemin('/produit/' + produit.slug + '/') };
@@ -29,7 +30,9 @@ export default function PageGalerie({ actif, classeEntete, fond, titre, texte, p
     <>
       <Header actif={actif} surBanniere />
 
-      <div className={'page-heading ' + classeEntete} id="top" style={fond && { backgroundImage: 'url(' + fond + ')' }}>
+      {/* carrousel de toutes les photos de la page (banniere/diapos/photos/) */}
+      <div className="page-heading aye-entete-diapos" id="top">
+        <BandeauDiapos images={diapos} />
         <div className="container">
           <div className="row">
             <div className="col-lg-12">

@@ -19,6 +19,7 @@
 import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
+import { PHOTOS_GALERIE, photosDeLaCollection, photosDuModele } from '../app/data/galerie.mjs';
 
 const SOURCES = 'public/assets/images/Homme';
 const IMAGES = 'public/assets/images';
@@ -350,6 +351,28 @@ const BANDEAUX = [
 ];
 for (const [nom, source, reglage] of BANDEAUX) {
   await composer({ source, sortie: 'banniere/diapos/' + nom + '.jpg', largeur: 1600, hauteur: 520, echelle: 0.92, ...reglage });
+}
+// Pages modele et collection : leur carrousel montre toutes les photos de la
+// page, une image par photo (banniere/diapos/photos/<id>.jpg, partagee par
+// toutes les pages ou la photo figure), tiree
+// de sa version galerie/1600/. Degrade lisse et fondu pour toutes ; la
+// lumiere ramene chaque photo au gris moyen ~60 des bandeaux.
+const PHOTOS_DES_PAGES = new Map();
+for (const modele of ['tee-shirt', 'manches-longues', 'debardeur']) for (const p of photosDuModele(modele)) PHOTOS_DES_PAGES.set(p.id, p);
+for (const collection of new Set(PHOTOS_GALERIE.flatMap((l) => l[2]))) for (const p of photosDeLaCollection(collection)) PHOTOS_DES_PAGES.set(p.id, p);
+for (const photo of PHOTOS_DES_PAGES.values()) {
+  const source = 'galerie/1600/' + photo.id + '.jpg';
+  const { channels } = await sharp(path.join(IMAGES, source)).greyscale().stats();
+  let lumiere = Math.min(1, Math.max(0.3, 60 / channels[0].mean));
+  const sortie = 'banniere/diapos/photos/' + photo.id + '.jpg';
+  for (let essai = 0; essai < 3; essai += 1) {
+    await composer({ source, sortie, largeur: 1600, hauteur: 520, echelle: 0.92, ...DEHORS, lumiere });
+    // le fond ajoute change la moyenne : on corrige et on recommence
+    const moyenne = (await sharp(path.join(IMAGES, sortie)).greyscale().stats()).channels[0].mean;
+    const corrigee = Math.min(1, Math.max(0.3, lumiere * 60 / moyenne));
+    if (Math.abs(moyenne - 60) < 5 || corrigee === lumiere) break;
+    lumiere = corrigee;
+  }
 }
 // A propos : une autre femme (Femme_5)
 await composer({
