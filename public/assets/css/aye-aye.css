@@ -1055,9 +1055,10 @@ a.aye-galerie-photo:hover img {
   background-color: #2a2a2a;
 }
 
-/* espace blanc entre « Points forts » (gris) et la photo (demande du proprietaire) */
+/* « Points forts » (gris) colle a la photo : l'espace blanc de 70 px a ete
+   retire (le proprietaire le trouvait trop grand) */
 .aye-atouts + .aye-decouvrez {
-  margin-top: 70px;
+  margin-top: 0;
 }
 
 .aye-decouvrez-fond,
@@ -1198,7 +1199,7 @@ a.aye-galerie-photo:hover img {
 /* espace sous le bouton « Voir toutes les collections » (la section
    precedente n'a pas de marge basse) */
 .aye-histoire + .aye-atouts {
-  margin-top: 70px;
+  margin-top: 40px; /* etait 70 px : trop d'espace (demande du proprietaire) */
 }
 
 .aye-atouts ul {
