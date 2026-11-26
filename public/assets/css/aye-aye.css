@@ -1203,14 +1203,14 @@ a.aye-galerie-photo:hover img {
 /* fond : le gris #eee du template, un cran plus soutenu que le #f7f7f7 des
    autres blocs (demande du proprietaire : « plus mature ») */
 .aye-atouts {
-  padding: 36px 0;
+  padding: 50px 0 60px; /* un peu plus d'air au-dessus et au-dessous (demande du proprietaire) */
   background-color: #fff; /* fond blanc (demande du proprietaire ; etait #eee) */
 }
 
 /* espace sous le bouton « Voir toutes les collections » (la section
    precedente n'a pas de marge basse) */
 .aye-histoire + .aye-atouts {
-  margin-top: 10px; /* sur fond blanc, le padding de 36 px s'ajoute : ~46 px sous le bouton */
+  margin-top: 20px; /* sur fond blanc, le padding de 50 px s'ajoute : ~70 px sous le bouton */
 }
 
 .aye-atouts ul {
