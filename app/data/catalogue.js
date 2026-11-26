@@ -473,7 +473,6 @@ const DIMENSIONS_PHOTOS = {
   'Client_7.jpeg': [1086, 1377],
   'Client_8.jpeg': [1068, 1473],
   'Client_9.jpeg': [1448, 1086],
-  'Client_10.jpeg': [1118, 1086],
   'Client_11.jpeg': [1448, 1086],
   'Client_12.jpeg': [1086, 1448],
   'Client_13.jpeg': [1086, 1448],

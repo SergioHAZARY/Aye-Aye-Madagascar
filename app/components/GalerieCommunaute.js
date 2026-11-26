@@ -24,13 +24,14 @@ import { dimensionsImage, photoReduite, srcsetPhoto } from '../data/catalogue';
 
 // Client_4 n'y est pas : c'est un mannequin, pas un client (demande du
 // proprietaire) ; sa photo reste celle de la carte « Debardeur » (Modeles).
-const NUMEROS = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+// Client_10 retire : meme photo que Client_11 (la famille devant l'aeroport).
+const NUMEROS = [1, 2, 3, 5, 6, 7, 8, 9, 11, 12, 13];
 const PHOTOS = NUMEROS.map((n) => chemin('/assets/images/Clients/Client_' + n + '.jpeg'));
 const NOMBRE = PHOTOS.length;
 const DUREE = 3000;
 const AVANCE = 5; // photos chargees au-dela de celle affichee
 // photos en largeur (aeroport de La Reunion) : centre de la famille dans le cadre
-const POSITIONS = { 9: '72% 50%', 10: '55% 50%', 11: '80% 50%' };
+const POSITIONS = { 9: '72% 50%', 11: '80% 50%' };
 const TRANSITION = 'transform 0.8s cubic-bezier(0.65, 0, 0.35, 1)';
 
 export default function GalerieCommunaute({ facebook }) {

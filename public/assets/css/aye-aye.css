@@ -1275,7 +1275,7 @@ a.aye-galerie-photo:hover img {
    photos sont en 3:4 sauf Client_4 (2:3), calee en haut ; fleches puis
    rangee defilante (GalerieCommunaute.js) ; bouton Facebook. */
 .aye-communaute-section .section-heading {
-  margin-bottom: 20px;
+  margin-bottom: 40px; /* etait 20 px : un peu d'air avant les photos (demande du proprietaire) */
   text-align: center;
 }
 
