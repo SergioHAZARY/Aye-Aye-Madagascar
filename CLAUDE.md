@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code); on top of that `RETIREES_DU_MODELE` lists photos the owner had removed from one model page only (Tee-shirt: IMG_1616, DSC_1838, Homme_1, DSC_1845, DSC_1846, DSC_1833, IMG_1634, DSC_1834; Manches longues: DSC_1808, DSC_1806, DSC_1809, DSC_1795; Débardeur: DSC_1802, IMG_1568 (the swing, same shot as the Client_4 model card)), still on collection and product pages; `RETIREES_DE_LA_COLLECTION` does the same for one collection page (Tarondro: DSC_1846; Dauphins: IMG_1616, IMG_1634; Lemurs of Madagascar: IMG_0844; Madagascar: DSC_1832, DSC_1834, DSC_1868; Aye Aye Madagascar: DSC_1807, DSC_1804, DSC_1808, IMG_0832, DSC_1839) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code); on top of that `RETIREES_DU_MODELE` lists photos the owner had removed from one model page only (Tee-shirt: IMG_1616, DSC_1838, Homme_1, DSC_1845, DSC_1846, DSC_1833, IMG_1634, DSC_1834; Manches longues: DSC_1808, DSC_1806, DSC_1809, DSC_1795; Débardeur: DSC_1802, IMG_1568 (the swing, same shot as the Client_4 model card)), still on collection and product pages; `RETIREES_DE_LA_COLLECTION` does the same for one collection page (Tarondro: DSC_1846; Dauphins: IMG_1616, IMG_1634; Lemurs of Madagascar: IMG_0844; Madagascar: DSC_1832, DSC_1834, DSC_1868; Aye Aye Madagascar: DSC_1807, DSC_1804, DSC_1808, IMG_0832, DSC_1839; Antsatsaka: DSC_1795, IMG_0982, DSC_1869) when working with code in this repository.
 
 ## What this project is
 

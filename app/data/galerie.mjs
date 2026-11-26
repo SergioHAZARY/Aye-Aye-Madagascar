@@ -169,6 +169,7 @@ const RETIREES_DE_LA_COLLECTION = {
   'lemurs-of-madagascar': ['img-0844'],
   madagascar: ['dsc-1832-copy', 'dsc-1834-copy', 'dsc-1868-copy'],
   'aye-aye-madagascar': ['dsc-1807', 'dsc-1804', 'dsc-1808', 'img-0832', 'dsc-1839-copy'],
+  antsatsaka: ['dsc-1795', 'img-0982', 'dsc-1869-copy'],
 };
 export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2)
   .filter((p) => !p.client && !(RETIREES_DE_LA_COLLECTION[slug] || []).includes(p.id));
