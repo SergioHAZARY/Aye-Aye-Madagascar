@@ -9,3 +9,7 @@
 .DS_Store
 *.log
 .env*.local
+
+# photos sources de la galerie (606 Mo), gardees en local ; le site sert
+# leurs versions reduites (public/assets/images/galerie/, scripts/galerie.mjs)
+/photos-originales/nouvelles/

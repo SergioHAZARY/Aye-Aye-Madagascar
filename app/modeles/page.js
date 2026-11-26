@@ -3,6 +3,7 @@ import BandeauDiapos from '../components/BandeauDiapos';
 import Header from '../components/Header';
 import SilhouetteModele from '../components/SilhouetteModele';
 import { CATEGORIES, MODELES, TAILLES_PAR_CATEGORIE, imageCarte } from '../data/catalogue';
+import { photosDuModele } from '../data/galerie.mjs';
 
 export const metadata = {
   title: 'Nos modèles — Aye-Aye Madagascar',
@@ -52,9 +53,9 @@ export default function PageModeles() {
             {MODELES.map((modele) => (
               <div className="col-lg-4 col-md-6" key={modele.slug}>
                 <article className="aye-carte aye-modele" id={modele.slug}>
-                  <div className="aye-carte-visuel">
-                    {/* photo si la marque en a une (pas encore pour le
-                        debardeur), sinon la silhouette de la coupe */}
+                  {/* la photo et le nom menent a la page du modele (toutes ses photos) */}
+                  <a className="aye-carte-visuel" href={chemin('/modeles/' + modele.slug + '/')}>
+                    {/* photo si la marque en a une, sinon la silhouette de la coupe */}
                     {modele.image ? (
                       <img
                         {...imageCarte(modele.image)}
@@ -64,9 +65,12 @@ export default function PageModeles() {
                     ) : (
                       <SilhouetteModele slug={modele.slug} titre={modele.nom} />
                     )}
-                  </div>
-                  <h4>{modele.nom}</h4>
+                  </a>
+                  <h4><a href={chemin('/modeles/' + modele.slug + '/')}>{modele.nom}</a></h4>
                   <p>{modele.texte}</p>
+                  <a className="aye-carte-photos" href={chemin('/modeles/' + modele.slug + '/')}>
+                    Voir les {photosDuModele(modele.slug).length} photos →
+                  </a>
                   {/* infos alignees en bas de la carte, quelle que soit la
                       longueur du texte au-dessus */}
                   <dl className="aye-modele-infos">
