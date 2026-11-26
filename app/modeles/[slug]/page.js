@@ -8,7 +8,7 @@ import { MODELES } from '../../data/catalogue';
 import { photosDuModele } from '../../data/galerie.mjs';
 
 // pages en grille reguliere (demande du proprietaire), les autres en colonnes
-const GRILLE = ['manches-longues'];
+const GRILLE = ['manches-longues', 'debardeur'];
 
 export function generateStaticParams() {
   return MODELES.map((m) => ({ slug: m.slug }));
