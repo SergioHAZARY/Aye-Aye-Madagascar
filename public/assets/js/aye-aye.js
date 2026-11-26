@@ -43,9 +43,26 @@
      (gauche -> droite, droite -> gauche, ...). Elle apparait quand 30 % sont
      a l'ecran et se rearme sous 10 % : sur un grand ecran la ligne du milieu
      ne sort presque jamais entierement, elle doit pourtant rejouer. La classe aye-anim n'est posee qu'ici : sans JavaScript ou
-     sans IntersectionObserver, les lignes restent simplement visibles. */
-  var lignes = document.querySelectorAll('.aye-histoire-ligne');
+     sans IntersectionObserver, les lignes restent simplement visibles.
+     Meme animation pour chaque photo des pages modele et collection
+     (.aye-mur-anime). */
+  var lignes = document.querySelectorAll('.aye-histoire-ligne, .aye-mur-anime > *');
   var calme = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // photos des pages modele et collection : celles de la moitie droite arrivent de la
+  // droite (position a l'ecran, moins le decalage en cours de l'animation ;
+  // offsetLeft ne donne pas la colonne dans une mise en colonnes CSS)
+  var cotes = function () {
+    Array.prototype.forEach.call(document.querySelectorAll('.aye-mur-anime > *'), function (photo) {
+      var r = photo.getBoundingClientRect();
+      var mur = photo.parentNode.getBoundingClientRect();
+      var decalage = new DOMMatrix(getComputedStyle(photo).transform).m41;
+      // colonne du milieu (3 colonnes) : de la gauche
+      photo.classList.toggle('aye-droite', r.left - decalage + r.width / 2 > mur.left + mur.width * 0.55);
+    });
+  };
+  cotes();
+  // la mise en page peut encore bouger jusqu'a la fin du chargement
+  $(window).on('load resize', cotes);
   if (lignes.length && 'IntersectionObserver' in window && !calme) {
     var observateur = new IntersectionObserver(function (entrees) {
       entrees.forEach(function (entree) {

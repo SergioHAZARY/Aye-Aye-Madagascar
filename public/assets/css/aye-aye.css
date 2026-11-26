@@ -992,6 +992,30 @@ a.aye-galerie-photo:hover img {
   overflow-x: hidden;
 }
 
+/* Pages modele et collection : chaque photo glisse en place comme les lignes de « Nos
+   collections » (accueil) : les colonnes de gauche arrivent de la gauche,
+   celles de droite de la droite (aye-droite, pose par aye-aye.js), pour
+   qu'aucune photo n'en croise une autre. */
+
+.aye-mur-anime > .aye-anim {
+  opacity: 0;
+  transform: translateX(-120px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.aye-mur-anime > .aye-anim.aye-droite {
+  transform: translateX(120px);
+}
+
+.aye-mur-anime > .aye-anim.aye-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.aye-galerie-section {
+  overflow-x: hidden;
+}
+
 /* telephone : photo puis texte, toujours dans cet ordre */
 @media (max-width: 767px) {
   .aye-histoire-ligne {

@@ -1,6 +1,7 @@
 // Grille de photos (entieres, en colonnes) d'une page modele ou collection.
 // Chaque photo mene a la fiche du produit qu'elle montre (`lien`) ; une photo
 // sans produit (dessin du dos non visible) n'est pas cliquable.
+// Les photos glissent en place a l'ecran (aye-mur-anime, voir aye-aye.js).
 
 import { chemin } from '@/app/lib/chemin';
 
@@ -8,7 +9,7 @@ const dossier = chemin('/assets/images/galerie/');
 
 export default function GaleriePhotos({ photos }) {
   return (
-    <div className="aye-mur">
+    <div className="aye-mur aye-mur-anime">
       {photos.map((p, i) => {
         const image = (
           <img
