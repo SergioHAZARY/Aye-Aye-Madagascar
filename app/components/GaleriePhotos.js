@@ -1,49 +1,51 @@
-// Photos d'une page modele ou collection, entieres, en « briques » (demande
-// du proprietaire) : rangees de deux photos, une large et une etroite,
-// alternees d'une rangee a l'autre. Les deux photos d'une rangee arrivent
-// chacune de son cote a chaque passage a l'ecran (aye-aye.js, aye-aye.css).
-// Chaque photo mene a la fiche du produit qu'elle montre (`lien`) ; une photo
-// sans produit (dessin du dos non visible) n'est pas cliquable.
+// Photos d'une page modele ou collection, en « briques » (demande du
+// proprietaire) : rangees de deux photos, une large et une etroite, la large
+// a gauche puis a droite d'une rangee a l'autre. Les deux photos d'une rangee
+// ont la meme hauteur et chacune prend la largeur de son format (aye-aye.css,
+// --aye-format) : aucune bande vide autour, aucune photo rognee.
 //
-// Une photo de studio (dsc-…) remplit sa case avec sa version au fond
-// prolonge (galerie/brique/, scripts/photos-cadrees.mjs) ; les autres sont
-// entieres sur le fond clair des cartes. On place de preference les photos de
-// studio et celles en largeur dans les cases larges, les photos en hauteur
-// dans les etroites, en gardant a peu pres l'ordre de la page.
+// Case large : une photo de studio (dsc-…), dans sa version 9:8 au fond gris
+// prolonge (galerie/brique/large/, scripts/photos-cadrees.mjs), ou une photo
+// en largeur. Case etroite : une photo en hauteur, a son format. On cherche
+// la photo qui convient parmi les 4 suivantes, pour garder a peu pres l'ordre
+// de la page ; a defaut, la suivante, a son format.
+//
+// Chaque photo mene a la fiche du produit qu'elle montre (`lien`) ; une photo
+// sans produit (dessin du dos non visible) n'est pas cliquable. Les deux
+// photos d'une rangee arrivent chacune de son cote a chaque passage a l'ecran.
 
 import { chemin } from '@/app/lib/chemin';
 
 const dossier = chemin('/assets/images/galerie/');
 const studio = (p) => p.id.startsWith('dsc-');
 const enLargeur = (p) => p.width > p.height;
+const pourLarge = (p) => studio(p) || enLargeur(p);
 
-// case large aux positions 0 et 3 de chaque groupe de 4 (large-etroite, etroite-large)
-const estLarge = (i) => i % 4 === 0 || i % 4 === 3;
-const cout = (p, large) => (large ? (studio(p) || enLargeur(p) ? 0 : 2) : enLargeur(p) ? 3 : 0);
-
-function enBriques(photos) {
-  const reste = [...photos];
-  const cases = [];
-  for (let i = 0; reste.length; i += 1) {
-    const large = estLarge(i);
-    // la mieux adaptee parmi les 4 suivantes (a cout egal, la premiere)
-    let k = 0;
-    for (let j = 1; j < Math.min(4, reste.length); j += 1) if (cout(reste[j], large) < cout(reste[k], large)) k = j;
-    cases.push({ p: reste.splice(k, 1)[0], large });
-  }
-  return cases;
+function prendre(reste, convient) {
+  const k = reste.slice(0, 4).findIndex(convient);
+  return reste.splice(k < 0 ? 0 : k, 1)[0];
 }
 
-function Image({ p, large, i }) {
-  const forme = large ? 'large' : 'etroite';
-  const [petite, grande] = large ? [600, 1200] : [300, 600];
-  const attributs = studio(p)
+function enRangees(photos) {
+  const reste = [...photos];
+  const rangees = [];
+  while (reste.length) {
+    const large = prendre(reste, pourLarge);
+    const etroite = reste.length ? prendre(reste, (p) => !enLargeur(p)) : null;
+    rangees.push({ large, etroite });
+  }
+  return rangees;
+}
+
+function Photo({ p, large, i }) {
+  const etendue = large && studio(p);
+  const format = etendue ? 9 / 8 : p.width / p.height;
+  const image = etendue
     ? {
-      src: dossier + 'brique/' + forme + '/' + petite + '/' + p.id + '.jpg',
-      srcSet: [petite, grande].map((l) => dossier + 'brique/' + forme + '/' + l + '/' + p.id + '.jpg ' + l + 'w').join(', '),
-      width: grande,
-      height: Math.round(large ? (grande * 8) / 9 : (grande * 16) / 9),
-      className: 'aye-etendue',
+      src: dossier + 'brique/large/600/' + p.id + '.jpg',
+      srcSet: dossier + 'brique/large/600/' + p.id + '.jpg 600w, ' + dossier + 'brique/large/1200/' + p.id + '.jpg 1200w',
+      width: 1200,
+      height: 1067,
     }
     : {
       src: dossier + '480/' + p.id + '.jpg',
@@ -51,21 +53,30 @@ function Image({ p, large, i }) {
       width: p.width,
       height: p.height,
     };
-  const sizes = large ? '(max-width: 767px) 64vw, 54vw' : '(max-width: 767px) 32vw, 27vw';
-  return <img {...attributs} sizes={sizes} alt={p.alt} loading={i < 4 ? 'eager' : 'lazy'} decoding="async" />;
+  const contenu = (
+    <img
+      {...image}
+      sizes={large ? '(max-width: 767px) 64vw, 54vw' : '(max-width: 767px) 36vw, 30vw'}
+      alt={p.alt}
+      loading={i < 2 ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+  );
+  const props = { className: 'aye-galerie-photo', style: { '--aye-format': format } };
+  return p.lien ? <a href={p.lien} {...props}>{contenu}</a> : <div {...props}>{contenu}</div>;
 }
 
 export default function GaleriePhotos({ photos }) {
-  const cases = enBriques(photos);
   return (
     <div className="aye-brique aye-brique-anime">
-      {cases.map(({ p, large }, i) => {
-        const classe = 'aye-galerie-photo' + (large ? ' aye-brique-large' : '');
-        const image = <Image p={p} large={large} i={i} />;
-        return p.lien ? (
-          <a key={p.id} href={p.lien} className={classe}>{image}</a>
-        ) : (
-          <div key={p.id} className={classe}>{image}</div>
+      {enRangees(photos).map(({ large, etroite }, r) => {
+        const cases = [<Photo key={large.id} p={large} large i={r} />];
+        if (etroite) cases.push(<Photo key={etroite.id} p={etroite} large={false} i={r} />);
+        if (r % 2) cases.reverse(); // une rangee sur deux : la large a droite
+        return (
+          <div className={'aye-brique-rangee' + (etroite ? '' : ' aye-brique-seule')} key={large.id}>
+            {cases}
+          </div>
         );
       })}
     </div>

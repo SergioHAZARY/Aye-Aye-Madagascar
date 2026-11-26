@@ -983,61 +983,68 @@ a.aye-galerie-photo:hover img {
 }
 
 /* --- Pages modele et collection en briques (GaleriePhotos) --------------------
-   Demande du proprietaire : rangees de deux photos, une large (2/3) et une
-   etroite (1/3), alternees d'une rangee a l'autre comme des briques, sur
-   ordinateur comme sur telephone. La case etroite (9:16) donne la hauteur de
-   la rangee. Photos de studio : version au fond prolonge, qui remplit la case
-   (.aye-etendue) ; autres photos : entieres sur le fond clair, comme les cartes.
+   Demande du proprietaire : rangees de deux photos, une large et une etroite,
+   la large a gauche puis a droite d'une rangee a l'autre, sur ordinateur
+   comme sur telephone. Dans une rangee, chaque photo grandit a proportion de
+   son format (--aye-format = largeur / hauteur) : les deux ont la meme
+   hauteur et remplissent la ligne, sans bande vide ni rognage. Ecarts
+   resserres (demande du proprietaire : trop d'espace entre les images).
    Animation : a chaque passage a l'ecran, la photo de gauche arrive de la
    gauche, celle de droite de la droite, un instant apres. */
 .aye-brique {
-  --aye-ecart: 20px;
-  container-type: inline-size; /* cqw : largeur de la grille */
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  /* hauteur de rangee = case etroite 9:16 (largeur d'une colonne x 16/9) */
-  grid-auto-rows: calc((100cqw - 2 * var(--aye-ecart)) / 3 * 16 / 9);
+  --aye-ecart: 8px;
+  display: flex;
+  flex-direction: column;
   gap: var(--aye-ecart);
 }
 
-.aye-brique-large {
-  grid-column: span 2;
+.aye-brique-rangee {
+  display: flex;
+  gap: var(--aye-ecart);
+}
+
+.aye-brique-rangee > .aye-galerie-photo {
+  flex: var(--aye-format) 1 0;
+  aspect-ratio: var(--aye-format);
+  min-width: 0;
+}
+
+/* derniere photo seule : pas plus large qu'une case large ordinaire */
+.aye-brique-seule > .aye-galerie-photo {
+  flex: 0 0 auto;
+  width: min(100%, 62%);
 }
 
 .aye-brique .aye-galerie-photo img[width][height] {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover; /* meme format que la case : rien n'est rogne */
 }
 
-.aye-brique .aye-galerie-photo img.aye-etendue[width][height] {
-  object-fit: cover; /* meme forme que la case : seul le fond prolonge peut deborder */
-}
-
-.aye-brique-anime > .aye-anim {
+.aye-brique-anime .aye-anim {
   opacity: 0;
   transform: translateX(-90px);
   transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.aye-brique-anime > .aye-anim:nth-child(even) {
+.aye-brique-anime .aye-anim:nth-child(2) {
   transform: translateX(90px);
   transition-delay: 0.12s;
 }
 
-.aye-brique-anime > .aye-anim.aye-visible {
+.aye-brique-anime .aye-anim.aye-visible {
   opacity: 1;
   transform: none;
 }
 
 @media (max-width: 767px) {
   .aye-brique {
-    --aye-ecart: 10px;
+    --aye-ecart: 6px;
   }
-  .aye-brique-anime > .aye-anim {
+  .aye-brique-anime .aye-anim {
     transform: translateX(-50px);
   }
-  .aye-brique-anime > .aye-anim:nth-child(even) {
+  .aye-brique-anime .aye-anim:nth-child(2) {
     transform: translateX(50px);
   }
 }

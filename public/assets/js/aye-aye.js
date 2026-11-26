@@ -120,7 +120,7 @@
      du proprietaire), en alternant le sens. Elle apparait quand 30 % sont a
      l'ecran et se rearme sous 10 % : sur un grand ecran la ligne du milieu ne
      sort presque jamais entierement, elle doit pourtant rejouer. */
-  var lignes = tous('.aye-histoire-ligne, .aye-brique-anime > *');
+  var lignes = tous('.aye-histoire-ligne, .aye-brique-anime .aye-galerie-photo');
   if (lignes.length) {
     var glissement = new IntersectionObserver(function (entrees) {
       entrees.forEach(function (entree) {
