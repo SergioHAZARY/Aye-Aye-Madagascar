@@ -779,7 +779,7 @@ a.aye-galerie-photo:hover img {
    droits sans voile, puis dessous le nom en petites capitales grises,
    l'accroche en titre et « Decouvrir » souligne. Police et palette du template. */
 .aye-univers {
-  padding: 90px 0;
+  padding: 90px 0 40px; /* bas resserre : trop d'espace avant « Nos collections » (demande du proprietaire) */
   background-color: #f7f7f7;
 }
 
@@ -883,7 +883,7 @@ a.aye-galerie-photo:hover img {
    large) et texte, de cote alterne. Couleurs
    de texte et police du template. */
 .aye-histoire {
-  padding: 90px 0 0;
+  padding: 60px 0 0;
 }
 
 .aye-histoire .section-heading {
