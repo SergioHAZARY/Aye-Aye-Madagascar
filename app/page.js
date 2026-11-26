@@ -1,5 +1,6 @@
 import { chemin } from '@/app/lib/chemin';
 import CarrouselBanniere from './components/CarrouselBanniere';
+import GalerieCommunaute from './components/GalerieCommunaute';
 import Header from './components/Header';
 import SectionHistoire from './components/SectionHistoire';
 import SectionUnivers from './components/SectionUnivers';
@@ -219,29 +220,10 @@ export default function PageAccueil() {
             </h2>
             <span>Plus de 11{' '}000 personnes nous suivent déjà sur Facebook.</span>
           </div>
-          {/* photos de clients (images/Clients), entieres dans un cadre 3:4 */}
-          <ul className="aye-communaute-photos">
-            {[1, 2, 3, 4].map((numero) => {
-              const source = chemin('/assets/images/Clients/Client_' + numero + '.jpeg');
-              const [largeur, hauteur] = dimensionsImage(source);
-              return (
-                <li key={numero}>
-                  <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer" aria-label="Aye-Aye Madagascar sur Facebook">
-                    <img
-                      src={photoReduite(source, 480)}
-                      srcSet={srcsetPhoto(source)}
-                      sizes="(max-width: 767px) 50vw, 25vw"
-                      alt="Un client porte son Aye Aye"
-                      width={largeur}
-                      height={hauteur}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
+        </div>
+        {/* photos de clients, pleine largeur, defilantes avec fleches */}
+        <GalerieCommunaute facebook={CONTACT.facebook} />
+        <div className="container">
           <div className="aye-communaute">
             <div className="main-border-button">
               <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer">

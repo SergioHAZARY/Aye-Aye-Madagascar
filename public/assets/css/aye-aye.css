@@ -788,9 +788,10 @@ a.aye-galerie-photo:hover img {
 }
 
 /* --- « Nos univers » (SectionUnivers.js) -----------------------------------------
-   Titre centre sous un surtitre, fond gris clair, trois cartes arrondies
-   (Homme, Femme, Enfant) : photo 3:4, nom et « Decouvrir » poses en bas sur
-   un degrade sombre. Police et palette du template. */
+   Titre centre sous un surtitre, fond gris clair, trois cartes (Homme, Femme,
+   Enfant) facon magazine (demande du proprietaire) : photo 3:4 a angles
+   droits sans voile, puis dessous le nom en petites capitales grises,
+   l'accroche en titre et « Decouvrir » souligne. Police et palette du template. */
 .aye-univers {
   padding: 90px 0;
   background-color: #f7f7f7;
@@ -813,59 +814,80 @@ a.aye-galerie-photo:hover img {
 .aye-univers-cartes {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  gap: 16px; /* pleine largeur, d'un bord de l'ecran a l'autre (demande du proprietaire) */
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .aye-univers-cartes a {
-  position: relative;
   display: block;
+  color: #2a2a2a;
+}
+
+/* photo 3:4, angles droits, sans degrade ni texte pose dessus */
+.aye-univers-cartes a > img[width][height] {
+  display: block;
+  width: 100%;
   aspect-ratio: 3 / 4;
-  border-radius: 6px;
-  overflow: hidden;
+  object-fit: cover;
   background-color: #eee;
 }
 
-.aye-univers-cartes img[width][height] {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s;
+.aye-univers-cartes a > img[width][height] {
+  transition: opacity 0.3s;
 }
 
-.aye-univers-cartes a:hover img {
-  transform: scale(1.04);
+.aye-univers-cartes a:hover > img[width][height] {
+  opacity: 0.9;
 }
 
-.aye-univers-titre {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 90px 28px 26px;
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75));
-  color: #fff;
-}
-
-.aye-univers-titre strong {
+.aye-univers-texte {
   display: block;
-  font-size: 26px;
-  font-weight: 700;
+  padding: 22px 24px 0;
+}
+
+.aye-univers-nom {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
+  color: #aaa;
 }
 
-.aye-univers-titre span {
+.aye-univers-texte strong {
   display: block;
-  margin-top: 6px;
-  font-size: 15px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #2a2a2a;
+}
+
+.aye-univers-lien {
+  display: inline-block;
+  margin-top: 12px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid #2a2a2a;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #2a2a2a;
+}
+
+.aye-univers-cartes a:hover .aye-univers-lien {
+  color: #777;
+  border-color: #777;
 }
 
 @media (max-width: 767px) {
   .aye-univers-cartes {
     grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .aye-univers-texte {
+    padding: 18px 16px 0;
   }
 }
 
@@ -1163,26 +1185,60 @@ a.aye-galerie-photo:hover img {
 /* --- Rejoignez la communaute ----------------------------------------------------
    Titre centre, une ligne de quatre photos de clients (deux par ligne sur
    telephone) dans un cadre 3:4 rempli (cover, demande du proprietaire) : les
-   photos sont en 3:4 sauf Client_4 (2:3), dont ~5 % tombent en haut
-   (corde) et en bas (jean) ; bouton Facebook. */
+   photos sont en 3:4 sauf Client_4 (2:3), calee en haut ; fleches puis
+   rangee defilante (GalerieCommunaute.js) ; bouton Facebook. */
 .aye-communaute-section .section-heading {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
 .aye-communaute-photos {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* rangee qui defile de cote (fleches de GalerieCommunaute, doigt sur
+     mobile) : 4 photos visibles sur ordinateur, 2 sur telephone */
+  display: flex;
   gap: 16px;
   margin: 0;
   padding: 0;
   list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.aye-communaute-photos::-webkit-scrollbar {
+  display: none;
+}
+
+.aye-communaute-photos li {
+  flex: 0 0 calc((100% - 48px) / 4);
+  scroll-snap-align: start;
+}
+
+/* fleches en haut a droite, au bord du contenu */
+.aye-communaute-fleches {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.aye-communaute-fleches button {
+  padding: 4px;
+  border: 0;
+  background: none;
+  color: #2a2a2a;
+  line-height: 0;
+  cursor: pointer;
+}
+
+.aye-communaute-fleches button:disabled {
+  color: #aaa;
+  cursor: default;
 }
 
 .aye-communaute-photos a {
   display: block;
-  aspect-ratio: 3 / 4;
-  border-radius: 6px;
+  aspect-ratio: 3 / 4; /* pleine largeur, angles droits, comme « Nos univers » */
   overflow: hidden;
   background-color: #f7f7f7;
 }
@@ -1195,13 +1251,19 @@ a.aye-galerie-photo:hover img {
   transition: transform 0.4s;
 }
 
+/* Client_4 (2:3, plus haute que le cadre) : calee en haut, rien n'est coupe
+   au-dessus de la tete (demande du proprietaire), seul le bas est rogne */
+.aye-communaute-photos li:nth-child(4) img[width][height] {
+  object-position: center top;
+}
+
 .aye-communaute-photos a:hover img {
   transform: scale(1.04);
 }
 
 @media (max-width: 767px) {
-  .aye-communaute-photos {
-    grid-template-columns: repeat(2, 1fr);
+  .aye-communaute-photos li {
+    flex-basis: calc((100% - 16px) / 2);
   }
 }
 
