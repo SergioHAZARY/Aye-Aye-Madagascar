@@ -87,13 +87,14 @@ export const PRODUITS = [
   {
     slug: 'tee-shirt-baobab',
     nom: 'Tee-shirt Baobab',
-    couleur: 'Rose',
+    couleur: 'Vert',
     categorie: 'homme',
     modele: 'tee-shirt',
     collection: 'baobab',
-    image: chemin('/assets/images/Homme/Homme_4.jpeg'),
-    galerie: [chemin('/assets/images/Homme/Homme_4.jpeg')],
-    description: 'Tee-shirt en coton 100 %, rose. Le baobab et « Baobab » sont imprimés dans le dos ; '
+    // pas de photo de mannequin seul : le tee-shirt vert, de dos, dans un groupe
+    image: chemin('/assets/images/Homme/Homme_5.jpeg'),
+    galerie: [chemin('/assets/images/Homme/Homme_5.jpeg')],
+    description: 'Tee-shirt en coton 100 %, vert. Le baobab et « Baobab » sont imprimés dans le dos ; '
       + 'petit logo Aye-Aye sur la poitrine.',
   },
   {
@@ -418,7 +419,7 @@ const DIMENSIONS_PHOTOS = {
   'Homme_1.jpeg': [720, 1280],
   'Homme_2.jpeg': [899, 1600],
   'Homme_3.jpeg': [1067, 1600],
-  'Homme_4.jpeg': [1086, 1448],
+  'Homme_5.jpeg': [1600, 1065],
   // photos de clients (accueil, « Rejoignez la communaute »)
   'Client_1.jpeg': [1091, 1442],
   'Client_2.jpeg': [1086, 1448],
