@@ -2,34 +2,33 @@
 
 // Galerie de la fiche produit : grande photo, colonne de vignettes a droite,
 // loupe pour ouvrir la photo en grand. Les photos ne sont jamais rognees :
-// elles tiennent entieres dans leur cadre.
+// elles tiennent entieres dans leur cadre. `images` : liste preparee par la
+// page produit ({cle, vignette, src, srcSet, zoom, width, height, alt}).
 //
 // Gestionnaires React autorises ici : la fiche n'est pas dans un carrousel
 // owl, donc rien n'est clone hors de l'arbre React.
 
 import { useState } from 'react';
 
-import { dimensionsImage, photoReduite, srcsetPhoto } from '../data/catalogue';
-
-export default function GalerieProduit({ images, nom }) {
+export default function GalerieProduit({ images }) {
   const [actif, setActif] = useState(0);
-  const source = images[actif];
+  const photo = images[actif];
 
   return (
     <div className="aye-galerie">
       <div className="aye-galerie-principale">
         {/* 640 px de haut (520 px sous 992 px) : ~360 / ~292 px de large */}
         <img
-          src={source}
-          srcSet={srcsetPhoto(source)}
+          src={photo.src}
+          srcSet={photo.srcSet}
           sizes="(max-width: 991px) 292px, 360px"
-          alt={nom + ' – vue ' + (actif + 1)}
-          width={dimensionsImage(source)[0]}
-          height={dimensionsImage(source)[1]}
+          alt={photo.alt}
+          width={photo.width}
+          height={photo.height}
         />
         <a
           className="aye-galerie-zoom"
-          href={source}
+          href={photo.zoom}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Agrandir la photo"
@@ -47,7 +46,7 @@ export default function GalerieProduit({ images, nom }) {
       {images.length > 1 && (
         <ul className="aye-galerie-vignettes">
           {images.map((image, index) => (
-            <li key={image}>
+            <li key={image.cle}>
               <button
                 type="button"
                 className={index === actif ? 'actif' : undefined}
@@ -55,7 +54,7 @@ export default function GalerieProduit({ images, nom }) {
                 aria-current={index === actif ? 'true' : undefined}
                 onClick={() => setActif(index)}
               >
-                <img src={photoReduite(image, 160)} alt="" width={dimensionsImage(image)[0]} height={dimensionsImage(image)[1]} loading="lazy" decoding="async" />
+                <img src={image.vignette} alt="" width={image.width} height={image.height} loading="lazy" decoding="async" />
               </button>
             </li>
           ))}

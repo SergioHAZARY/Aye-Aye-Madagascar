@@ -20,7 +20,7 @@ export const CATEGORIES = [
     slug: 'femme',
     nom: 'Femme',
     accroche: 'Des pièces qui portent la fierté malagasy.',
-    image: chemin('/assets/images/Femme/Femme_1.jpeg'),
+    image: chemin('/assets/images/Femme/Femme_7.jpeg'), // Tarondro, de face
   },
   {
     slug: 'enfant',
@@ -38,7 +38,8 @@ export const PRODUITS = [
     nom: 'Manches longues Aye-Aye',
     couleur: 'Rouge',
     categorie: 'homme',
-    note: 5,
+    modele: 'manches-longues',
+    collection: 'aye-aye-madagascar',
     image: chemin('/assets/images/Homme/DSC_1808.jpg'),
     galerie: [
       chemin('/assets/images/Homme/DSC_1808.jpg'),
@@ -52,14 +53,14 @@ export const PRODUITS = [
       "T-shirt manches longues en coton 100 %, rouge profond. L'aye-aye, "
       + 'notre lémurien emblème, est imprimé dans le dos ; « Madagascar » '
       + 'descend le long de la manche. Coupe droite, col rond.',
-    details: ['Coton 100 %', 'Impression dos et manche', 'Coupe droite', 'Lavage à 30 °C'],
   },
   {
     slug: 'manches-longues-antsatsaka-ecru',
     nom: 'Manches longues Antsatsaka',
     couleur: 'Écru',
     categorie: 'homme',
-    note: 5,
+    modele: 'manches-longues',
+    collection: 'antsatsaka',
     image: chemin('/assets/images/Homme/DSC_1795.jpg'),
     galerie: [
       chemin('/assets/images/Homme/DSC_1795.jpg'),
@@ -70,7 +71,66 @@ export const PRODUITS = [
       'T-shirt manches longues en coton 100 %, écru. Le gecko Antsatsaka '
       + 'est imprimé dans le dos sur les couleurs du drapeau malagasy, '
       + 'avec la signature Aye Aye sur la manche.',
-    details: ['Coton 100 %', 'Impression dos et manche', 'Coupe droite', 'Lavage à 30 °C'],
+  },
+  {
+    slug: 'tee-shirt-lemurs-of-madagascar',
+    nom: 'Tee-shirt Lemurs of Madagascar',
+    couleur: 'Beige',
+    categorie: 'homme',
+    modele: 'tee-shirt',
+    collection: 'lemurs-of-madagascar',
+    image: chemin('/assets/images/Homme/Homme_1.jpeg'),
+    galerie: [chemin('/assets/images/Homme/Homme_1.jpeg')],
+    description: 'Tee-shirt en coton 100 %, beige. Les lémuriens de Madagascar et '
+      + '« Lemurs of Madagascar » sont imprimés dans le dos.',
+  },
+  {
+    slug: 'tee-shirt-baobab',
+    nom: 'Tee-shirt Baobab',
+    couleur: 'Rose',
+    categorie: 'homme',
+    modele: 'tee-shirt',
+    collection: 'baobab',
+    image: chemin('/assets/images/Homme/Homme_4.jpeg'),
+    galerie: [chemin('/assets/images/Homme/Homme_4.jpeg')],
+    description: 'Tee-shirt en coton 100 %, rose. Le baobab et « Baobab » sont imprimés dans le dos ; '
+      + 'petit logo Aye-Aye sur la poitrine.',
+  },
+  {
+    slug: 'debardeur-antsatsaka',
+    nom: 'Débardeur Antsatsaka',
+    couleur: 'Rouge',
+    categorie: 'homme',
+    modele: 'debardeur',
+    collection: 'antsatsaka',
+    image: chemin('/assets/images/Homme/DSC_1798.jpg'),
+    galerie: [chemin('/assets/images/Homme/DSC_1798.jpg')],
+    description: 'Débardeur en coton 100 %, rouge. Le gecko Antsatsaka est imprimé dans le dos '
+      + 'sur les couleurs du drapeau malagasy.',
+  },
+  {
+    slug: 'debardeur-djembe',
+    nom: 'Débardeur Djembe',
+    couleur: 'Blanc',
+    categorie: 'homme',
+    modele: 'debardeur',
+    collection: 'madagascar-roots-djembe',
+    image: chemin('/assets/images/Homme/DSC_1802.jpg'),
+    galerie: [chemin('/assets/images/Homme/DSC_1802.jpg')],
+    description: 'Débardeur en coton 100 %, blanc. Trois danseuses et l’inscription '
+      + '« Madagascar Roots Djembe » sont imprimées dans le dos.',
+  },
+  {
+    slug: 'debardeur-lemurs-of-madagascar',
+    nom: 'Débardeur Lemurs of Madagascar',
+    couleur: 'Rouge',
+    categorie: 'homme',
+    modele: 'debardeur',
+    collection: 'lemurs-of-madagascar',
+    image: chemin('/assets/images/Homme/Homme_3.jpeg'),
+    galerie: [chemin('/assets/images/Homme/Homme_3.jpeg')],
+    description: 'Débardeur en coton 100 %, rouge. Les lémuriens de Madagascar et '
+      + '« Lemurs of Madagascar » sont imprimés dans le dos.',
   },
 
   // --- Femme : les modeles photographies -----------------------------------
@@ -79,13 +139,13 @@ export const PRODUITS = [
     nom: 'Tee-shirt Tarondro',
     couleur: 'Beige',
     categorie: 'femme',
-    note: 5,
+    modele: 'tee-shirt',
+    collection: 'tarondro',
     image: chemin('/assets/images/Femme/Femme_1.jpeg'),
     galerie: [chemin('/assets/images/Femme/Femme_1.jpeg')],
     description:
       'Tee-shirt en coton 100 %, beige. Tarondro, le caméléon de Madagascar, '
       + 'est imprimé dans le dos avec « Madagascar » ; étiquette Aye-Aye au col.',
-    details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye au col'],
   },
 
   {
@@ -93,7 +153,8 @@ export const PRODUITS = [
     nom: 'Tee-shirt Dauphins',
     couleur: 'Rouge',
     categorie: 'femme',
-    note: 5,
+    modele: 'tee-shirt',
+    collection: 'dauphins',
     image: chemin('/assets/images/Femme/Femme_4.jpeg'),
     galerie: [
       chemin('/assets/images/Femme/Femme_4.jpeg'),
@@ -103,14 +164,14 @@ export const PRODUITS = [
     description:
       'Tee-shirt en coton 100 %, rouge. Des dauphins jaillissant des vagues sont '
       + 'imprimés dans le dos ; petit logo Aye-Aye sur la poitrine.',
-    details: ['Coton 100 %', 'Impression dos', 'Logo Aye-Aye sur la poitrine'],
   },
   {
     slug: 'tee-shirt-djembe-noir',
     nom: 'Tee-shirt Djembe',
     couleur: 'Noir',
     categorie: 'femme',
-    note: 5,
+    modele: 'tee-shirt',
+    collection: 'madagascar-roots-djembe',
     image: chemin('/assets/images/Femme/Femme_6.jpeg'),
     galerie: [
       chemin('/assets/images/Femme/Femme_6.jpeg'),
@@ -120,7 +181,30 @@ export const PRODUITS = [
       'Tee-shirt en coton 100 %, noir. Trois danseuses et l’inscription '
       + '« Madagascar Roots Djembe » sont imprimées dans le dos ; petit logo '
       + 'Aye-Aye sur la poitrine.',
-    details: ['Coton 100 %', 'Impression dos', 'Logo Aye-Aye sur la poitrine'],
+  },
+  {
+    slug: 'tee-shirt-aye-aye-madagascar',
+    nom: 'Tee-shirt Aye-Aye Madagascar',
+    couleur: 'Beige',
+    categorie: 'femme',
+    modele: 'tee-shirt',
+    collection: 'aye-aye-madagascar',
+    image: chemin('/assets/images/Femme/DSC_1842.jpg'),
+    galerie: [chemin('/assets/images/Femme/DSC_1842.jpg')],
+    description: "Tee-shirt en coton 100 %, beige. L'aye-aye, notre lémurien emblème, est "
+      + 'imprimé dans le dos ; étiquette Aye-Aye au col.',
+  },
+  {
+    slug: 'tee-shirt-madagascar',
+    nom: 'Tee-shirt Madagascar',
+    couleur: 'Noir',
+    categorie: 'femme',
+    modele: 'tee-shirt',
+    collection: 'madagascar',
+    image: chemin('/assets/images/Femme/DSC_1836.jpg'),
+    galerie: [chemin('/assets/images/Femme/DSC_1836.jpg')],
+    description: 'Tee-shirt en coton 100 %, noir. « Madagascar » et des symboles de l’île '
+      + 'descendent le long du dos ; étiquette Aye-Aye au col.',
   },
 
   // --- Enfant : les modeles photographies ----------------------------------
@@ -129,13 +213,13 @@ export const PRODUITS = [
     nom: 'Tee-shirt Tortue',
     couleur: 'Moutarde',
     categorie: 'enfant',
-    note: 5,
+    modele: 'tee-shirt',
+    collection: 'tortue',
     image: chemin('/assets/images/Enfant/Enfant_3.jpeg'),
     galerie: [chemin('/assets/images/Enfant/Enfant_3.jpeg')],
     description:
       'Tee-shirt enfant en coton 100 %, moutarde. La tortue de mer est imprimée '
       + 'dans le dos avec « Tortue Madagascar » ; étiquette Aye-Aye sur la manche.',
-    details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye sur la manche'],
   },
 
   {
@@ -143,41 +227,41 @@ export const PRODUITS = [
     nom: 'Tee-shirt Lakana',
     couleur: 'Bordeaux',
     categorie: 'enfant',
-    note: 5,
+    modele: 'tee-shirt',
+    collection: 'lakana',
     image: chemin('/assets/images/Enfant/Enfant_1.jpeg'),
     galerie: [chemin('/assets/images/Enfant/Enfant_1.jpeg')],
     description:
       'Tee-shirt enfant en coton 100 %, bordeaux. Une pirogue à voile sous le '
       + 'soleil couchant et « Lakana » sont imprimés dans le dos ; étiquette '
       + 'Aye-Aye au col.',
-    details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye au col'],
   },
   {
     slug: 'tee-shirt-tarondro-enfant-beige',
     nom: 'Tee-shirt Tarondro',
     couleur: 'Beige',
     categorie: 'enfant',
-    note: 5,
+    modele: 'tee-shirt',
+    collection: 'tarondro',
     image: chemin('/assets/images/Enfant/Enfant_2.jpeg'),
     galerie: [chemin('/assets/images/Enfant/Enfant_2.jpeg')],
     description:
       'Tee-shirt enfant en coton 100 %, beige. Tarondro, le caméléon de '
       + 'Madagascar, est imprimé dans le dos ; étiquette Aye-Aye au col.',
-    details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye au col'],
   },
   {
     slug: 'tee-shirt-djembe-enfant-blanc',
     nom: 'Tee-shirt Djembe',
     couleur: 'Blanc',
     categorie: 'enfant',
-    note: 5,
+    modele: 'tee-shirt',
+    collection: 'madagascar-roots-djembe',
     image: chemin('/assets/images/Enfant/Enfant_4.jpeg'),
     galerie: [chemin('/assets/images/Enfant/Enfant_4.jpeg')],
     description:
       'Tee-shirt enfant en coton 100 %, blanc. Trois danseuses et l’inscription '
       + '« Madagascar Roots Djembe » sont imprimées dans le dos ; étiquette '
       + 'Aye-Aye au col.',
-    details: ['Coton 100 %', 'Impression dos', 'Étiquette Aye-Aye au col'],
   },
 ];
 
@@ -267,6 +351,13 @@ export const COLLECTIONS = [
     image: chemin('/assets/images/Enfant/Enfant_1.jpeg'),
     texte: "La pirogue traditionnelle, symbole du savoir-faire des pêcheurs et du lien entre l'homme et la mer.",
   },
+  {
+    // texte provisoire, a remplacer par celui de la marque
+    slug: 'baobab',
+    nom: 'Baobab',
+    texte: "L'arbre majestueux de nos paysages, symbole de force et de longévité. "
+      + 'Des racines profondes, comme notre fierté malagasy.',
+  },
 ];
 
 // --- Tailles ----------------------------------------------------------------
@@ -319,12 +410,15 @@ const DIMENSIONS_PHOTOS = {
   'Femme_4.jpeg': [851, 1280],
   'Femme_5.jpeg': [1064, 1600],
   'Femme_6.jpeg': [1064, 1600],
+  'Femme_7.jpeg': [899, 1600],
   'Enfant_1.jpeg': [960, 1280],
   'Enfant_2.jpeg': [960, 1280],
   'Enfant_3.jpeg': [1049, 1280],
   'Enfant_4.jpeg': [960, 1280],
   'Homme_1.jpeg': [720, 1280],
   'Homme_2.jpeg': [899, 1600],
+  'Homme_3.jpeg': [1067, 1600],
+  'Homme_4.jpeg': [1086, 1448],
   // photos de clients (accueil, « Rejoignez la communaute »)
   'Client_1.jpeg': [1091, 1442],
   'Client_2.jpeg': [1086, 1448],
@@ -379,7 +473,7 @@ export function srcsetPhoto(source) {
 // (scripts/photos-cadrees.mjs, cartes/480|720/). Autres photos : la photo
 // entiere, reduite, centree sur le fond clair de la carte (object-fit:
 // contain dans aye-aye.css). Jamais de flou ni de rognage.
-const CARTES_STUDIO = /^(DSC_\d+\.jpg|Femme_1\.jpeg|Homme_[12]\.jpeg)$/;
+const CARTES_STUDIO = /^(DSC_\d+\.jpg|Femme_[17]\.jpeg|Homme_[12]\.jpeg)$/;
 
 export function imageCarte(source) {
   const nom = source.split('/').pop();

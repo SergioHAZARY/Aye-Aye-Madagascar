@@ -1,6 +1,7 @@
 // Versions servies des photos de la galerie (pages /modeles/<slug>/ et
 // /collections/<slug>/), d'apres la liste PHOTOS_GALERIE de app/data/galerie.mjs :
 //
+//   public/assets/images/galerie/160/<id>.jpg    160 px de large (vignettes de la fiche produit)
 //   public/assets/images/galerie/480/<id>.jpg    480 px de large (grille)
 //   public/assets/images/galerie/1600/<id>.jpg   1600 px au plus grand cote
 //                                                (grille sur ecran 2x, agrandissement)
@@ -16,7 +17,7 @@ import { PHOTOS_GALERIE, idPhoto } from '../app/data/galerie.mjs';
 
 const SORTIE = 'public/assets/images/galerie/';
 const tailles = {};
-for (const d of ['480', '1600']) fs.mkdirSync(SORTIE + d, { recursive: true });
+for (const d of ['160', '480', '1600']) fs.mkdirSync(SORTIE + d, { recursive: true });
 
 for (const [source] of PHOTOS_GALERIE) {
   const id = idPhoto(source);
@@ -29,6 +30,8 @@ for (const [source] of PHOTOS_GALERIE) {
     await base().resize(1600, 1600, { fit: 'inside', withoutEnlargement: true }).jpeg({ quality: 78, mozjpeg: true }).toFile(grande);
     await base().resize(480).jpeg({ quality: 75, mozjpeg: true }).toFile(petite);
   }
+  const vignette = SORTIE + '160/' + id + '.jpg';
+  if (!fs.existsSync(vignette)) await sharp(petite).resize(160).jpeg({ quality: 70, mozjpeg: true }).toFile(vignette);
   const { width, height } = await sharp(grande).metadata();
   tailles[id] = [width, height];
 }

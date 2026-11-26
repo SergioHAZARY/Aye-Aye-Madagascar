@@ -24,9 +24,11 @@ export default async function PageModele({ params }) {
   return (
     <PageGalerie
       actif="modeles"
-      classeEntete="aye-entete-face"
+      classeEntete=""
+      fond={chemin('/assets/images/banniere/diapos/modeles/' + slug + '.jpg')}
       titre={modele.nom}
       texte={modele.texte}
+      page={{ champ: 'modele', slug }}
       photos={photosDuModele(slug)}
       retour={{ lien: chemin('/modeles/'), texte: 'Tous nos modèles' }}
       autres={MODELES.map((m) => ({ slug: m.slug, nom: m.nom, lien: '/modeles/' + m.slug + '/', actif: m.slug === slug }))}

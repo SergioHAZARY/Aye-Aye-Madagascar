@@ -5,14 +5,17 @@ import AchatProduit from '../../components/AchatProduit';
 import FicheProduit from '../../components/FicheProduit';
 import GalerieProduit from '../../components/GalerieProduit';
 import Header from '../../components/Header';
-import { CONTACT } from '../../components/Footer';
 import {
   PRODUITS,
   categorieParSlug,
+  dimensionsImage,
+  photoReduite,
   produitParSlug,
   produitsParCategorie,
+  srcsetPhoto,
   taillesDuProduit,
 } from '../../data/catalogue';
+import { autresPhotosDuProduit } from '../../data/galerie.mjs';
 
 // Export statique : une page HTML par produit.
 export function generateStaticParams() {
@@ -28,15 +31,26 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// Encadre d'informations sous le bouton : uniquement des engagements vrais
-// de la marque (textes « Notre engagement ») et le fonctionnement reel de la
-// commande — pas de delai de livraison ni de moyen de paiement invente.
-const ATOUTS = [
-  { icone: 'fa-star-o', titre: 'Qualité premium', texte: 'des produits de qualité supérieure' },
-  { icone: 'fa-heart-o', titre: 'Identité malagasy', texte: 'notre culture dans chaque création' },
-  { icone: 'fa-check', titre: 'Commande simple', texte: 'nous vous recontactons pour la livraison' },
-  { icone: 'fa-comments-o', titre: 'Service client', texte: 'WhatsApp ' + CONTACT.whatsapp },
-];
+// Photos de la fiche : celles du produit (versions reduites du catalogue),
+// puis toutes les photos de la galerie du meme modele et de la meme
+// collection (app/data/galerie.mjs), quelle que soit leur couleur.
+const GALERIE = chemin('/assets/images/galerie/');
+
+function photosDeLaFiche(produit) {
+  const propres = produit.galerie.map((source, i) => {
+    const [width, height] = dimensionsImage(source);
+    return {
+      cle: source, vignette: photoReduite(source, 160), src: source, srcSet: srcsetPhoto(source),
+      zoom: source, width, height, alt: produit.nom + ' – vue ' + (i + 1),
+    };
+  });
+  const autres = autresPhotosDuProduit(produit.galerie, produit.modele, produit.collection).map((p) => ({
+    cle: p.id, vignette: GALERIE + '160/' + p.id + '.jpg', src: GALERIE + '480/' + p.id + '.jpg',
+    srcSet: GALERIE + '480/' + p.id + '.jpg 480w, ' + GALERIE + '1600/' + p.id + '.jpg ' + p.width + 'w',
+    zoom: GALERIE + '1600/' + p.id + '.jpg', width: p.width, height: p.height, alt: p.alt,
+  }));
+  return propres.concat(autres);
+}
 
 // Les mots composes (« Aye-Aye ») ne doivent pas se couper au trait d'union.
 function sansCoupure(texte) {
@@ -68,7 +82,7 @@ export default async function PageProduit({ params }) {
 
           <div className="row">
             <div className="col-lg-7">
-              <GalerieProduit images={produit.galerie} nom={produit.nom} />
+              <GalerieProduit images={photosDeLaFiche(produit)} />
             </div>
 
             <div className="col-lg-5">
@@ -77,7 +91,7 @@ export default async function PageProduit({ params }) {
 
                 <div className="aye-fiche-titre">
                   <h1>
-                    {sansCoupure(produit.nom)} <span>{produit.couleur.toLowerCase()}</span>
+                    {sansCoupure(produit.nom)}
                   </h1>
                   <button
                     type="button"
@@ -90,61 +104,12 @@ export default async function PageProduit({ params }) {
                   </button>
                 </div>
 
-                <AchatProduit slug={produit.slug} tailles={tailles}>
-                  {tailles.length > 0 && (
-                    <details className="aye-guide">
-                      <summary>
-                        <i className="fa fa-arrows-h"></i> Guide des tailles
-                      </summary>
-                      <p>
-                        Un doute sur votre taille ? Écrivez-nous sur{' '}
-                        <a href={CONTACT.whatsappLien} target="_blank" rel="noopener noreferrer">
-                          WhatsApp
-                        </a>{' '}
-                        en indiquant votre taille habituelle : nous vous conseillons.
-                      </p>
-                    </details>
-                  )}
-                </AchatProduit>
+                <AchatProduit tailles={tailles} />
 
                 <p className="aye-livraison">
                   <i className="fa fa-truck"></i> <strong>Livraison</strong> à convenir après votre
                   commande
                 </p>
-
-                <ul className="aye-fiche-atouts">
-                  {ATOUTS.map((atout) => (
-                    <li key={atout.titre}>
-                      <i className={'fa ' + atout.icone}></i>
-                      <span>
-                        <strong>{atout.titre}</strong> {atout.texte}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="aye-accordeons">
-                  <details>
-                    <summary>Description</summary>
-                    <p>{produit.description}</p>
-                  </details>
-                  <details>
-                    <summary>Composition et entretien</summary>
-                    <ul>
-                      {produit.details.map((detail) => (
-                        <li key={detail}>{detail}</li>
-                      ))}
-                    </ul>
-                  </details>
-                  <details>
-                    <summary>Marque</summary>
-                    <p>
-                      Aye-Aye Madagascar valorise la culture malagasy et permet à chaque
-                      Malgache de porter fièrement ses origines.{' '}
-                      <a href={chemin('/about/')}>Notre histoire</a>
-                    </p>
-                  </details>
-                </div>
               </div>
             </div>
           </div>

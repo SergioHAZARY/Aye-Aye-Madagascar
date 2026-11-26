@@ -27,6 +27,7 @@ export default async function PageCollection({ params }) {
       classeEntete=""
       titre={collection.nom}
       texte={collection.texte}
+      page={{ champ: 'collection', slug }}
       photos={photosDeLaCollection(slug)}
       retour={{ lien: chemin('/collections/'), texte: 'Toutes nos collections' }}
       autres={COLLECTIONS.map((c) => ({ slug: c.slug, nom: c.nom, lien: '/collections/' + c.slug + '/', actif: c.slug === slug }))}

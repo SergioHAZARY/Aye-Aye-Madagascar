@@ -10,8 +10,7 @@
 //   `node scripts/galerie.mjs`, qui ecrit aussi leurs dimensions
 //   (galerie-tailles.mjs) : relancer le script apres tout ajout ;
 // - modeles : slugs de MODELES ; collections : slugs de COLLECTIONS
-//   (catalogue.js). « baobab » n'est pas (encore) une collection du site :
-//   ses photos n'apparaissent que sur les pages modele.
+//   (catalogue.js).
 // - dans chaque collection, la vue de dos (le dessin) vient en premier ; sur
 //   une page, les photos a plusieurs modeles ou collections passent apres.
 // Photos de face sans dessin visible : rangees avec le dos photographie dans
@@ -112,11 +111,13 @@ export const PHOTOS_GALERIE = [
   ['Enfant/Enfant_1.jpeg', [T], ['lakana'], 'Tee-shirt enfant bordeaux Lakana, de dos'],
   ['n:IMG_0211.PNG', [T], ['lakana', 'baobab'], 'Tee-shirt rouge Lakana et tee-shirt enfant Baobab, de dos'],
 
-  // --- Modele seulement (dessin du dos non visible, ou Baobab) ----------------
+  // --- Baobab ---------------------------------------------------------------
+  ['n:IMG_0640.PNG', [T], ['baobab'], 'Tee-shirt rose Baobab'],
+
+  // --- Modele seulement (dessin du dos non visible) --------------------------
   ['n:IMG_1564.PNG', [D], [], 'Débardeur rouge, de face'],
   ['n:IMG_1568.JPG', [D], [], 'Débardeur rouge, de face'],
   ['n:IMG_1017.PNG', [T], [], 'Tee-shirt rouge, de face'],
-  ['n:IMG_0640.PNG', [T], ['baobab'], 'Tee-shirt rose Baobab'],
   ['Clients/Client_3.jpeg', [ML], [], 'Manches longues blanc, en boutique'],
   ['n:DSC_1872 copy.jpg', [T, D, ML], [], 'Tee-shirts, débardeur et manches longues Aye-Aye Madagascar, photo de groupe'],
 ];
@@ -142,5 +143,29 @@ function trier(lignes, slug, champ) {
   return lignes.filter((l) => l[champ].includes(slug)).sort((a, b) => rang(a) - rang(b)).map(photo);
 }
 
-export const photosDuModele = (slug) => trier(PHOTOS_GALERIE, slug, 1);
+// page d'un modele : seulement les photos ou l'on ne voit que ce modele
+export const photosDuModele = (slug) => trier(PHOTOS_GALERIE.filter((l) => l[1].length === 1), slug, 1);
 export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2);
+
+// Photos des dossiers du site (Homme, Femme, Clients…) qui sont aussi dans
+// cette liste sous un autre nom (meme photo, autre fichier).
+const DOUBLES = {
+  'img-0984': 'dsc-1794', 'img-0987': 'dsc-1793', 'img-0982': 'homme-2', 'img-0832': 'dsc-1805',
+  'img-1630': 'femme-4', 'img-1616': 'femme-2', 'img-1634': 'femme-3', 'img-1625': 'femme-6',
+  'dsc-1848-copy-2': 'femme-1', 'dsc-1845-copy': 'femme-7', 'dsc-1836-copy-2': 'dsc-1836',
+  'dsc-1842-copy': 'dsc-1842', 'img-1565': 'homme-3', 'img-0640': 'homme-4',
+  'img-1658': 'client-1', 'img-1568': 'client-4', 'dsc-1872-copy': 'groupe-1',
+};
+
+// `source` (chemin d'une photo du site) est-elle la photo `id` de la galerie ?
+export function memePhoto(source, id) {
+  const autre = idPhoto(source);
+  return autre === id || DOUBLES[id] === autre;
+}
+
+// Fiche produit : les photos du meme modele et de la meme collection, sauf
+// celles que le produit montre deja (`images` : sa galerie).
+export function autresPhotosDuProduit(images, modele, collection) {
+  return photosDeLaCollection(collection)
+    .filter((p) => p.modeles.length === 1 && p.modeles[0] === modele && !images.some((s) => memePhoto(s, p.id)));
+}

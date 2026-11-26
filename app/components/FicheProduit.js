@@ -32,13 +32,6 @@ export default function FicheProduit({ produit, image, differer = true }) {
       </div>
       <div className="down-content">
         <h4><a href={lien}>{produit.nom}</a></h4>
-        <ul className="stars">
-          {' '}
-          {Array.from({ length: produit.note }, (_, i) => (
-            <li key={i}><i className="fa fa-star"></i></li>
-          ))}
-          {' '}
-        </ul>
       </div>
     </div>
   );

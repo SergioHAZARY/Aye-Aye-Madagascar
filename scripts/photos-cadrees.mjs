@@ -372,7 +372,8 @@ await composer({ source: 'DSC_1808.jpg', sortie: 'apropos/histoire.jpg', largeur
 // par la marque) ni de rognage. Le site choisit via imageCarte() de
 // app/data/catalogue.js ; ajouter ici toute nouvelle photo de studio.
 const CARTES = [
-  ...['DSC_1793.jpg', 'DSC_1794.jpg', 'DSC_1795.jpg', 'DSC_1804.jpg', 'DSC_1805.jpg', 'DSC_1807.jpg', 'DSC_1808.jpg', 'DSC_1809.jpg'].map((source) => ({ source })),
+  ...['DSC_1793.jpg', 'DSC_1794.jpg', 'DSC_1795.jpg', 'DSC_1798.jpg', 'DSC_1802.jpg', 'DSC_1804.jpg', 'DSC_1805.jpg', 'DSC_1807.jpg', 'DSC_1808.jpg', 'DSC_1809.jpg'].map((source) => ({ source })),
+  ...['Femme/DSC_1836.jpg', 'Femme/DSC_1842.jpg', 'Femme/Femme_7.jpeg'].map((source) => ({ source })),
   { source: 'DSC_1806.jpg', bordsPropres: true, retrait: 2 }, // bras leve contre le bord gauche
   { source: 'Femme/Femme_1.jpeg', bordsPropres: true, retrait: 2 }, // manche contre le bord droit
   { source: 'Homme/Homme_1.jpeg', bordsPropres: true, retrait: 2 },
