@@ -24,7 +24,7 @@ export default async function PageCollection({ params }) {
   return (
     <PageGalerie
       actif="collections"
-      classeEntete=""
+      diapos={photosDeLaCollection(slug).map((p) => ['diapos/photos/' + p.id + '.jpg', p.alt])}
       titre={collection.nom}
       texte={collection.texte}
       page={{ champ: 'collection', slug }}

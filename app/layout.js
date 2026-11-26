@@ -1,5 +1,5 @@
 import { chemin, cheminVersionne } from '@/app/lib/chemin';
-import { SCRIPTS_TEMPLATE } from '@/app/lib/scripts-template';
+import { SCRIPT_PROJET } from '@/app/lib/scripts-template';
 import ActionsGlobales from './components/ActionsGlobales';
 import Footer from './components/Footer';
 import TemplateScripts from './components/TemplateScripts';
@@ -42,12 +42,10 @@ export default function RootLayout({ children }) {
             les feuilles du template restent inchangees. */}
         <link rel="stylesheet" href={cheminVersionne('/assets/css/aye-aye.css')} />
 
-        {/* Scripts du template telecharges des maintenant, en parallele du
-            JavaScript de Next : TemplateScripts les execute apres
+        {/* Script du projet telecharge des maintenant, en parallele du
+            JavaScript de Next : TemplateScripts l'execute apres
             l'hydratation, depuis le cache, sans nouvelle attente reseau. */}
-        {SCRIPTS_TEMPLATE.map((src) => (
-          <link key={src} rel="preload" as="script" href={src} />
-        ))}
+        <link rel="preload" as="script" href={SCRIPT_PROJET} />
       </head>
       <body>
         {/* Pas de preloader : celui du template cachait la page jusqu'au

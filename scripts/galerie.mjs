@@ -13,7 +13,7 @@
 //   node scripts/galerie.mjs
 import sharp from 'sharp';
 import fs from 'node:fs';
-import { PHOTOS_GALERIE, idPhoto } from '../app/data/galerie.mjs';
+import { CLIENTS, PHOTOS_GALERIE, idPhoto } from '../app/data/galerie.mjs';
 
 const SORTIE = 'public/assets/images/galerie/';
 const tailles = {};
@@ -21,6 +21,7 @@ for (const d of ['160', '480', '1600']) fs.mkdirSync(SORTIE + d, { recursive: tr
 
 for (const [source] of PHOTOS_GALERIE) {
   const id = idPhoto(source);
+  if (CLIENTS.has(id)) continue; // photos de clients : affichees nulle part
   const chemin = source.startsWith('n:') ? 'photos-originales/nouvelles/' + source.slice(2) : 'public/assets/images/' + source;
   const grande = SORTIE + '1600/' + id + '.jpg';
   const petite = SORTIE + '480/' + id + '.jpg';

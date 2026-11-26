@@ -18,7 +18,9 @@ export default function GalerieProduit({ images }) {
     <div className="aye-galerie">
       <div className="aye-galerie-principale">
         {/* 640 px de haut (520 px sous 992 px) : ~360 / ~292 px de large */}
+        {/* key : la photo est remontee a chaque changement, son fondu rejoue */}
         <img
+          key={photo.cle}
           src={photo.src}
           srcSet={photo.srcSet}
           sizes="(max-width: 991px) 292px, 360px"

@@ -1,81 +1,153 @@
-/* Scripts propres au projet Aye Aye Madagascar.
-   Charge apres custom.js ; les fichiers du template restent inchanges.
+/* Script du projet Aye Aye Madagascar : le seul script hors de Next.
 
-   custom.js initialise les trois carrousels du template (.owl-men-item,
-   .owl-women-item, .owl-kid-item) : les sections Homme, Femme et Enfant les
-   utilisent tels quels. */
-(function ($) {
+   Il remplace toute la pile du template (jQuery, owl-carousel, scrollReveal,
+   custom.js : 182 Ko), dont le site n'utilisait plus que deux comportements,
+   repris ici a l'identique :
+   - l'en-tete collant (classe background-header une fois le bloc #top passe) ;
+   - le menu deroulant du telephone (bouton .menu-trigger).
+   Injecte apres l'hydratation par TemplateScripts : il ne fait que poser des
+   classes, le style est dans aye-aye.css. */
+(function () {
   'use strict';
 
-  if (!$) return;
+  var entete = document.querySelector('header.header-area');
+  if (!entete) return;
+  var calme = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var observable = 'IntersectionObserver' in window;
+  var tous = function (selecteur) {
+    return Array.prototype.slice.call(document.querySelectorAll(selecteur));
+  };
 
-  /* custom.js installe un « scroll-spy » qui parcourt $('.nav a') et fait
-     $(lien.attr('href')).position() sur chaque lien. Il etait deja casse dans
-     le template (il levait une erreur des le premier lien non-ancre) et notre
-     menu ne contient plus d'ancres du tout : il ne sert plus a rien et pollue
-     la console a chaque defilement. On le retire proprement.
-     Seul ce handler est pose sur `document` ; l'en-tete collant, lui, ecoute
-     `window` et n'est pas concerne. */
-  /* jQuery differe les callbacks `ready` : celui de custom.js s'execute APRES
-     ce fichier. On passe donc par la meme file d'attente pour retirer le
-     handler une fois qu'il a ete pose. */
-  $(function () {
-    $(document).off('scroll');
-  });
+  /* --- En-tete au defilement --------------------------------------------------
+     background-header : regle du template (custom.js), blanc et 80 px de haut
+     une fois le bloc #top depasse ; sans bloc #top, des le premier defilement.
+     aye-entete-opaque : sur les pages a banniere, l'en-tete transparent
+     redevient blanc des la fin de la banniere (sur mobile, #top contient aussi
+     les onglets sous le hero : le logo blanc se retrouverait sur fond blanc).
+     aye-visible : le bouton « haut de page » apres un ecran et demi. */
+  var haut = document.getElementById('top');
+  var hero = entete.classList.contains('aye-entete-sur-hero')
+    && document.querySelector('.main-banner .left-content, .page-heading');
+  var retour = document.querySelector('.aye-haut');
+  var hauteurInterieure = function (el) {
+    var style = getComputedStyle(el);
+    return el.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+  };
+  var majEntete = function (defile) {
+    var y = window.pageYOffset;
+    if (defile) {
+      entete.classList.toggle('background-header', y >= (haut ? hauteurInterieure(haut) : 0) - entete.offsetHeight);
+    }
+    if (hero) {
+      var cadre = hero.getBoundingClientRect();
+      entete.classList.toggle('aye-entete-opaque', cadre.bottom - entete.offsetHeight < 0);
+    }
+    if (retour) retour.classList.toggle('aye-visible', y > window.innerHeight * 1.5);
+  };
+  var enAttente = false;
+  window.addEventListener('scroll', function () {
+    if (enAttente) return;
+    enAttente = true;
+    requestAnimationFrame(function () {
+      enAttente = false;
+      majEntete(true);
+    });
+  }, { passive: true });
+  window.addEventListener('resize', function () { majEntete(false); });
+  majEntete(false);
 
-  /* En-tete transparent sur le hero (accueil, mobile).
-     custom.js ne rend l'en-tete opaque qu'apres tout le bloc #top ; sur
-     mobile ce bloc contient aussi les onglets sous le hero, et le logo blanc
-     se retrouverait sur fond blanc. On le rend opaque des la fin du hero. */
-  var $entete = $('.header-area.aye-entete-sur-hero');
-  var $hero = $('.main-banner .left-content, .page-heading').first();
-  if ($entete.length && $hero.length) {
-    var majEntete = function () {
-      var limite = $hero.offset().top + $hero.outerHeight() - $entete.outerHeight();
-      $entete.toggleClass('aye-entete-opaque', $(window).scrollTop() > limite);
-    };
-    $(window).on('scroll resize', majEntete);
-    majEntete();
+  if (retour) {
+    retour.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: calme ? 'auto' : 'smooth' });
+    });
   }
 
-  /* « Nos collections » (accueil) : chaque ligne glisse en place chaque fois
-     qu'elle entre a l'ecran (demande du proprietaire), en alternant le sens
-     (gauche -> droite, droite -> gauche, ...). Elle apparait quand 30 % sont
-     a l'ecran et se rearme sous 10 % : sur un grand ecran la ligne du milieu
-     ne sort presque jamais entierement, elle doit pourtant rejouer. La classe aye-anim n'est posee qu'ici : sans JavaScript ou
-     sans IntersectionObserver, les lignes restent simplement visibles.
-     Meme animation pour chaque photo des pages modele et collection
-     (.aye-mur-anime). */
-  var lignes = document.querySelectorAll('.aye-histoire-ligne, .aye-mur-anime > *');
-  var calme = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // photos des pages modele et collection : celles de la moitie droite arrivent de la
-  // droite (position a l'ecran, moins le decalage en cours de l'animation ;
-  // offsetLeft ne donne pas la colonne dans une mise en colonnes CSS)
+  /* --- Menu deroulant (telephone) -------------------------------------------- */
+  var bouton = document.querySelector('.header-area .menu-trigger');
+  var menu = document.querySelector('.header-area .main-nav .nav');
+  if (bouton && menu) {
+    var basculer = function () {
+      var ouvert = bouton.classList.toggle('active');
+      menu.classList.toggle('aye-menu-ouvert', ouvert);
+      bouton.setAttribute('aria-expanded', ouvert ? 'true' : 'false');
+    };
+    bouton.addEventListener('click', basculer);
+    bouton.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        basculer();
+      }
+    });
+  }
+
+  if (!observable || calme) return; // pas d'animation : tout reste visible
+
+  var dansEcran = function (el) {
+    var cadre = el.getBoundingClientRect();
+    return cadre.top < window.innerHeight && cadre.bottom > 0;
+  };
+
+  /* --- Apparition des blocs ---------------------------------------------------
+     Titres de section, cartes, photos : ils montent en place la premiere fois
+     qu'ils entrent a l'ecran, l'un apres l'autre quand ils arrivent ensemble
+     (une rangee de cartes). Ce qui est deja a l'ecran au chargement ne bouge
+     pas : rien ne clignote, la premiere vue s'affiche aussi vite qu'avant. */
+  var blocs = tous('.section-heading, .item, .aye-carte, .service-item, .aye-univers-cartes > li, '
+    + '.aye-atouts li, .aye-decouvrez-photo, .aye-decouvrez .left-content, .aye-communaute-photos, '
+    + '.about-us .left-image, .about-us .right-content, .aye-signature, .aye-moyens-contact > li, '
+    + '.aye-galerie-autres, .aye-espace-liens > li, .aye-recapitulatif')
+    .filter(function (bloc) { return !dansEcran(bloc) && bloc.getBoundingClientRect().top > 0; });
+  if (blocs.length) {
+    var apparition = new IntersectionObserver(function (entrees) {
+      var rang = 0;
+      entrees.forEach(function (entree) {
+        if (!entree.isIntersecting) return;
+        entree.target.style.setProperty('--aye-delai', Math.min(rang, 5) * 90 + 'ms');
+        entree.target.classList.add('aye-vu');
+        apparition.unobserve(entree.target);
+        rang += 1;
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    blocs.forEach(function (bloc) {
+      bloc.classList.add('aye-apparait');
+      apparition.observe(bloc);
+    });
+  }
+
+  /* --- « Nos collections » (accueil) et photos des pages modele / collection ---
+     Chaque ligne glisse en place chaque fois qu'elle entre a l'ecran (demande
+     du proprietaire), en alternant le sens. Elle apparait quand 30 % sont a
+     l'ecran et se rearme sous 10 % : sur un grand ecran la ligne du milieu ne
+     sort presque jamais entierement, elle doit pourtant rejouer. */
+  var lignes = tous('.aye-histoire-ligne, .aye-mur-anime > *');
+  // photos des pages modele et collection : celles de la moitie droite arrivent
+  // de la droite (position a l'ecran, moins le decalage en cours de
+  // l'animation ; offsetLeft ne donne pas la colonne dans des colonnes CSS)
   var cotes = function () {
-    Array.prototype.forEach.call(document.querySelectorAll('.aye-mur-anime > *'), function (photo) {
-      var r = photo.getBoundingClientRect();
+    tous('.aye-mur-anime > *').forEach(function (photo) {
+      var cadre = photo.getBoundingClientRect();
       var mur = photo.parentNode.getBoundingClientRect();
       var decalage = new DOMMatrix(getComputedStyle(photo).transform).m41;
       // colonne du milieu (3 colonnes) : de la gauche
-      photo.classList.toggle('aye-droite', r.left - decalage + r.width / 2 > mur.left + mur.width * 0.55);
+      photo.classList.toggle('aye-droite', cadre.left - decalage + cadre.width / 2 > mur.left + mur.width * 0.55);
     });
   };
   cotes();
   // la mise en page peut encore bouger jusqu'a la fin du chargement
-  $(window).on('load resize', cotes);
-  if (lignes.length && 'IntersectionObserver' in window && !calme) {
-    var observateur = new IntersectionObserver(function (entrees) {
+  window.addEventListener('load', cotes);
+  window.addEventListener('resize', cotes);
+  if (lignes.length) {
+    var glissement = new IntersectionObserver(function (entrees) {
       entrees.forEach(function (entree) {
         if (entree.intersectionRatio >= 0.3) entree.target.classList.add('aye-visible');
         else if (entree.intersectionRatio < 0.1) entree.target.classList.remove('aye-visible');
       });
     }, { threshold: [0, 0.1, 0.3] });
-    Array.prototype.forEach.call(lignes, function (ligne) {
+    lignes.forEach(function (ligne) {
       // deja a l'ecran au chargement : visible tout de suite, sans glisser
-      var r = ligne.getBoundingClientRect();
-      if (r.top < window.innerHeight && r.bottom > 0) ligne.classList.add('aye-visible');
+      if (dansEcran(ligne)) ligne.classList.add('aye-visible');
       ligne.classList.add('aye-anim');
-      observateur.observe(ligne);
+      glissement.observe(ligne);
     });
   }
-})(window.jQuery);
+})();

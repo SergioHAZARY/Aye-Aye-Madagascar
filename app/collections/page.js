@@ -2,7 +2,7 @@ import { chemin } from '@/app/lib/chemin';
 import BandeauDiapos from '../components/BandeauDiapos';
 import Header from '../components/Header';
 import { COLLECTIONS, imageCarte } from '../data/catalogue';
-import { photosDeLaCollection } from '../data/galerie.mjs';
+import { memePhoto, photosDeLaCollection } from '../data/galerie.mjs';
 
 export const metadata = {
   title: 'Nos collections — Aye-Aye Madagascar',
@@ -11,18 +11,31 @@ export const metadata = {
     + 'Chaque collection se distingue par son dessin au dos.',
 };
 
+// Bandeau : une photo par collection, jamais celle de sa carte (ni celle
+// d'une autre carte, ni deux fois la meme) : aucune image n'est repetee.
+function diaposDuBandeau() {
+  const cartes = COLLECTIONS.map((c) => {
+    const photos = photosDeLaCollection(c.slug);
+    return c.image ? photos.find((p) => memePhoto(c.image, p.id))?.id : photos[0]?.id;
+  });
+  const prises = new Set(cartes);
+  return COLLECTIONS.flatMap((c) => {
+    const photo = photosDeLaCollection(c.slug).find((p) => !prises.has(p.id));
+    if (!photo) return [];
+    prises.add(photo.id);
+    return [['diapos/photos/' + photo.id + '.jpg', photo.alt]];
+  });
+}
+
 export default function PageCollections() {
   return (
     <>
       <Header actif="collections" surBanniere />
 
-      {/* bandeau : carrousel des collections, vues de dos (le dessin) */}
+      {/* bandeau : carrousel des collections, d'autres photos que les cartes */}
       <div className="page-heading aye-entete-diapos" id="top">
         <BandeauDiapos
-          images={COLLECTIONS.filter((c) => c.image).map((c) => [
-            'diapos/collections/' + c.slug + '.jpg',
-            'Collection ' + c.nom + ', dessin au dos',
-          ])}
+          images={diaposDuBandeau()}
         />
         <div className="container">
           <div className="row">

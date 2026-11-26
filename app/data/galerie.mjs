@@ -119,7 +119,6 @@ export const PHOTOS_GALERIE = [
   ['n:IMG_1568.JPG', [D], [], 'Débardeur rouge, de face'],
   ['n:IMG_1017.PNG', [T], [], 'Tee-shirt rouge, de face'],
   ['Clients/Client_3.jpeg', [ML], [], 'Manches longues blanc, en boutique'],
-  ['n:DSC_1872 copy.jpg', [T, D, ML], [], 'Tee-shirts, débardeur et manches longues Aye-Aye Madagascar, photo de groupe'],
 ];
 
 // identifiant d'une photo = nom de son fichier, en minuscules et sans espaces
@@ -128,10 +127,19 @@ export function idPhoto(source) {
     .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
+// Photos de clients (pas de mannequins) : ni sur les pages modele, ni sur
+// les pages collection, ni sur les fiches produit (demande du proprietaire).
+// Elles restent classees ci-dessus, mais leurs fichiers ne sont plus generes
+// (scripts/galerie.mjs) : retirer une photo de cette liste la remet en ligne.
+export const CLIENTS = new Set([
+  'client-2', 'img-0747', 'img-0522', 'img-1657', 'img-1658', 'img-0233',
+  'img-0235', 'img-0236', 'img-0237', 'img-0640', 'img-0211', 'client-3',
+]);
+
 function photo([source, modeles, collections, alt]) {
   const id = idPhoto(source);
   const [width, height] = TAILLES[id] || [480, 853];
-  return { id, modeles, collections, alt, width, height };
+  return { id, modeles, collections, alt, width, height, client: CLIENTS.has(id) };
 }
 
 // Ordre d'une page : d'abord les photos de ce seul modele (ou de cette seule
@@ -143,9 +151,10 @@ function trier(lignes, slug, champ) {
   return lignes.filter((l) => l[champ].includes(slug)).sort((a, b) => rang(a) - rang(b)).map(photo);
 }
 
-// page d'un modele : seulement les photos ou l'on ne voit que ce modele
-export const photosDuModele = (slug) => trier(PHOTOS_GALERIE.filter((l) => l[1].length === 1), slug, 1);
-export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2);
+// page d'un modele : seulement les photos de mannequins ou l'on ne voit que ce modele
+export const photosDuModele = (slug) => trier(PHOTOS_GALERIE.filter((l) => l[1].length === 1), slug, 1)
+  .filter((p) => !p.client);
+export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2).filter((p) => !p.client);
 
 // Photos des dossiers du site (Homme, Femme, Clients…) qui sont aussi dans
 // cette liste sous un autre nom (meme photo, autre fichier).
@@ -153,8 +162,8 @@ const DOUBLES = {
   'img-0984': 'dsc-1794', 'img-0987': 'dsc-1793', 'img-0982': 'homme-2', 'img-0832': 'dsc-1805',
   'img-1630': 'femme-4', 'img-1616': 'femme-2', 'img-1634': 'femme-3', 'img-1625': 'femme-6',
   'dsc-1848-copy-2': 'femme-1', 'dsc-1845-copy': 'femme-7', 'dsc-1836-copy-2': 'dsc-1836',
-  'dsc-1842-copy': 'dsc-1842', 'img-1565': 'homme-3', 'img-0640': 'homme-4',
-  'img-1658': 'client-1', 'img-1568': 'client-4', 'dsc-1872-copy': 'groupe-1',
+  'dsc-1842-copy': 'dsc-1842', 'img-1565': 'homme-3', 'img-1623': 'homme-5',
+  'img-1658': 'client-1', 'img-1568': 'client-4',
 };
 
 // `source` (chemin d'une photo du site) est-elle la photo `id` de la galerie ?
@@ -166,6 +175,6 @@ export function memePhoto(source, id) {
 // Fiche produit : les photos du meme modele et de la meme collection, sauf
 // celles que le produit montre deja (`images` : sa galerie).
 export function autresPhotosDuProduit(images, modele, collection) {
-  return photosDeLaCollection(collection)
-    .filter((p) => p.modeles.length === 1 && p.modeles[0] === modele && !images.some((s) => memePhoto(s, p.id)));
+  return trier(PHOTOS_GALERIE, collection, 2)
+    .filter((p) => !p.client && p.modeles.length === 1 && p.modeles[0] === modele && !images.some((s) => memePhoto(s, p.id)));
 }

@@ -34,15 +34,14 @@ export default function PageAPropos() {
     <>
       <Header actif="apropos" surBanniere />
 
-      {/* bandeau : carrousel des photos de la page */}
+      {/* bandeau : carrousel de photos qui ne reviennent pas plus bas dans la page */}
       <div className="page-heading about-page-heading aye-entete-diapos" id="top">
         <BandeauDiapos
           images={[
             ['entete-apropos.jpg', 'Tee-shirt Djembe noir'],
-            ['diapos/apropos/histoire.jpg', 'Manches longues Aye-Aye rouge'],
-            ['diapos/apropos/antsatsaka.jpg', 'Manches longues Antsatsaka, dessin au dos'],
-            ['diapos/apropos/aye-aye.jpg', 'Manches longues Aye-Aye, dessin au dos'],
-            ['diapos/apropos/basta-lion.jpg', 'Manches longues Antsatsaka, vu de trois quarts'],
+            ['diapos/photos/dsc-1845-copy.jpg', 'Tee-shirt Tarondro beige, de face'],
+            ['diapos/photos/dsc-1800.jpg', 'Débardeur Djembe blanc, de face'],
+            ['diapos/photos/dsc-1832-copy.jpg', 'Tee-shirt Madagascar noir, de face'],
           ]}
         />
         <div className="container">

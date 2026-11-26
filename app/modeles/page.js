@@ -3,7 +3,7 @@ import BandeauDiapos from '../components/BandeauDiapos';
 import Header from '../components/Header';
 import SilhouetteModele from '../components/SilhouetteModele';
 import { CATEGORIES, MODELES, TAILLES_PAR_CATEGORIE, imageCarte } from '../data/catalogue';
-import { photosDuModele } from '../data/galerie.mjs';
+import { memePhoto, photosDuModele } from '../data/galerie.mjs';
 
 export const metadata = {
   title: 'Nos modèles — Aye-Aye Madagascar',
@@ -25,15 +25,13 @@ export default function PageModeles() {
     <>
       <Header actif="modeles" surBanniere />
 
-      {/* bandeau : carrousel des modeles, vus de face */}
+      {/* bandeau : chaque modele vu de face, sur une autre photo que sa carte */}
       <div className="page-heading aye-entete-diapos" id="top">
         <BandeauDiapos
-          images={[
-            ['diapos/modeles/tee-shirt.jpg', 'Tee-shirt, vu de face'],
-            ['diapos/modeles/manches-longues.jpg', 'Manches longues écru, vu de face'],
-            ['diapos/modeles/debardeur.jpg', 'Débardeur rouge, vu de face'],
-            ['diapos/modeles/manches-longues-rouge.jpg', 'Manches longues rouge, vu de face'],
-          ]}
+          images={MODELES.flatMap((m) => {
+            const photo = photosDuModele(m.slug).find((p) => p.alt.includes('de face') && !memePhoto(m.image, p.id));
+            return photo ? [['diapos/photos/' + photo.id + '.jpg', photo.alt]] : [];
+          })}
         />
         <div className="container">
           <div className="row">
