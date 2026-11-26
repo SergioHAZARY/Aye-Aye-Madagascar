@@ -157,41 +157,36 @@ export default function PageAccueil() {
         </div>
       </section>
 
-      {/* ***** Notre histoire et notre engagement ***** */}
-      {/* Forme demandee par la marque : grande photo a gauche, textes du
-          template a droite (titre, accroche, citation, paragraphes, bouton) */}
-      <section className="section aye-decouvrez" id="explore">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-6">
-              {/* photo de groupe, entiere (format 16:9 d'origine) */}
-              <div className="aye-decouvrez-photo">
-                <img
-                  src={photoReduite(GROUPE, 720)}
-                  srcSet={srcsetPhoto(GROUPE)}
-                  sizes="(max-width: 991px) 100vw, 50vw"
-                  alt="Cinq personnes en tee-shirts, débardeur et manches longues Aye-Aye Madagascar"
-                  width={dimensionsImage(GROUPE)[0]}
-                  height={dimensionsImage(GROUPE)[1]}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <div className="left-content">
+      {/* ***** Decouvrez Aye-Aye Madagascar ***** */}
+      {/* Photo de groupe en arriere-plan, pleine largeur, voile sombre degrade
+          (plus fonce a gauche, sous le texte) et textes de la marque en blanc ;
+          lien « Notre histoire » en bas a droite. Sous 992 px : photo entiere
+          puis texte sur fond sombre. */}
+      <section className="aye-decouvrez" id="decouvrez">
+        <img
+          className="aye-decouvrez-fond"
+          src={GROUPE}
+          srcSet={srcsetPhoto(GROUPE)}
+          sizes="100vw"
+          alt="Cinq personnes en tee-shirts, débardeur et manches longues Aye-Aye Madagascar"
+          width={dimensionsImage(GROUPE)[0]}
+          height={dimensionsImage(GROUPE)[1]}
+          loading="lazy"
+          decoding="async"
+        />
+        <div className="aye-decouvrez-contenu">
+          <div className="container">
+            <div className="aye-decouvrez-ligne">
+              <div className="aye-decouvrez-texte">
+                <p className="aye-decouvrez-devise">« Authentique – Nature – Qualité »</p>
                 <h2>
                   Découvrez <span className="aye-insecable">Aye-Aye</span> Madagascar
                 </h2>
-                <span>
+                <p className="aye-decouvrez-accroche">
                   Aye-Aye Madagascar est une marque qui porte une vision : valoriser la
                   culture malagasy, célébrer notre identité et permettre à chaque Malgache
                   de porter fièrement ses origines, où qu’il se trouve.
-                </span>
-                <div className="quote">
-                  <i className="fa fa-quote-left"></i>
-                  <p>« Authentique – Nature – Qualité »</p>
-                </div>
+                </p>
                 <p>
                   Plus qu’une simple marque de vêtements, Aye-Aye Madagascar est une
                   expression de notre identité. À travers ses créations, la marque met à
@@ -202,10 +197,8 @@ export default function PageAccueil() {
                   Notre ambition est de rassembler les Malgaches autour d’une même fierté :
                   celle d’être Malagasy.
                 </p>
-                <div className="main-border-button">
-                  <a href={chemin('/about/')}>Notre histoire</a>
-                </div>
               </div>
+              <a className="aye-decouvrez-lien" href={chemin('/about/')}>Notre histoire</a>
             </div>
           </div>
         </div>

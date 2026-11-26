@@ -517,7 +517,7 @@ footer .aye-logo img[width][height] {
 
 /* --- Section « Rejoignez la communauté » --------------------------------------- */
 .aye-communaute {
-  margin-top: 40px;
+  margin-top: 50px; /* ecart egal au-dessus et au-dessous du bouton (demande du proprietaire) */
   text-align: center;
 }
 
@@ -1055,41 +1055,130 @@ a.aye-galerie-photo:hover img {
   }
 }
 
-/* --- Section « Decouvrez Aye-Aye Madagascar » (#explore) ----------------------
-   Forme demandee par la marque : grande photo arrondie a gauche, textes du
-   template a droite, centres verticalement. Textes et couleurs du template. */
-/* cadre au format de l'ancienne photo (1100x900), vide en attendant la
-   nouvelle : fond gris clair du template */
-.aye-decouvrez-photo {
-  aspect-ratio: 1600 / 899; /* la photo de groupe, entiere */
-  border-radius: 6px;
-  overflow: hidden;
-  background-color: #f7f7f7;
+/* --- Section « Decouvrez Aye-Aye Madagascar » (#decouvrez) ------------------
+   Demande du proprietaire (d'apres un bandeau « histoire de maison ») : la
+   photo de groupe en arriere-plan, pleine largeur, a son format (entiere des
+   que le texte tient dedans), voile sombre degrade pour que le texte blanc
+   reste lisible (plus fonce a gauche, sous le texte ; les visages a droite
+   restent visibles), lien souligne « Notre histoire » en bas a droite.
+   Tailles de texte du template (titre 34 px, texte 14 px). Sous 992 px :
+   photo entiere puis texte sur fond sombre (#2a2a2a). */
+.aye-decouvrez {
+  position: relative;
+  display: grid;
+  background-color: #2a2a2a;
 }
 
-.aye-decouvrez-photo img[width][height] {
+/* espace blanc entre « Points forts » (gris) et la photo (demande du proprietaire) */
+.aye-atouts + .aye-decouvrez {
+  margin-top: 70px;
+}
+
+.aye-decouvrez-fond,
+.aye-decouvrez-contenu {
+  grid-area: 1 / 1;
+}
+
+.aye-decouvrez img.aye-decouvrez-fond[width][height] {
   display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  /* hauteur limitee sur grand ecran (demande du proprietaire : trop haute) :
+     le bas des jambes est rogne, les tetes (vers 20 % de la hauteur) restent */
+  max-height: min(1000px, 100vh); /* jamais plus haute que l ecran */
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.aye-decouvrez-contenu {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 70px 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.62) 45%, rgba(0, 0, 0, 0.35) 100%);
+  color: #fff;
+}
+
+.aye-decouvrez-contenu .container {
   width: 100%;
 }
 
-#explore.aye-decouvrez .left-content {
-  margin-right: 0;
-  padding-left: 55px; /* + 15 px de colonne : texte a 70 px du centre, comme « Nos collections » */
+.aye-decouvrez-ligne {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
 }
 
-/* ordinateur : la photo de « Decouvrez » s'arrete aussi au centre */
-@media (min-width: 992px) {
-  .aye-decouvrez .row > .col-lg-6:first-child {
-    padding-right: 0;
-  }
+.aye-decouvrez-texte {
+  max-width: 600px;
 }
 
+.aye-decouvrez-devise {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.aye-decouvrez-texte h2 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.aye-decouvrez-texte p {
+  margin: 20px 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.aye-decouvrez-texte .aye-decouvrez-accroche {
+  margin-top: 25px;
+  font-size: 16px;
+  color: #fff;
+}
+
+.aye-decouvrez-lien {
+  flex-shrink: 0;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.aye-decouvrez-lien:hover {
+  color: #aaa;
+  border-color: #aaa;
+}
+
+/* tablette et telephone : photo entiere en haut, texte dessous sur fond sombre */
 @media (max-width: 991px) {
-  .aye-decouvrez-photo {
-    margin-bottom: 40px;
+  .aye-decouvrez {
+    display: block;
   }
-  #explore.aye-decouvrez .left-content {
-    padding-left: 0;
+  .aye-decouvrez img.aye-decouvrez-fond[width][height] {
+    height: auto;
+    max-height: none;
+  }
+  .aye-decouvrez-contenu {
+    padding: 40px 0 50px;
+    background: #2a2a2a;
+  }
+  .aye-decouvrez-ligne {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
   }
 }
 
@@ -1190,6 +1279,10 @@ a.aye-galerie-photo:hover img {
 .aye-communaute-section .section-heading {
   margin-bottom: 20px;
   text-align: center;
+}
+
+#social.aye-communaute-section {
+  padding-bottom: 50px;
 }
 
 .aye-communaute-photos {
@@ -1748,7 +1841,7 @@ footer h4 a:hover {
 }
 
 .section-heading h2 .aye-insecable,
-#explore .left-content h2 .aye-insecable {
+.aye-decouvrez-texte h2 .aye-insecable {
   display: inline;
   margin: 0;
   font-size: inherit;
@@ -2917,24 +3010,14 @@ a.aye-moyen:hover .aye-moyen-valeur {
      Meme police (Poppins, gras), seule la taille du titre change ; le
      sous-titre garde ses 14 px. Le texte courant reste aligne a gauche. */
   .section-heading,
-  #explore .left-content h2,
   .about-us .right-content h4 {
     text-align: center;
   }
   .section-heading h2,
-  #explore .left-content h2,
+  .aye-decouvrez-texte h2,
   .about-us .right-content h4 {
     font-size: 24px;
     line-height: 1.3;
-  }
-  /* section Decouvrez : bouton « Notre histoire » centre. La marge droite de
-     30 px du template (ecart entre les colonnes sur ordinateur) decalait
-     titre et bouton de 15 px vers la gauche sur mobile. */
-  #explore .left-content {
-    margin-right: 0;
-  }
-  #explore .left-content .main-border-button {
-    text-align: center;
   }
   /* icones Facebook / WhatsApp / e-mail sous le texte A propos : centrees
      (marge symetrique : le template ne met qu'une marge a droite) */
