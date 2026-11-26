@@ -397,3 +397,25 @@ for (const carte of CARTES) {
     await composer({ ...carte, sortie: 'cartes/' + largeur + '/' + nom, largeur, hauteur });
   }
 }
+
+// --- Pages modele et collection en « briques » (GaleriePhotos) ---------------
+// Rangees de deux photos, une large et une etroite, alternees (demande du
+// proprietaire). Chaque photo de studio (dsc-…) y existe en deux formats,
+// tires de galerie/1600/ sans rien rogner : etroite 9:16
+// (galerie/brique/etroite/) et large 9:8 (galerie/brique/large/), la photo
+// entiere au centre et le fond uni du studio prolonge sur les cotes. Les
+// photos d'exterieur restent entieres sur le fond clair de la case (un fond
+// prolonge ou flou y a ete refuse). Deux largeurs chacune, pour le srcset.
+// toutes les photos de studio des pages modele et collection (PHOTOS_DES_PAGES, plus haut)
+for (const photo of [...PHOTOS_DES_PAGES.values()].filter((p) => p.id.startsWith('dsc-'))) {
+  const source = 'galerie/1600/' + photo.id + '.jpg';
+  const reglage = { bordsPropres: true, retrait: 2 };
+  for (const [forme, rapport, largeurs] of [['etroite', 9 / 16, [300, 600]], ['large', 9 / 8, [600, 1200]]]) {
+    for (const largeur of largeurs) {
+      const hauteur = Math.round(largeur / rapport);
+      // la photo tient en hauteur ; trop large pour le cadre etroit, elle tient en largeur
+      const echelle = Math.min(1, (largeur * photo.height) / photo.width / hauteur);
+      await composer({ source, sortie: 'galerie/brique/' + forme + '/' + largeur + '/' + photo.id + '.jpg', largeur, hauteur, echelle, ...reglage });
+    }
+  }
+}

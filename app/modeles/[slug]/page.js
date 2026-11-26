@@ -7,9 +7,6 @@ import PageGalerie from '../../components/PageGalerie';
 import { MODELES } from '../../data/catalogue';
 import { photosDuModele } from '../../data/galerie.mjs';
 
-// pages en grille reguliere (demande du proprietaire), les autres en colonnes
-const GRILLE = ['manches-longues', 'debardeur'];
-
 export function generateStaticParams() {
   return MODELES.map((m) => ({ slug: m.slug }));
 }
@@ -31,7 +28,6 @@ export default async function PageModele({ params }) {
       titre={modele.nom}
       texte={modele.texte}
       page={{ champ: 'modele', slug }}
-      grille={GRILLE.includes(slug)}
       photos={photosDuModele(slug)}
       retour={{ lien: chemin('/modeles/'), texte: 'Tous nos modèles' }}
       autres={MODELES.map((m) => ({ slug: m.slug, nom: m.nom, lien: '/modeles/' + m.slug + '/', actif: m.slug === slug }))}

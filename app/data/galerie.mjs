@@ -162,7 +162,15 @@ const RETIREES_DU_MODELE = {
 // page d'un modele : seulement les photos de mannequins ou l'on ne voit que ce modele
 export const photosDuModele = (slug) => trier(PHOTOS_GALERIE.filter((l) => l[1].length === 1), slug, 1)
   .filter((p) => !p.client && !(RETIREES_DU_MODELE[slug] || []).includes(p.id));
-export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2).filter((p) => !p.client);
+// Photos retirees d'une page collection seulement (demande du proprietaire).
+const RETIREES_DE_LA_COLLECTION = {
+  tarondro: ['dsc-1846-copy'],
+  dauphins: ['img-1616', 'img-1634'],
+  'lemurs-of-madagascar': ['img-0844'],
+  madagascar: ['dsc-1832-copy', 'dsc-1834-copy', 'dsc-1868-copy'],
+};
+export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2)
+  .filter((p) => !p.client && !(RETIREES_DE_LA_COLLECTION[slug] || []).includes(p.id));
 
 // Photos des dossiers du site (Homme, Femme, Clients…) qui sont aussi dans
 // cette liste sous un autre nom (meme photo, autre fichier).
