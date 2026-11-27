@@ -151,10 +151,28 @@ function trier(lignes, slug, champ) {
   return lignes.filter((l) => l[champ].includes(slug)).sort((a, b) => rang(a) - rang(b)).map(photo);
 }
 
+// Photos retirees d'une page modele seulement, a la demande du proprietaire
+// (elles restent sur les pages collection et les fiches produit).
+const RETIREES_DU_MODELE = {
+  'tee-shirt': ['img-1616', 'dsc-1838-copy', 'homme-1', 'dsc-1845-copy', 'dsc-1846-copy', 'dsc-1833-copy', 'img-1634', 'dsc-1834-copy'],
+  'manches-longues': ['dsc-1808', 'dsc-1806', 'dsc-1809', 'dsc-1795'],
+  debardeur: ['dsc-1802', 'img-1568'],
+};
+
 // page d'un modele : seulement les photos de mannequins ou l'on ne voit que ce modele
 export const photosDuModele = (slug) => trier(PHOTOS_GALERIE.filter((l) => l[1].length === 1), slug, 1)
-  .filter((p) => !p.client);
-export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2).filter((p) => !p.client);
+  .filter((p) => !p.client && !(RETIREES_DU_MODELE[slug] || []).includes(p.id));
+// Photos retirees d'une page collection seulement (demande du proprietaire).
+const RETIREES_DE_LA_COLLECTION = {
+  tarondro: ['dsc-1846-copy'],
+  dauphins: ['img-1616', 'img-1634'],
+  'lemurs-of-madagascar': ['img-0844'],
+  madagascar: ['dsc-1832-copy', 'dsc-1834-copy', 'dsc-1868-copy'],
+  'aye-aye-madagascar': ['dsc-1807', 'dsc-1804', 'dsc-1808', 'img-0832', 'dsc-1839-copy'],
+  antsatsaka: ['dsc-1795', 'img-0982', 'dsc-1869-copy'],
+};
+export const photosDeLaCollection = (slug) => trier(PHOTOS_GALERIE, slug, 2)
+  .filter((p) => !p.client && !(RETIREES_DE_LA_COLLECTION[slug] || []).includes(p.id));
 
 // Photos des dossiers du site (Homme, Femme, Clients…) qui sont aussi dans
 // cette liste sous un autre nom (meme photo, autre fichier).

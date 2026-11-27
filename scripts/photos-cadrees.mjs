@@ -19,7 +19,7 @@
 import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
-import { PHOTOS_GALERIE, photosDeLaCollection, photosDuModele } from '../app/data/galerie.mjs';
+import { CLIENTS, PHOTOS_GALERIE, idPhoto, photosDeLaCollection, photosDuModele } from '../app/data/galerie.mjs';
 
 const SOURCES = 'public/assets/images/Homme';
 const IMAGES = 'public/assets/images';
@@ -357,6 +357,17 @@ for (const [i, source] of PILIERS.entries()) {
 }
 await composer({ source: 'DSC_1808.jpg', sortie: 'apropos/histoire.jpg', largeur: 570, hauteur: 422 });
 
+// --- Accueil, « Decouvrez Aye-Aye Madagascar » sur tablette et telephone ------
+// Comme sur ordinateur, la photo de groupe passe en fond, sous le texte. En
+// portrait : la photo entiere, pleine largeur, ancree en bas (le bas coupe les
+// jambes comme l'original), et au-dessus le fond gris du studio prolonge, ou
+// se pose le texte. Image tres haute (1:3) : affichee en cover ancree en bas,
+// seul ce fond prolonge est coupe, jamais les personnes sur les cotes.
+await composer({
+  source: 'Groupe/Groupe_1.jpeg', sortie: 'banniere/decouvrez-mobile.jpg', largeur: 1000, hauteur: 3000,
+  echelle: 562 / 3000, fondu: 90, // le haut de la photo se fond dans le fond prolonge, sans raccord
+});
+
 // --- Cartes 3:4 : cartes produit, page Collections, page Modeles ------------
 // Un seul format de carte pour tout le site, pour que les photos s'alignent.
 // Photos de studio seulement (fond uni, prolonge sans raccord) ; les photos
@@ -384,5 +395,56 @@ for (const carte of CARTES) {
   const nom = path.basename(carte.source).replace(/\.jpe?g$/i, '.jpg');
   for (const [largeur, hauteur] of [[480, 640], [720, 960]]) {
     await composer({ ...carte, sortie: 'cartes/' + largeur + '/' + nom, largeur, hauteur });
+  }
+}
+
+// --- Pages modele et collection en « briques » (GaleriePhotos) ---------------
+// Rangees de deux photos, une large et une etroite, alternees (demande du
+// proprietaire). Dans une case large, une photo de studio (dsc-…) est montree
+// en 9:8 (galerie/brique/large/), tiree de galerie/1600/ sans rien rogner :
+// la photo entiere au centre, le fond uni du studio prolonge sur les cotes.
+// Partout ailleurs, chaque photo est a son propre format. Deux largeurs,
+// pour le srcset.
+// toutes les photos de studio des pages modele et collection (PHOTOS_DES_PAGES, plus haut)
+for (const photo of [...PHOTOS_DES_PAGES.values()].filter((p) => p.id.startsWith('dsc-'))) {
+  const source = 'galerie/1600/' + photo.id + '.jpg';
+  const reglage = { bordsPropres: true, retrait: 2 };
+  for (const [forme, rapport, largeurs] of [['large', 9 / 8, [600, 1200]]]) {
+    for (const largeur of largeurs) {
+      const hauteur = Math.round(largeur / rapport);
+      // la photo tient en hauteur ; trop large pour le cadre etroit, elle tient en largeur
+      const echelle = Math.min(1, (largeur * photo.height) / photo.width / hauteur);
+      await composer({ source, sortie: 'galerie/brique/' + forme + '/' + largeur + '/' + photo.id + '.jpg', largeur, hauteur, echelle, ...reglage });
+    }
+  }
+}
+
+// --- Fiches produit : la grande photo remplit son cadre ------------------------
+// Demande du proprietaire : le fond de chaque photo est prolonge jusqu'aux
+// bords du cadre, sans rien rogner. Le cadre est en 5:6 (1:1 a partir de
+// 1600 px de large, aye-aye.css) ; chaque photo existe donc en 5:6
+// (fiche/56/600|960/) et en 1:1 (fiche/11/960/), la photo entiere au centre.
+// Studio et packshots : bande de bord etiree ; exterieur : degrade lisse et
+// fondu. Photos : celles des galeries de catalogue.js et toutes les photos de
+// galerie des pages (sauf clients) — les fiches n'en montrent pas d'autres.
+const STUDIO_FICHE = /^(dsc-|femme-[17]$|homme-[12]$|p\d+$)/;
+const SOURCES_FICHE = new Map();
+const catalogue = fs.readFileSync('app/data/catalogue.js', 'utf8');
+for (const g of catalogue.matchAll(/galerie: \[([\s\S]*?)\]/g)) {
+  for (const m of g[1].matchAll(/chemin\('\/assets\/images\/([^']+)'\)/g)) SOURCES_FICHE.set(idPhoto(m[1]), m[1]);
+}
+for (const [source] of PHOTOS_GALERIE) {
+  const id = idPhoto(source);
+  if (!CLIENTS.has(id) && !SOURCES_FICHE.has(id)) SOURCES_FICHE.set(id, 'galerie/1600/' + id + '.jpg');
+}
+for (const [id, source] of SOURCES_FICHE) {
+  const { width, height } = await sharp(path.join(IMAGES, source)).metadata();
+  const reglage = STUDIO_FICHE.test(id) ? { bordsPropres: true, retrait: 2 } : { bordsPropres: true, retrait: 2, fondu: 90, haut: 0.5 };
+  for (const [dossier, largeur, hauteur] of [['56/600', 600, 720], ['56/960', 960, 1152], ['11/960', 960, 960]]) {
+    const sortie = 'fiche/' + dossier + '/' + id + '.jpg';
+    if (fs.existsSync(path.join(IMAGES, sortie))) continue; // deja faite
+    // la photo tient en hauteur ; plus large que le cadre, elle tient en largeur
+    const echelle = Math.min(1, (largeur * height) / width / hauteur);
+    await composer({ source, sortie, largeur, hauteur, echelle, ...reglage });
   }
 }

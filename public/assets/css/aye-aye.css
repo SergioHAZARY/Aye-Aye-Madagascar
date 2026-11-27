@@ -658,23 +658,15 @@ a.aye-carte-visuel:hover img {
   color: #aaa;
 }
 
-.aye-mur {
-  columns: 4 240px;
-  column-gap: 20px;
-}
-
 .aye-galerie-photo {
   display: block;
-  margin-bottom: 20px;
-  break-inside: avoid;
   background-color: #f7f7f7;
   overflow: hidden;
 }
 
 .aye-galerie-photo img[width][height] {
   display: block;
-  width: 100%;
-  transition: transform 0.4s;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 a.aye-galerie-photo:hover img {
@@ -702,16 +694,6 @@ a.aye-galerie-photo:hover img {
 .aye-galerie-autres a.actif {
   background-color: #2a2a2a;
   color: #fff;
-}
-
-@media (max-width: 767px) {
-  .aye-mur {
-    columns: 2;
-    column-gap: 10px;
-  }
-  .aye-galerie-photo {
-    margin-bottom: 10px;
-  }
 }
 
 /* Page Modeles : cartes de meme hauteur (les colonnes de la rangee Bootstrap
@@ -779,7 +761,7 @@ a.aye-galerie-photo:hover img {
    droits sans voile, puis dessous le nom en petites capitales grises,
    l'accroche en titre et « Decouvrir » souligne. Police et palette du template. */
 .aye-univers {
-  padding: 90px 0;
+  padding: 55px 0 40px; /* haut et bas resserres (demandes du proprietaire : 90 px etait trop) */ /* bas resserre : trop d'espace avant « Nos collections » (demande du proprietaire) */
   background-color: #f7f7f7;
 }
 
@@ -891,7 +873,7 @@ a.aye-galerie-photo:hover img {
    large) et texte, de cote alterne. Couleurs
    de texte et police du template. */
 .aye-histoire {
-  padding: 90px 0 0;
+  padding: 60px 0 0;
 }
 
 .aye-histoire .section-heading {
@@ -1008,25 +990,76 @@ a.aye-galerie-photo:hover img {
   overflow-x: hidden;
 }
 
-/* Pages modele et collection : chaque photo glisse en place comme les lignes de « Nos
-   collections » (accueil) : les colonnes de gauche arrivent de la gauche,
-   celles de droite de la droite (aye-droite, pose par aye-aye.js), pour
-   qu'aucune photo n'en croise une autre. */
+/* --- Pages modele et collection en briques (GaleriePhotos) --------------------
+   Demande du proprietaire : rangees de deux photos, une large et une etroite,
+   la large a gauche puis a droite d'une rangee a l'autre, sur ordinateur
+   comme sur telephone. Dans une rangee, chaque photo grandit a proportion de
+   son format (--aye-format = largeur / hauteur) : les deux ont la meme
+   hauteur et remplissent la ligne, sans bande vide ni rognage. Ecarts
+   resserres (demande du proprietaire : trop d'espace entre les images).
+   Animation : a chaque passage a l'ecran, la photo de gauche arrive de la
+   gauche, celle de droite de la droite, un instant apres. */
+.aye-brique {
+  --aye-ecart: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aye-ecart);
+}
 
-.aye-mur-anime > .aye-anim {
+.aye-brique-rangee {
+  display: flex;
+  gap: var(--aye-ecart);
+}
+
+.aye-brique-rangee > .aye-galerie-photo {
+  flex: var(--aye-format) 1 0;
+  aspect-ratio: var(--aye-format);
+  min-width: 0;
+}
+
+/* derniere photo seule : pas plus large qu'une case large ordinaire */
+.aye-brique-seule > .aye-galerie-photo {
+  flex: 0 0 auto;
+  width: min(100%, 62%);
+}
+
+.aye-brique .aye-galerie-photo img[width][height] {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* meme format que la case : rien n'est rogne */
+}
+
+.aye-brique-anime .aye-anim {
   opacity: 0;
-  transform: translateX(-120px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateX(-90px);
+  transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.aye-mur-anime > .aye-anim.aye-droite {
-  transform: translateX(120px);
+.aye-brique-anime .aye-anim:nth-child(2) {
+  transform: translateX(90px);
+  transition-delay: 0.12s;
 }
 
-.aye-mur-anime > .aye-anim.aye-visible {
+@media (max-width: 767px) {
+  .aye-brique {
+    --aye-ecart: 6px;
+  }
+  .aye-brique-anime .aye-anim {
+    transform: translateX(-50px);
+  }
+  .aye-brique-anime .aye-anim:nth-child(2) {
+    transform: translateX(50px);
+  }
+}
+
+/* arrivee : apres les regles de depart, et plus precise que :nth-child(2),
+   sinon la photo de droite restait decalee de 50 px sur telephone */
+.aye-brique-anime .aye-anim.aye-visible,
+.aye-brique-anime .aye-anim.aye-visible:nth-child(2) {
   opacity: 1;
   transform: none;
 }
+
 
 .aye-galerie-section {
   overflow-x: hidden;
@@ -1055,17 +1088,24 @@ a.aye-galerie-photo:hover img {
    que le texte tient dedans), voile sombre degrade pour que le texte blanc
    reste lisible (plus fonce a gauche, sous le texte ; les visages a droite
    restent visibles), lien souligne « Notre histoire » en bas a droite.
-   Tailles de texte du template (titre 34 px, texte 14 px). Sous 992 px :
-   photo entiere puis texte sur fond sombre (#2a2a2a). */
+   Tailles de texte du template (titre 34 px, texte 14 px). Sous 992 px, meme
+   principe (demande du proprietaire) : version en hauteur de la photo
+   (banniere/decouvrez-mobile.jpg, photos-cadrees.mjs), en cover ancree en bas,
+   voile degrade du haut (sous le texte) vers le bas (les visages). */
 .aye-decouvrez {
   position: relative;
   display: grid;
   background-color: #2a2a2a;
 }
 
-/* espace blanc entre « Points forts » (gris) et la photo (demande du proprietaire) */
+/* « Points forts » (gris) colle a la photo : l'espace blanc de 70 px a ete
+   retire (le proprietaire le trouvait trop grand) */
 .aye-atouts + .aye-decouvrez {
-  margin-top: 70px;
+  margin-top: 0;
+}
+
+.aye-decouvrez picture {
+  display: contents; /* l'image reste un element de la grille */
 }
 
 .aye-decouvrez-fond,
@@ -1156,18 +1196,23 @@ a.aye-galerie-photo:hover img {
   border-color: #aaa;
 }
 
-/* tablette et telephone : photo entiere en haut, texte dessous sur fond sombre */
+/* tablette et telephone : la photo en fond comme sur ordinateur. L'image en
+   hauteur (1:3) est ancree en bas : la photo de groupe, entiere, occupe le bas
+   sur toute la largeur (56 % de la largeur en hauteur) ; le texte se pose
+   au-dessus, sur le fond du studio prolonge, et sa marge basse laisse les
+   visages visibles. */
 @media (max-width: 991px) {
-  .aye-decouvrez {
-    display: block;
-  }
+  /* l'image ne donne pas la hauteur (le texte la donne) : elle couvre la section */
   .aye-decouvrez img.aye-decouvrez-fond[width][height] {
-    height: auto;
+    position: absolute;
+    inset: 0;
     max-height: none;
+    object-position: center bottom;
   }
   .aye-decouvrez-contenu {
-    padding: 40px 0 50px;
-    background: #2a2a2a;
+    align-items: flex-start;
+    padding: 50px 0 calc(56vw * 0.92); /* les tetes (20 % du haut de la photo) restent degagees */
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.68) 55%, rgba(0, 0, 0, 0.2) 85%, rgba(0, 0, 0, 0) 100%);
   }
   .aye-decouvrez-ligne {
     flex-direction: column;
@@ -1199,14 +1244,14 @@ a.aye-galerie-photo:hover img {
 /* fond : le gris #eee du template, un cran plus soutenu que le #f7f7f7 des
    autres blocs (demande du proprietaire : « plus mature ») */
 .aye-atouts {
-  padding: 36px 0;
-  background-color: #eee;
+  padding: 50px 0 60px; /* un peu plus d'air au-dessus et au-dessous (demande du proprietaire) */
+  background-color: #fff; /* fond blanc (demande du proprietaire ; etait #eee) */
 }
 
 /* espace sous le bouton « Voir toutes les collections » (la section
    precedente n'a pas de marge basse) */
 .aye-histoire + .aye-atouts {
-  margin-top: 70px;
+  margin-top: 20px; /* sur fond blanc, le padding de 50 px s'ajoute : ~70 px sous le bouton */
 }
 
 .aye-atouts ul {
@@ -1227,7 +1272,7 @@ a.aye-galerie-photo:hover img {
   height: 46px;
   margin-bottom: 10px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: #f7f7f7; /* rond gris clair : visible sur le fond blanc */
   color: #d97757; /* orange terre cuite, demande du proprietaire */
 }
 
@@ -1271,7 +1316,7 @@ a.aye-galerie-photo:hover img {
    photos sont en 3:4 sauf Client_4 (2:3), calee en haut ; fleches puis
    rangee defilante (GalerieCommunaute.js) ; bouton Facebook. */
 .aye-communaute-section .section-heading {
-  margin-bottom: 20px;
+  margin-bottom: 40px; /* etait 20 px : un peu d'air avant les photos (demande du proprietaire) */
   text-align: center;
 }
 
@@ -1279,53 +1324,31 @@ a.aye-galerie-photo:hover img {
   padding-bottom: 50px;
 }
 
+/* carrousel des photos de clients (GalerieCommunaute) : pleine largeur, une
+   photo de plus toutes les 3 s vers la gauche, en boucle ; toutes dans le
+   meme cadre 3:4 (demande du proprietaire), photos en largeur recadrees sur
+   les personnes */
+.aye-communaute-defile {
+  overflow: hidden;
+  touch-action: pan-y; /* glissement horizontal pour le carrousel, vertical pour la page */
+}
+
 .aye-communaute-photos {
-  /* rangee qui defile de cote (fleches de GalerieCommunaute, doigt sur
-     mobile) : 4 photos visibles sur ordinateur, 2 sur telephone */
   display: flex;
   gap: 16px;
   margin: 0;
   padding: 0;
   list-style: none;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-
-.aye-communaute-photos::-webkit-scrollbar {
-  display: none;
 }
 
 .aye-communaute-photos li {
-  flex: 0 0 calc((100% - 48px) / 4);
-  scroll-snap-align: start;
-}
-
-/* fleches en haut a droite, au bord du contenu */
-.aye-communaute-fleches {
-  display: flex;
-  justify-content: flex-end;
-  gap: 24px;
-  margin-bottom: 16px;
-}
-
-.aye-communaute-fleches button {
-  padding: 4px;
-  border: 0;
-  background: none;
-  color: #2a2a2a;
-  line-height: 0;
-  cursor: pointer;
-}
-
-.aye-communaute-fleches button:disabled {
-  color: #aaa;
-  cursor: default;
+  flex: 0 0 auto;
 }
 
 .aye-communaute-photos a {
   display: block;
-  aspect-ratio: 3 / 4; /* pleine largeur, angles droits, comme « Nos univers » */
+  height: clamp(240px, 32vw, 480px);
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   background-color: #f7f7f7;
 }
@@ -1335,23 +1358,11 @@ a.aye-galerie-photo:hover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s;
-}
-
-/* Client_4 (2:3, plus haute que le cadre) : calee en haut, rien n'est coupe
-   au-dessus de la tete (demande du proprietaire), seul le bas est rogne */
-.aye-communaute-photos li:nth-child(4) img[width][height] {
-  object-position: center top;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .aye-communaute-photos a:hover img {
   transform: scale(1.04);
-}
-
-@media (max-width: 767px) {
-  .aye-communaute-photos li {
-    flex-basis: calc((100% - 16px) / 2);
-  }
 }
 
 /* --- Page Connexion ---------------------------------------------------------------
@@ -1725,20 +1736,29 @@ footer h4 a:hover {
   gap: 20px;
 }
 
+/* cadre de la grande photo : toute la largeur de la colonne, du bord gauche du
+   fil d'Ariane jusqu'aux vignettes, en 5:6 (1:1 a partir de 1600 px, sinon
+   trop haut) ; la photo le remplit avec sa version au fond prolonge, au meme
+   format (demandes du proprietaire) : rien n'est rogne */
 .aye-galerie-principale {
   position: relative;
   flex: 1;
-  height: 640px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  aspect-ratio: 5 / 6;
+  overflow: hidden;
+  background-color: #f7f7f7;
+}
+
+@media (min-width: 1600px) {
+  .aye-galerie-principale {
+    aspect-ratio: 1;
+  }
 }
 
 .aye-galerie-principale img[width][height] {
+  display: block;
+  width: 100%;
   height: 100%;
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
+  object-fit: cover; /* meme format que le cadre */
 }
 
 .aye-galerie-zoom {
@@ -1768,7 +1788,7 @@ footer h4 a:hover {
   margin: 0;
   padding: 0;
   width: 84px;
-  max-height: 640px;
+  contain: size; /* ne pousse pas la hauteur : prend celle du cadre (stretch) */
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -1780,7 +1800,7 @@ footer h4 a:hover {
 .aye-galerie-vignettes button {
   display: block;
   width: 84px;
-  height: 98px; /* six vignettes tiennent dans les 640 px de la photo */
+  height: 111px; /* six vignettes tiennent dans les 720 px de la photo */
   padding: 4px;
   background-color: #fff;
   border: 1px solid #eee;
@@ -2672,13 +2692,13 @@ a.aye-moyen:hover .aye-moyen-valeur {
     flex-direction: column;
   }
   .aye-galerie-principale {
-    height: 520px;
+    flex: none; /* en colonne, flex: 1 annulait la hauteur */
   }
   .aye-galerie-vignettes {
     display: flex;
     gap: 10px;
     width: 100%;
-    max-height: none;
+    contain: none; /* en rangee sous la photo : sa propre hauteur */
     overflow-x: auto;
     overflow-y: hidden;
   }
@@ -2703,10 +2723,6 @@ a.aye-moyen:hover .aye-moyen-valeur {
   .main-banner .left-content .inner-content h4 {
     font-size: min(52px, 11.5vw);
   }
-  .aye-galerie-principale {
-    height: 440px;
-  }
-
   /* Panier : le tableau passe en liste */
   .aye-panier-table thead {
     display: none;
@@ -3071,6 +3087,13 @@ textarea:focus-visible {
 
 footer a:focus-visible {
   outline-color: #fff;
+}
+
+/* champs de recherche : le trait sous la barre suffit, pas de cadre noir
+   (demande du proprietaire) */
+.aye-recherche-barre input:focus-visible,
+.aye-recherche input:focus-visible {
+  outline: none;
 }
 
 /* --- Apparition des blocs (aye-apparait, puis aye-vu) ------------------------

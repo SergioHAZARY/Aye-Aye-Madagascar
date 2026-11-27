@@ -93,7 +93,7 @@
      (une rangee de cartes). Ce qui est deja a l'ecran au chargement ne bouge
      pas : rien ne clignote, la premiere vue s'affiche aussi vite qu'avant. */
   var blocs = tous('.section-heading, .item, .aye-carte, .service-item, .aye-univers-cartes > li, '
-    + '.aye-atouts li, .aye-decouvrez-photo, .aye-decouvrez .left-content, .aye-communaute-photos, '
+    + '.aye-atouts li, .aye-decouvrez-texte, .aye-communaute-defile, '
     + '.about-us .left-image, .about-us .right-content, .aye-signature, .aye-moyens-contact > li, '
     + '.aye-galerie-autres, .aye-espace-liens > li, .aye-recapitulatif')
     .filter(function (bloc) { return !dansEcran(bloc) && bloc.getBoundingClientRect().top > 0; });
@@ -115,27 +115,12 @@
   }
 
   /* --- « Nos collections » (accueil) et photos des pages modele / collection ---
+     (en briques : chaque photo arrive de son cote, aye-aye.css)
      Chaque ligne glisse en place chaque fois qu'elle entre a l'ecran (demande
      du proprietaire), en alternant le sens. Elle apparait quand 30 % sont a
      l'ecran et se rearme sous 10 % : sur un grand ecran la ligne du milieu ne
      sort presque jamais entierement, elle doit pourtant rejouer. */
-  var lignes = tous('.aye-histoire-ligne, .aye-mur-anime > *');
-  // photos des pages modele et collection : celles de la moitie droite arrivent
-  // de la droite (position a l'ecran, moins le decalage en cours de
-  // l'animation ; offsetLeft ne donne pas la colonne dans des colonnes CSS)
-  var cotes = function () {
-    tous('.aye-mur-anime > *').forEach(function (photo) {
-      var cadre = photo.getBoundingClientRect();
-      var mur = photo.parentNode.getBoundingClientRect();
-      var decalage = new DOMMatrix(getComputedStyle(photo).transform).m41;
-      // colonne du milieu (3 colonnes) : de la gauche
-      photo.classList.toggle('aye-droite', cadre.left - decalage + cadre.width / 2 > mur.left + mur.width * 0.55);
-    });
-  };
-  cotes();
-  // la mise en page peut encore bouger jusqu'a la fin du chargement
-  window.addEventListener('load', cotes);
-  window.addEventListener('resize', cotes);
+  var lignes = tous('.aye-histoire-ligne, .aye-brique-anime .aye-galerie-photo');
   if (lignes.length) {
     var glissement = new IntersectionObserver(function (entrees) {
       entrees.forEach(function (entree) {

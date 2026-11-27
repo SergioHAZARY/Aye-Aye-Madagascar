@@ -20,7 +20,7 @@ import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const DOSSIERS = ['public/assets/images/Homme', 'public/assets/images/Femme', 'public/assets/images/Enfant', 'public/assets/images/Clients', 'public/assets/images/Groupe'];
+const DOSSIERS = ['public/assets/images/Homme', 'public/assets/images/Femme', 'public/assets/images/Enfant', 'public/assets/images/Clients', 'public/assets/images/Groupe', 'public/assets/images/Packshot'];
 const LARGEURS = [160, 480, 720];
 
 let avant = 0;
@@ -29,7 +29,7 @@ let apres = 0;
 for (const SOURCES of DOSSIERS) for (const largeur of LARGEURS) {
   // photos de la marque seulement (DSC_xxxx, Homme_n, Femme_n, Enfant_n) : ces dossiers rangent
   // aussi des images d'exemple du template, qui n'ont pas besoin de copies
-  const photos = fs.readdirSync(SOURCES).filter((f) => /^(DSC_\d+|(Homme|Femme|Enfant|Client|Groupe)_\d+)\.jpe?g$/i.test(f));
+  const photos = fs.readdirSync(SOURCES).filter((f) => /^(DSC_\d+|(Homme|Femme|Enfant|Client|Groupe)_\d+|P\d+)\.jpe?g$/i.test(f));
   const dossier = path.join(SOURCES, 'reduites', String(largeur));
   for (const photo of photos) {
     const source = path.join(SOURCES, photo);

@@ -48,6 +48,7 @@ export const PRODUITS = [
       chemin('/assets/images/Homme/DSC_1807.jpg'),
       chemin('/assets/images/Homme/DSC_1806.jpg'),
       chemin('/assets/images/Homme/DSC_1809.jpg'),
+      chemin('/assets/images/Packshot/P2.jpeg'), // packshot
     ],
     description:
       "T-shirt manches longues en coton 100 %, rouge profond. L'aye-aye, "
@@ -66,6 +67,7 @@ export const PRODUITS = [
       chemin('/assets/images/Homme/DSC_1795.jpg'),
       chemin('/assets/images/Homme/DSC_1794.jpg'),
       chemin('/assets/images/Homme/DSC_1793.jpg'),
+      chemin('/assets/images/Packshot/P1.jpeg'), // packshot
     ],
     description:
       'T-shirt manches longues en coton 100 %, écru. Le gecko Antsatsaka '
@@ -80,7 +82,7 @@ export const PRODUITS = [
     modele: 'tee-shirt',
     collection: 'lemurs-of-madagascar',
     image: chemin('/assets/images/Homme/Homme_1.jpeg'),
-    galerie: [chemin('/assets/images/Homme/Homme_1.jpeg')],
+    galerie: [chemin('/assets/images/Homme/Homme_1.jpeg'), chemin('/assets/images/Packshot/P10.jpeg') /* packshot */],
     description: 'Tee-shirt en coton 100 %, beige. Les lémuriens de Madagascar et '
       + '« Lemurs of Madagascar » sont imprimés dans le dos.',
   },
@@ -93,7 +95,7 @@ export const PRODUITS = [
     collection: 'baobab',
     // pas de photo de mannequin seul : le tee-shirt vert, de dos, dans un groupe
     image: chemin('/assets/images/Homme/Homme_5.jpeg'),
-    galerie: [chemin('/assets/images/Homme/Homme_5.jpeg')],
+    galerie: [chemin('/assets/images/Homme/Homme_5.jpeg'), chemin('/assets/images/Packshot/P7.jpeg') /* packshot */],
     description: 'Tee-shirt en coton 100 %, vert. Le baobab et « Baobab » sont imprimés dans le dos ; '
       + 'petit logo Aye-Aye sur la poitrine.',
   },
@@ -134,6 +136,44 @@ export const PRODUITS = [
       + '« Lemurs of Madagascar » sont imprimés dans le dos.',
   },
 
+  // --- Produits montres par leur packshot seul (pas encore de photo portee) --
+  {
+    slug: 'manches-longues-lakana',
+    nom: 'Manches longues Lakana',
+    couleur: 'Noir',
+    categorie: 'homme',
+    modele: 'manches-longues',
+    collection: 'lakana',
+    image: chemin('/assets/images/Packshot/P6.jpeg'),
+    galerie: [chemin('/assets/images/Packshot/P6.jpeg')],
+    description: 'T-shirt manches longues en coton 100 %, noir. Une pirogue à voile sous le '
+      + 'soleil couchant et « Lakana » sont imprimés dans le dos ; étiquette Aye-Aye au col.',
+  },
+  {
+    slug: 'manches-longues-tarondro',
+    nom: 'Manches longues Tarondro',
+    couleur: 'Blanc',
+    categorie: 'homme',
+    modele: 'manches-longues',
+    collection: 'tarondro',
+    image: chemin('/assets/images/Packshot/P14.jpeg'),
+    galerie: [chemin('/assets/images/Packshot/P14.jpeg')],
+    description: 'T-shirt manches longues en coton 100 %, blanc. Tarondro, le caméléon de '
+      + 'Madagascar, est imprimé dans le dos ; étiquette Aye-Aye au col.',
+  },
+  {
+    slug: 'debardeur-tortue',
+    nom: 'Débardeur Tortue',
+    couleur: 'Vert',
+    categorie: 'homme',
+    modele: 'debardeur',
+    collection: 'tortue',
+    image: chemin('/assets/images/Packshot/P8.jpeg'),
+    galerie: [chemin('/assets/images/Packshot/P8.jpeg'), chemin('/assets/images/Packshot/P5.jpeg')],
+    description: 'Débardeur en coton 100 %, vert. La tortue de mer et « Tortue de Madagascar » '
+      + 'sont imprimées dans le dos ; « Aye Aye Madagascar » sur la poitrine.',
+  },
+
   // --- Femme : les modeles photographies -----------------------------------
   {
     slug: 'tee-shirt-tarondro-beige',
@@ -161,6 +201,7 @@ export const PRODUITS = [
       chemin('/assets/images/Femme/Femme_4.jpeg'),
       chemin('/assets/images/Femme/Femme_2.jpeg'),
       chemin('/assets/images/Femme/Femme_3.jpeg'),
+      chemin('/assets/images/Packshot/P11.jpeg'), // packshot
     ],
     description:
       'Tee-shirt en coton 100 %, rouge. Des dauphins jaillissant des vagues sont '
@@ -177,6 +218,7 @@ export const PRODUITS = [
     galerie: [
       chemin('/assets/images/Femme/Femme_6.jpeg'),
       chemin('/assets/images/Femme/Femme_5.jpeg'),
+      chemin('/assets/images/Packshot/P13.jpeg'), // packshot
     ],
     description:
       'Tee-shirt en coton 100 %, noir. Trois danseuses et l’inscription '
@@ -191,7 +233,7 @@ export const PRODUITS = [
     modele: 'tee-shirt',
     collection: 'aye-aye-madagascar',
     image: chemin('/assets/images/Femme/DSC_1842.jpg'),
-    galerie: [chemin('/assets/images/Femme/DSC_1842.jpg')],
+    galerie: [chemin('/assets/images/Femme/DSC_1842.jpg'), chemin('/assets/images/Packshot/P9.jpeg'), chemin('/assets/images/Packshot/P3.jpeg') /* packshot */],
     description: "Tee-shirt en coton 100 %, beige. L'aye-aye, notre lémurien emblème, est "
       + 'imprimé dans le dos ; étiquette Aye-Aye au col.',
   },
@@ -203,7 +245,7 @@ export const PRODUITS = [
     modele: 'tee-shirt',
     collection: 'madagascar',
     image: chemin('/assets/images/Femme/DSC_1836.jpg'),
-    galerie: [chemin('/assets/images/Femme/DSC_1836.jpg')],
+    galerie: [chemin('/assets/images/Femme/DSC_1836.jpg'), chemin('/assets/images/Packshot/P12.jpeg') /* packshot */],
     description: 'Tee-shirt en coton 100 %, noir. « Madagascar » et des symboles de l’île '
       + 'descendent le long du dos ; étiquette Aye-Aye au col.',
   },
@@ -258,7 +300,7 @@ export const PRODUITS = [
     modele: 'tee-shirt',
     collection: 'madagascar-roots-djembe',
     image: chemin('/assets/images/Enfant/Enfant_4.jpeg'),
-    galerie: [chemin('/assets/images/Enfant/Enfant_4.jpeg')],
+    galerie: [chemin('/assets/images/Enfant/Enfant_4.jpeg'), chemin('/assets/images/Packshot/P13.jpeg') /* packshot */],
     description:
       'Tee-shirt enfant en coton 100 %, blanc. Trois danseuses et l’inscription '
       + '« Madagascar Roots Djembe » sont imprimées dans le dos ; étiquette '
@@ -401,7 +443,7 @@ export function vignettes(categorieSlug) {
   return produits.flatMap((p) => p.galerie.map((image) => ({ produit: p, image })));
 }
 
-// Photos de la marque (dossiers Homme, Femme, Enfant, Clients, Groupe) et dimensions de leurs
+// Photos de la marque (dossiers Homme, Femme, Enfant, Clients, Groupe, Packshot) et dimensions de leurs
 // originaux. Les DSC_xxxx.jpg font toutes 899x1600 ; les autres sont listees
 // ici. AJOUTER une ligne pour toute nouvelle photo utilisee dans le site.
 const DIMENSIONS_PHOTOS = {
@@ -425,12 +467,35 @@ const DIMENSIONS_PHOTOS = {
   'Client_2.jpeg': [1086, 1448],
   'Client_3.jpeg': [1536, 2048],
   'Client_4.jpeg': [1366, 2048],
+  // photos de clients retirees des pages (galerie.mjs, CLIENTS) : accueil seulement
+  'Client_5.jpeg': [1086, 1448],
+  'Client_6.jpeg': [1086, 1448],
+  'Client_7.jpeg': [1086, 1377],
+  'Client_8.jpeg': [1068, 1473],
+  'Client_9.jpeg': [1448, 1086],
+  'Client_11.jpeg': [1448, 1086],
+  'Client_12.jpeg': [1086, 1448],
+  'Client_13.jpeg': [1086, 1448],
   // photo de groupe (accueil, « Decouvrez Aye-Aye Madagascar »)
   'Groupe_1.jpeg': [1600, 899],
+  // packshots : vetements a plat (fiches produit)
+  'P1.jpeg': [725, 1034],
+  'P2.jpeg': [798, 1034],
+  'P3.jpeg': [1024, 1204],
+  'P5.jpeg': [1199, 1312],
+  'P6.jpeg': [735, 1034],
+  'P7.jpeg': [1199, 1312],
+  'P8.jpeg': [1199, 1312],
+  'P9.jpeg': [1199, 1312],
+  'P10.jpeg': [1199, 1312],
+  'P11.jpeg': [1199, 1312],
+  'P12.jpeg': [1199, 1312],
+  'P13.jpeg': [1199, 1312],
+  'P14.jpeg': [818, 1048],
 };
 
 function photoMarque(source) {
-  const morceaux = source.match(/(\/assets\/images\/(?:Homme|Femme|Enfant|Clients|Groupe)\/)([^/]+)$/);
+  const morceaux = source.match(/(\/assets\/images\/(?:Homme|Femme|Enfant|Clients|Groupe|Packshot)\/)([^/]+)$/);
   if (!morceaux) return null;
   const [, dossier, nom] = morceaux;
   const dimensions = /^DSC_\d+\.jpg$/.test(nom) ? [899, 1600] : DIMENSIONS_PHOTOS[nom];
