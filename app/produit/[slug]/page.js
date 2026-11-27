@@ -12,10 +12,9 @@ import {
   photoReduite,
   produitParSlug,
   produitsParCategorie,
-  srcsetPhoto,
   taillesDuProduit,
 } from '../../data/catalogue';
-import { autresPhotosDuProduit } from '../../data/galerie.mjs';
+import { autresPhotosDuProduit, idPhoto } from '../../data/galerie.mjs';
 
 // Export statique : une page HTML par produit.
 export function generateStaticParams() {
@@ -35,18 +34,19 @@ export async function generateMetadata({ params }) {
 // puis toutes les photos de la galerie du meme modele et de la meme
 // collection (app/data/galerie.mjs), quelle que soit leur couleur.
 const GALERIE = chemin('/assets/images/galerie/');
+// versions au fond prolonge de la grande photo (scripts/photos-cadrees.mjs)
+const FICHE = chemin('/assets/images/fiche/');
 
 function photosDeLaFiche(produit) {
   const propres = produit.galerie.map((source, i) => {
     const [width, height] = dimensionsImage(source);
     return {
-      cle: source, vignette: photoReduite(source, 160), src: source, srcSet: srcsetPhoto(source),
+      cle: idPhoto(source), vignette: photoReduite(source, 160), fiche: FICHE,
       zoom: source, width, height, alt: produit.nom + ' – vue ' + (i + 1),
     };
   });
   const autres = autresPhotosDuProduit(produit.galerie, produit.modele, produit.collection).map((p) => ({
-    cle: p.id, vignette: GALERIE + '160/' + p.id + '.jpg', src: GALERIE + '480/' + p.id + '.jpg',
-    srcSet: GALERIE + '480/' + p.id + '.jpg 480w, ' + GALERIE + '1600/' + p.id + '.jpg ' + p.width + 'w',
+    cle: p.id, vignette: GALERIE + '160/' + p.id + '.jpg', fiche: FICHE,
     zoom: GALERIE + '1600/' + p.id + '.jpg', width: p.width, height: p.height, alt: p.alt,
   }));
   return propres.concat(autres);

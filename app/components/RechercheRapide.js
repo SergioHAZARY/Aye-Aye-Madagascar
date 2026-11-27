@@ -74,7 +74,6 @@ export default function RechercheRapide() {
             type="search"
             value={requete}
             onChange={(e) => setRequete(e.target.value)}
-            placeholder="Que cherchez-vous ? (t-shirt, rouge, enfant…)"
             aria-label="Rechercher un produit"
             enterKeyHint="search"
             tabIndex={ouvert ? 0 : -1}

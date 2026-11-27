@@ -1,9 +1,10 @@
 'use client';
 
 // Galerie de la fiche produit : grande photo, colonne de vignettes a droite,
-// loupe pour ouvrir la photo en grand. Les photos ne sont jamais rognees :
-// elles tiennent entieres dans leur cadre. `images` : liste preparee par la
-// page produit ({cle, vignette, src, srcSet, zoom, width, height, alt}).
+// loupe pour ouvrir la photo en grand. La grande photo remplit son cadre
+// (5:6, 1:1 a partir de 1600 px) avec sa version au fond prolonge
+// (fiche/, scripts/photos-cadrees.mjs) : entiere, jamais rognee. `images` :
+// liste preparee par la page produit ({cle, vignette, fiche, zoom, alt}).
 //
 // Gestionnaires React autorises ici : la fiche n'est pas dans un carrousel
 // owl, donc rien n'est clone hors de l'arbre React.
@@ -17,17 +18,18 @@ export default function GalerieProduit({ images }) {
   return (
     <div className="aye-galerie">
       <div className="aye-galerie-principale">
-        {/* 720 px de haut (600 sous 992 px, 500 sous 768) : ~405 a 480 px de large */}
         {/* key : la photo est remontee a chaque changement, son fondu rejoue */}
-        <img
-          key={photo.cle}
-          src={photo.src}
-          srcSet={photo.srcSet}
-          sizes="(max-width: 991px) 340px, 480px"
-          alt={photo.alt}
-          width={photo.width}
-          height={photo.height}
-        />
+        <picture key={photo.cle}>
+          <source media="(min-width: 1600px)" srcSet={photo.fiche + '11/960/' + photo.cle + '.jpg'} width={960} height={960} />
+          <img
+            src={photo.fiche + '56/600/' + photo.cle + '.jpg'}
+            srcSet={photo.fiche + '56/600/' + photo.cle + '.jpg 600w, ' + photo.fiche + '56/960/' + photo.cle + '.jpg 960w'}
+            sizes="(max-width: 991px) 100vw, 50vw"
+            alt={photo.alt}
+            width={960}
+            height={1152}
+          />
+        </picture>
         <a
           className="aye-galerie-zoom"
           href={photo.zoom}

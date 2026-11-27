@@ -25,7 +25,6 @@ export default function Recherche() {
             type="search"
             value={requete}
             onChange={(e) => setRequete(e.target.value)}
-            placeholder="Que cherchez-vous ? (t-shirt, rouge, enfant…)"
             aria-label="Rechercher un produit"
             autoFocus
           />
