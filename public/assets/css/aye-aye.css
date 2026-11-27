@@ -811,12 +811,16 @@ a.aye-galerie-photo:hover img {
   color: #2a2a2a;
 }
 
-/* photo 3:4, angles droits, sans degrade ni texte pose dessus */
+/* photo 4:5, jamais plus haute que 80 % de l'ecran (le proprietaire
+   trouvait le 3:4 trop haut sur grand ecran), angles droits, sans degrade ni
+   texte pose dessus ; cadree vers le haut pour garder les tetes */
 .aye-univers-cartes a > img[width][height] {
   display: block;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 5;
+  max-height: 80vh;
   object-fit: cover;
+  object-position: center 20%;
   background-color: #eee;
 }
 
@@ -870,6 +874,10 @@ a.aye-galerie-photo:hover img {
   .aye-univers-cartes {
     grid-template-columns: 1fr;
     gap: 40px;
+  }
+
+  .aye-univers-cartes a > img[width][height] {
+    aspect-ratio: 3 / 4;
   }
 
   .aye-univers-texte {
