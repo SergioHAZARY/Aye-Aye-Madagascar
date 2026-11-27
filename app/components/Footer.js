@@ -32,7 +32,7 @@ export const CONTACT = {
 export const MARQUE = {
   // espace insecable avant « ! » : le point d'exclamation ne passe jamais
   // seul a la ligne
-  slogan: 'Porter votre culture avec fierté !',
+  slogan: 'Portez votre culture avec fierté !',
 };
 
 export default function Footer() {

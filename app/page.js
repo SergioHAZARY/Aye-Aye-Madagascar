@@ -105,7 +105,7 @@ export default function PageAccueil() {
                       {/* texte de la banniere fourni par la marque (le slogan du pied
                           de page, MARQUE.slogan, reste « Porter … ») ; espaces
                           insecables avant « ! » et « : » */}
-                      <h4>Porter votre culture avec fierté{' '}!</h4>
+                      <h4>Portez votre culture avec fierté{' '}!</h4>
                       <span>
                         Des vêtements 100{' '}% coton qui racontent Madagascar{' '}: sa
                         nature, ses symboles, son âme.
