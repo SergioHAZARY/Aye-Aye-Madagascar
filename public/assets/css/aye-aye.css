@@ -1728,13 +1728,17 @@ footer h4 a:hover {
   gap: 20px;
 }
 
+/* cadre de la grande photo : toute la largeur de la colonne, du bord gauche du
+   fil d'Ariane jusqu'aux vignettes (demande du proprietaire), fond clair du
+   template ; la photo, plus grande qu'avant (640 px), y tient entiere */
 .aye-galerie-principale {
   position: relative;
   flex: 1;
-  height: 640px;
+  height: 720px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f7f7f7;
 }
 
 .aye-galerie-principale img[width][height] {
@@ -1771,7 +1775,7 @@ footer h4 a:hover {
   margin: 0;
   padding: 0;
   width: 84px;
-  max-height: 640px;
+  max-height: 720px;
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -1783,7 +1787,7 @@ footer h4 a:hover {
 .aye-galerie-vignettes button {
   display: block;
   width: 84px;
-  height: 98px; /* six vignettes tiennent dans les 640 px de la photo */
+  height: 111px; /* six vignettes tiennent dans les 720 px de la photo */
   padding: 4px;
   background-color: #fff;
   border: 1px solid #eee;
@@ -2675,7 +2679,8 @@ a.aye-moyen:hover .aye-moyen-valeur {
     flex-direction: column;
   }
   .aye-galerie-principale {
-    height: 520px;
+    flex: none; /* en colonne, flex: 1 annulait la hauteur */
+    height: 600px;
   }
   .aye-galerie-vignettes {
     display: flex;
@@ -2707,7 +2712,7 @@ a.aye-moyen:hover .aye-moyen-valeur {
     font-size: min(52px, 11.5vw);
   }
   .aye-galerie-principale {
-    height: 440px;
+    height: 500px;
   }
 
   /* Panier : le tableau passe en liste */
